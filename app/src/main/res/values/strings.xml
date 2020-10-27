@@ -1,3 +1,167 @@
 <resources>
     <string name="app_name">Mobiticket</string>
+    <string name="contentdescription">TODO</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="log_in">Log In</string>
+    <string name="text_done">Done</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="text_phone">Phone :</string>
+    <string name="hint_mobile">Enter Mobile Number</string>
+    <string name="text_contact_information">Contact Information</string>
+    <string name="lbl_email">Email :</string>
+    <string name="text_login">Log In</string>
+    <string name="text_login_credentials">Log in credentials</string>
+    <string name="hint_password">Password</string>
+    <string name="text_password">Password:</string>
+    <string name="text_register">Register</string>
+    <string name="text_register_details">Enter details to begin registration</string>
+    <string name="lbl_national_id">National ID #:</string>
+    <string name="hint_national_id">Enter national ID number</string>
+    <string name="text_yob">Year of birth</string>
+    <string name="hint_yob">Enter year of birth e.g. 1999</string>
+    <string name="text_submit">Submit</string>
+    <string name="lbl_firstname">First Name:</string>
+    <string name="lbl_lastname">Last Name</string>
+    <string name="lbl_gender">Gender</string>
+    <string name="text_confirm">Confirm</string>
+    <string name="lbl_middlename">Middle Name:</string>
+    <string name="hint_phone_number">Enter phone number</string>
+    <string name="lbl_phone_number">Phone Number:</string>
+    <string name="lbl_password">Password:</string>
+    <string name="lbl_confirm_password">Confirm Password:</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="verification">Verification</string>
+    <string name="lbl_verification">A verification code will be sent to your phone shortly. Please wait....</string>
+    <string name="txt_Resend">Resend?</string>
+    <string name="txt_verify">Verify</string>
+    <string name="short_lorem_ipsum">Shortest lorem ipsum</string>
+    <string name="lbl_username">Username:</string>
+    <string name="hint_username">Enter your username</string>
+    <string name="home">Mobiticket</string>
+    <string name="text__2">2</string>
+    <string name="txt_view_all">View all</string>
+    <string name="text_when_you_want_to_go">When you want to go?</string>
+    <string name="txt_new_offers">New Offers</string>
+    <string name="text_recent_search">Recent Search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_from_city">"From "</string>
+    <string name="hint_to_city">Destination</string>
+    <string name="lbl_ac">Air Con</string>
+    <string name="lbl_non_ac">Non AC</string>
+    <string name="lbl_sleeper">Sleeper</string>
+    <string name="lbl_seater">Seater</string>
+    <string name="_1">1</string>
+    <string name="lbl_profile_settings">Edit Profile</string>
+    <string name="lbl__wallet">Wallet</string>
+    <string name="lbl_cards">Cards</string>
+    <string name="lbl_operators">Operators</string>
+    <!--    <string name="lbl_operators">Refer &amp; Earn</string>-->
+    <string name="text_version_1_0">Version : 1.0</string>
+    <string name="lbl_help_support"><![CDATA[Help & Support]]></string>
+    <string name="text_settings">Settings</string>
+    <string name="text_logout">Log Out</string>
+    <string name="txtCancelled">Cancelled</string>
+    <string name="text_booked">Booked</string>
+    <string name="txt_popular_package">Popular Packages</string>
+    <string name="text_trending_packages">Trending Packages</string>
+    <string name="txt_new_package">New Packages</string>
+    <string name="text_confirmation">Confirmation!</string>
+    <string name="text_yes">Yes</string>
+    <string name="msg_logout">Are you sure, you want to logout?</string>
+    <string name="text_no">No</string>
+    <string name="text_save">Save</string>
+    <string name="profile_settings">Edit Profile</string>
+    <string name="title_edit_your_name">Names</string>
+    <string name="text_user_phone">0700101010</string>
+    <string name="text_user_email">user@email.com</string>
+    <string name="title_edit_your_contact">Edit Your Contact</string>
+    <string name="hint_enter_last_name">Last Name:</string>
+    <string name="hint_enter_first_name">First Name:</string>
+    <string name="txt_user_name">First Name</string>
+    <string name="msg_email_required">Email required</string>
+    <string name="msg_email_valid">Enter Valid Email</string>
+    <string name="msg_first_name">First name required</string>
+    <string name="msg_last_name">Last name required</string>
+    <string name="msg_mobile_number">Mobile number required</string>
+    <string name="msg_email_id">Email Id required</string>
+    <string name="msg_saved">Saved</string>
+    <string name="update_your_residence_details">Update residence details</string>
+    <string name="edit_your_residence">Edit your residence details</string>
+    <string name="lbl_street_address">Street</string>
+    <string name="lbl_city">City or Town:</string>
+    <string name="lbl_country">Country</string>
+    <string name="txt_residence_street">Residence street</string>
+    <string name="title_change_password">Change your password</string>
+    <string name="hint_change_password">Change password (optional)</string>
+    <string name="hint_confirm_new_password">Confirm  new password</string>
+    <string name="title_wallet">Wallet</string>
+    <string name="lbl_your_wallet_in_balance">Your wallet balance:</string>
+    <string name="_200">KES 200.00</string>
+    <string name="lbl_wallet">Refer friends, Earn wallet money</string>
+    <string name="lorem_ipsum">Rerem Ibsum</string>
+    <string name="drive_vehicles_fragment">Vehicles you drive</string>
+    <string name="title_vehicles">Vehicles</string>
+    <string name="lbl_cbd">CBD</string>
+    <string name="lbl_koja">Khoja</string>
+    <string name="lbl_ngumba">Ngumba</string>
+    <string name="lbl_ruiru">Ruiru</string>
+
+    <string name="text_bus_list">Buses</string>
+    <string name="title_price">Price</string>
+    <string name="text_100">0</string>
+    <string name="lbl_StarRatings">Star Ratings</string>
+    <string name="txt_BusType">Bus Type</string>
+    <string name="lbl_Apply">Apply</string>
+    <string name="lbl_travelname">Mobiticket Travels</string>
+    <string name="lbl_starttime1">06:00</string>
+    <string name="lbl_endtime1">09:00</string>
+    <string name="lbl_totalDuration">8:00</string>
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+    <string name="lbl_hold">3</string>
+    <string name="lbl_type1">Seater</string>
+    <string name="lbl_type2">sleeper</string>
+    <string name="lbl_price1">50</string>
+    <string name="lbl_price2">100</string>
+    <string name="text_addhold">%s Holds</string>
+    <string name="text_add5">%d/5</string>
+    <string name="lbl_fare">KES 50</string>
+    <string name="lbl_total_fare">Total Fare</string>
+    <string name="lbl_pnr_no">PNR No</string>
+    <string name="txt_bustime">18:00</string>
+    <string name="txt_time">8:00</string>
+    <string name="txt_date">28-May-2019</string>
+    <string name="integrity_intercity">Integrity Intercity</string>
+    <string name="volvo_bus">Volvo</string>
+    <string name="lbl_booking_endtime1">8:00</string>
+    <string name="text_duration">Duration</string>
+    <string name="title_passengerdetail">Passenger details</string>
+    <string name="msg_code">Code required</string>
+    <string name="txt_passenger">Passenger: </string>
+    <string name="text_seat_no">Seat No</string>
+    <string name="text_seat">Seat</string>
+    <string name="hint_enter_name">Enter name</string>
+    <string name="hint_enter_age">Enter age</string>
+    <string name="msg_name">Enter name</string>
+    <string name="ms_age">Enter age</string>
+    <string name="lbl_intracity">Intracity</string>
+    <string name="lbl_intercity">Intercity</string>
+    <string name="lbl_railway">Railways</string>
+    <string name="lbl_ferry">Ferry</string>
+    <string name="text_select_number_of_seats">Number of seats required</string>
+    <string name="where_to">Where are you travelling to?</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+
+
+    <string-array name="buses_array">
+        <item>AC</item>
+        <item>Non AC</item>
+        <item>Normal</item>
+    </string-array>
+
 </resources>
