@@ -16,7 +16,7 @@
             android:id="@+id/ivLogo"
             android:layout_width="@dimen/imadesize_100dp"
             android:layout_height="@dimen/imadesize_100dp"
-            android:contentDescription="Content description"
+            android:contentDescription="@string/contentdescription"
             android:src="@drawable/ic_buslogo" />
 
     </LinearLayout>

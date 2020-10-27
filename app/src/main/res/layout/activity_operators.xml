@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/app_background"
+android:orientation="vertical">
+
+
+
+
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_toolbar"
+    android:theme="@style/Toolbar"
+    app:contentInsetStart="0dp"
+    app:titleTextColor="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/spacing_medium"
+            android:src="@drawable/ic_left_arrow_white"
+            android:contentDescription="@string/contentdescription"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_toEndOf="@+id/ivBack"
+            android:fontFamily="@font/googlesansextrabold"
+            android:text="@string/title_vehicles"
+            android:layout_toStartOf="@id/ivNotification"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_mlarge" />
+        <include
+            layout="@layout/layout_addnotification" />
+    </RelativeLayout>
+
+</androidx.appcompat.widget.Toolbar>
+
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_below="@id/toolbar"
+    android:layout_marginTop="@dimen/spacing_large"
+    android:padding="@dimen/spacing_medium"
+    android:background="@drawable/bg_card">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Tap vehicle category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+
+            android:layout_margin="4dp"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:id="@+id/btnVehiclesDrive"
+            android:layout_weight="1"
+            android:text="Vehicles You Drive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_margin="4dp"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:id="@+id/btnVehiclesConduct"
+            android:layout_weight="1"
+            android:text="Vehicles You Conduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_margin="4dp"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:id="@+id/btnVehiclesOwn"
+            android:layout_weight="1"
+            android:text="Vehicles You Own"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+
+
+</LinearLayout>
+
+
+</RelativeLayout>

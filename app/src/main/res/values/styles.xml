@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    /* Toolbar theme */
+    <style name="Toolbar">
+        <item name="android:fontFamily">@font/googlesansextrabold</item>
+    </style>
+    /* Rating bar theme */
+
+    /* Rating bar theme */
+    <style name="RatingBar" parent="Theme.MaterialComponents">
+        <item name="colorControlNormal">@color/rating</item>
+        <item name="colorControlActivated">@color/rating</item>
+    </style>
+
 </resources>

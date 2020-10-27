@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/spacing_small"
+        app:cardElevation="@dimen/card_shadow">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium">
+
+            <RelativeLayout
+                android:id="@+id/rlHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tvSeatNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/spacing_small"
+
+                    android:textSize="@dimen/font_large"
+                    android:fontFamily="@font/googlesansregular"
+                    android:textColor="@color/colorPrimary"
+                />
+
+                <ImageView
+                    android:id="@+id/ivIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:contentDescription="@string/contentdescription"
+                    android:src="@drawable/ic_keyboard_arrow_down_black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSubHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlHeading"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/etOtherPassengerFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:background="@drawable/bg_rounded_border_edittext"
+                    android:fontFamily="@font/googlesansregular"
+                    android:hint="First name"
+                    android:inputType="text"
+                    android:padding="@dimen/spacing_medium"
+                    android:textColor="@color/textchild"
+                    android:textSize="@dimen/font_large" />
+                <EditText
+                    android:layout_below="@id/etOtherPassengerFirstName"
+                    android:id="@+id/etOtherPassengerLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:background="@drawable/bg_rounded_border_edittext"
+                    android:fontFamily="@font/googlesansregular"
+                    android:hint="Last name"
+                    android:inputType="text"
+                    android:padding="@dimen/spacing_medium"
+                    android:textColor="@color/textchild"
+                    android:textSize="@dimen/font_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etOtherPassengerLastName"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etOtherPassengerPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium"
+
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rounded_border_edittext"
+                        android:fontFamily="@font/googlesansregular"
+                        android:hint="Enter phone"
+                        android:inputType="number"
+                        android:padding="@dimen/spacing_medium"
+                        android:textColor="@color/textchild"
+                        android:textSize="@dimen/font_large" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

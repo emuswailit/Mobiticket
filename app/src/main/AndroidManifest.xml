@@ -2,21 +2,64 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ke.co.mobiticket.mobiticket">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".utilities.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SelectionActivity"></activity>
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.BaseActivity"></activity>
+        <activity android:name=".activities.SelectionActivity" />
+        <activity android:name=".activities.BookingActivity" />
+        <activity android:name=".activities.PaymentMethodsActivity" />
+        <activity
+            android:name=".activities.BusListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activities.OperatorsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.HelpActivity" />
+        <activity android:name=".activities.CardsActivity" />
+        <activity
+            android:name=".activities.WalletActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activities.ProfileSettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activities.NotificationActivity" />
+        <activity
+            android:name=".activities.VerificationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activities.LoginActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".receivers.SmsBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
