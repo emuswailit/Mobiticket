@@ -9,14 +9,24 @@ import android.view.View;
 import android.widget.Button;
 
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.utilities.AppController;
+import ke.co.mobiticket.mobiticket.utilities.Constants;
 
-public class SelectionActivity extends AppCompatActivity implements View.OnClickListener {
+public class SelectionActivity extends BaseActivity implements View.OnClickListener {
     private Button btnLogin, btnRegister;
     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
+
+        prefs= AppController.getInstance().getMobiPrefs();
+
+        if (prefs.getString(Constants.PHONE_NUMBER,"").isEmpty() && prefs.getString(Constants.EMAIL_ADDRESS,"").isEmpty() ){
+
+        }else {
+            startActivity(DashboardActivity.class);
+        }
         initLayouts();
         initializeListeners();
     }

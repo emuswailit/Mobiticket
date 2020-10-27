@@ -6,6 +6,7 @@ public class PassengerInput {
     EditText etFirstName;
     EditText etLastName;
     EditText etPhone;
+    EditText etEmail;
 
     public EditText getEtFirstName() {
         return etFirstName;
@@ -29,5 +30,13 @@ public class PassengerInput {
 
     public void setEtPhone(EditText etPhone) {
         this.etPhone = etPhone;
+    }
+
+    public EditText getEtEmail() {
+        return etEmail;
+    }
+
+    public void setEtEmail(EditText etEmail) {
+        this.etEmail = etEmail;
     }
 }

@@ -41,6 +41,7 @@ public class Constants {
     public static final String SEARCH_ACTION = "search";
     public static final String NO_INTERNET_TITLE ="No Internet connection!" ;
     public static final String PASSENGER_DATA_THIS_BOOKING ="passenger_data_this_booking" ;
+    public static final String READ_ACTION = "read";
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

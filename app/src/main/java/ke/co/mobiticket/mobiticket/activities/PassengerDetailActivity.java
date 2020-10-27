@@ -1,6 +1,7 @@
 package ke.co.mobiticket.mobiticket.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -44,7 +45,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     private ProgressBar progressBar;
     private int seatCount=1;
     private String[] mSplited;
-    private EditText etAccountOwnerPhone, etAccountOwnerNames, etOtherPassengerFirstName, etOtherPassengerLastName, etOtherPassengerPhone;
+    private EditText etAccountOwnerPhone, etAccountOwnerNames, etOtherPassengerFirstName, etOtherPassengerLastName, etOtherPassengerPhone,etOtherPassengerEmail;
     private ImageView mIVBack;
     private Boolean selfTravelling = true;
     private LinearLayout llAccountOwnerDetails;
@@ -110,88 +111,97 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == mBtnBook) {
-            if (accountOwnerTravelling) {
-                Passenger passenger = new Passenger();
-                passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
-                passenger.setAction(Constants.CREATE_ACTION);
-                passenger.setSource(Constants.SOURCE);
-                passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
-                passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
-                passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
-                passenger.setPickup_point("");
-                passenger.setDropoff_point("");
-                passenger.setSeat("");
-                passenger.setMsisdn(prefs.getString(Constants.PHONE_NUMBER, ""));
-                passenger.setEmail_address(prefs.getString(Constants.EMAIL_ADDRESS, ""));
-                passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
-                passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
-                passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
-                passenger.setPnr_number("");
-                passenger.setTicket_number("");
-                passenger.setReference_number("");
-                passenger.setPayment_id("");
-                passenger.setTotal_fare("");
-                passenger.setOperator_id("");
-                passenger.setTicketing_agent_id("");
-                passenger.setVehicle_id("");
-                passenger.setTrip_number("");
-                passenger.setPayment_method_id("");
+            try {
+                if (accountOwnerTravelling) {
+                    Passenger passenger = new Passenger();
+                    passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
+                    passenger.setAction(Constants.CREATE_ACTION);
+                    passenger.setSource(Constants.SOURCE);
+                    passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
+                    passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
+                    passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
+                    passenger.setPickup_point("");
+                    passenger.setDropoff_point("");
+                    passenger.setSeat("");
+                    passenger.setMsisdn(prefs.getString(Constants.PHONE_NUMBER, ""));
+                    passenger.setEmail_address(prefs.getString(Constants.EMAIL_ADDRESS, ""));
+                    passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
+                    passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
+                    passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
+                    passenger.setPnr_number("");
+                    passenger.setTicket_number("");
+                    passenger.setReference_number("");
+                    passenger.setPayment_id("");
+                    passenger.setTotal_fare("");
+                    passenger.setOperator_id("");
+                    passenger.setTicketing_agent_id("");
+                    passenger.setVehicle_id("");
+                    passenger.setTrip_number("");
+                    passenger.setPayment_method_id("");
 
 
-                passengerList.add(passenger);
-            }
+                    passengerList.add(passenger);
+                }
 
-            for (PassengerInput pi : passengerInputList) {
-                String first_name = pi.getEtFirstName().getText().toString();
-                String last_name = pi.getEtLastName().getText().toString();
-                String phone = pi.getEtPhone().getText().toString();
-                Log.e("full names", first_name + " " + last_name);          Passenger passenger = new Passenger();
-                passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
-                passenger.setAction(Constants.CREATE_ACTION);
-                passenger.setSource(Constants.SOURCE);
-                passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
-                passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
-                passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
-                passenger.setPickup_point("");
-                passenger.setDropoff_point("");
-                passenger.setSeat("");
-                passenger.setMsisdn(phone);
-                passenger.setEmail_address("");
-                passenger.setFirst_name(first_name);
-                passenger.setLast_name(last_name);
-                passenger.setMiddle_name("");
-                passenger.setPnr_number("");
-                passenger.setTicket_number("");
-                passenger.setReference_number("");
-                passenger.setPayment_id("");
-                passenger.setTotal_fare("");
-                passenger.setOperator_id("");
-                passenger.setTicketing_agent_id("");
-                passenger.setVehicle_id("");
-                passenger.setTrip_number("");
-                passenger.setPayment_method_id("");
+                for (PassengerInput pi : passengerInputList) {
+                    String first_name = pi.getEtFirstName().getText().toString();
+                    String last_name = pi.getEtLastName().getText().toString();
+                    String email = pi.getEtEmail().getText().toString();
+                    String phone = pi.getEtPhone().getText().toString();
+                    Log.e("full names", first_name + " " + last_name);          Passenger passenger = new Passenger();
+                    passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
+                    passenger.setAction(Constants.CREATE_ACTION);
+                    passenger.setSource(Constants.SOURCE);
+                    passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
+                    passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
+                    passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
+                    passenger.setPickup_point("");
+                    passenger.setDropoff_point("");
+                    passenger.setSeat("");
+                    passenger.setMsisdn(phone);
+                    passenger.setEmail_address(email);
+                    passenger.setFirst_name(first_name);
+                    passenger.setLast_name(last_name);
+                    passenger.setMiddle_name("");
+                    passenger.setPnr_number("");
+                    passenger.setTicket_number("");
+                    passenger.setReference_number("");
+                    passenger.setPayment_id("");
+                    passenger.setTotal_fare("");
+                    passenger.setOperator_id("");
+                    passenger.setTicketing_agent_id("");
+                    passenger.setVehicle_id("");
+                    passenger.setTrip_number("");
+                    passenger.setPayment_method_id("");
 
 
-                passengerList.add(passenger);
-            }
+                    passengerList.add(passenger);
+                }
 
-            if (passengerList.size()>0){
-                if (AppController.getInstance().isNetworkConnected()){
-                    try{
-                        generateReferenceNumber();
-                    }catch(Exception e){
-                        Log.e("gerenerateRefNum:", e.toString());
+                if (passengerList.size()>0){
+                    if (AppController.getInstance().isNetworkConnected()){
+                        try{
+                            Gson gson=new Gson();
+                            Log.e("array", gson.toJson(passengerList));
+                            generateReferenceNumber();
+                        }catch(Exception e){
+                            Log.e("gerenerateRefNum:", e.toString());
+                        }
+
+
+                    }else {
+                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
                     }
 
 
-                }else {
-                    showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+
+
                 }
-
-
-
-
+            }catch (Exception e){
+                Log.e("error", e.toString());
             }
+
+
             // if (validate()) {
 //            startActivity(PaymentActivity.class);
             //  }
@@ -242,10 +252,9 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
             passenger.setReference_number(reference_number);
             passenger.setPnr_number(reference_number);
             passenger.setTicket_number(reference_number);
-
-
-
         }
+
+        Log.e("error","iko");
 
         try {
             Gson gson=new Gson();
@@ -258,7 +267,10 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
             editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING,gson.toJson(passengerList));
 
             editor.apply();
-            startActivity(PaymentMethodsActivity.class);
+
+        Intent intent =new Intent(PassengerDetailActivity.this, PaymentMethodsActivity.class);
+        startActivity(intent);
+
 
         }catch (Exception e){
             Log.e("error", e.toString());
@@ -383,6 +395,8 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
             pi.setEtLastName(etOtherPassengerLastName);
             etOtherPassengerPhone = view1.findViewById(R.id.etOtherPassengerPhone);
             pi.setEtPhone(etOtherPassengerPhone);
+            etOtherPassengerEmail = view1.findViewById(R.id.etOtherPassengerEmail);
+            pi.setEtEmail(etOtherPassengerEmail);
 
             passengerInputList.add(pi);
             mRlHeading.setOnClickListener(new View.OnClickListener() {
@@ -432,6 +446,9 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                 pi.setEtLastName(etOtherPassengerLastName);
                 etOtherPassengerPhone = view1.findViewById(R.id.etOtherPassengerPhone);
                 pi.setEtPhone(etOtherPassengerPhone);
+                etOtherPassengerEmail = view1.findViewById(R.id.etOtherPassengerEmail);
+                pi.setEtEmail(etOtherPassengerEmail);
+
 
                 passengerInputList.add(pi);
                 mRlHeading.setOnClickListener(new View.OnClickListener() {

@@ -90,30 +90,38 @@
                     android:textColor="@color/textchild"
                     android:textSize="@dimen/font_large" />
 
-                <LinearLayout
+                <EditText
+                    android:layout_below="@id/etOtherPassengerLastName"
+                    android:id="@+id/etOtherPassengerPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/etOtherPassengerLastName"
-                    android:layout_marginBottom="@dimen/spacing_small"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="@dimen/spacing_medium"
 
-                    <EditText
-                        android:id="@+id/etOtherPassengerPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rounded_border_edittext"
+                    android:fontFamily="@font/googlesansregular"
+                    android:hint="Enter phone"
+                    android:inputType="number"
+                    android:padding="@dimen/spacing_medium"
+                    android:textColor="@color/textchild"
+                    android:textSize="@dimen/font_large" />
+                <EditText
+                    android:layout_below="@id/etOtherPassengerPhone"
+                    android:id="@+id/etOtherPassengerEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
 
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_rounded_border_edittext"
-                        android:fontFamily="@font/googlesansregular"
-                        android:hint="Enter phone"
-                        android:inputType="number"
-                        android:padding="@dimen/spacing_medium"
-                        android:textColor="@color/textchild"
-                        android:textSize="@dimen/font_large" />
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rounded_border_edittext"
+                    android:fontFamily="@font/googlesansregular"
+                    android:hint="Enter email"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/spacing_medium"
+                    android:textColor="@color/textchild"
+                    android:textSize="@dimen/font_large" />
 
 
-                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
