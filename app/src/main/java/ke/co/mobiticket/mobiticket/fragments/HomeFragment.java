@@ -29,7 +29,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +52,6 @@ import ke.co.mobiticket.mobiticket.retrofit.responses.RouteDetailsResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.SearchRoutesResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
-import ke.co.mobiticket.mobiticket.widgets.LineItemDecoration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +61,7 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    public static String mTitle = "Home";
+    public static String mTitle = "Mobiticket";
     private AutoCompleteTextView mEdFromCity, mEdToCity;
     private EditText etWhereTo;
     private TextView mEdDepartDate, labelSearchRoutes;
@@ -286,9 +284,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt(Constants.SEAT_COUNT, Integer.valueOf(mTvCount.getText().toString()));
-                    editor.putString(Constants.TRAVEL_FROM, mFrom);
-                    editor.putString(Constants.TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
-                    editor.putString(Constants.TRAVEL_TO, mTo);
+                    editor.putString(Constants.TICKET_TRAVEL_FROM, mFrom);
+                    editor.putString(Constants.TICKET_PICKUP_POINT, mFrom);
+                    editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
+                    editor.putString(Constants.TICKET_TRAVEL_TO, mTo);
+                    editor.putString(Constants.TICKET_DROPOFF_POINT, mTo);
                     editor.apply();
 
                     Intent intent = new Intent(getActivity(), BusListActivity.class);
@@ -337,10 +337,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                 Log.e("to", obj.getDestination());
 
                                 SharedPreferences.Editor editor = prefs.edit();
-//                                editor.putInt(Constants.SEAT_COUNT, Integer.valueOf(mTvCount.getText().toString()));
-                                editor.putString(Constants.TRAVEL_FROM, obj.getOrigin());
-                                editor.putString(Constants.TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
-                                editor.putString(Constants.TRAVEL_TO, obj.getDestination());
+                                editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+                                editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
+                                editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+                                editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
+                                editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
                                 editor.apply();
 
                                 Intent intent = new Intent(getActivity(), BusListActivity.class);

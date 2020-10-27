@@ -114,30 +114,13 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
             try {
                 if (accountOwnerTravelling) {
                     Passenger passenger = new Passenger();
-                    passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
-                    passenger.setAction(Constants.CREATE_ACTION);
-                    passenger.setSource(Constants.SOURCE);
-                    passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
-                    passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
-                    passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
-                    passenger.setPickup_point("");
-                    passenger.setDropoff_point("");
-                    passenger.setSeat("");
+
                     passenger.setMsisdn(prefs.getString(Constants.PHONE_NUMBER, ""));
                     passenger.setEmail_address(prefs.getString(Constants.EMAIL_ADDRESS, ""));
                     passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
                     passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
                     passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
-                    passenger.setPnr_number("");
-                    passenger.setTicket_number("");
-                    passenger.setReference_number("");
-                    passenger.setPayment_id("");
-                    passenger.setTotal_fare("");
-                    passenger.setOperator_id("");
-                    passenger.setTicketing_agent_id("");
-                    passenger.setVehicle_id("");
-                    passenger.setTrip_number("");
-                    passenger.setPayment_method_id("");
+
 
 
                     passengerList.add(passenger);
@@ -149,30 +132,12 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                     String email = pi.getEtEmail().getText().toString();
                     String phone = pi.getEtPhone().getText().toString();
                     Log.e("full names", first_name + " " + last_name);          Passenger passenger = new Passenger();
-                    passenger.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
-                    passenger.setAction(Constants.CREATE_ACTION);
                     passenger.setSource(Constants.SOURCE);
-                    passenger.setTravel_from(prefs.getString(Constants.TRAVEL_FROM, ""));
-                    passenger.setTravel_to(prefs.getString(Constants.TRAVEL_TO, ""));
-                    passenger.setTravel_date(prefs.getString(Constants.TRAVEL_DATE, ""));
-                    passenger.setPickup_point("");
-                    passenger.setDropoff_point("");
-                    passenger.setSeat("");
                     passenger.setMsisdn(phone);
                     passenger.setEmail_address(email);
                     passenger.setFirst_name(first_name);
                     passenger.setLast_name(last_name);
-                    passenger.setMiddle_name("");
-                    passenger.setPnr_number("");
-                    passenger.setTicket_number("");
-                    passenger.setReference_number("");
-                    passenger.setPayment_id("");
-                    passenger.setTotal_fare("");
-                    passenger.setOperator_id("");
-                    passenger.setTicketing_agent_id("");
-                    passenger.setVehicle_id("");
-                    passenger.setTrip_number("");
-                    passenger.setPayment_method_id("");
+
 
 
                     passengerList.add(passenger);
@@ -248,10 +213,13 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void finalizePassengerData(List<Passenger> passengerList, String reference_number) {
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Constants.TICKET_REFERENCE_NUMBER, reference_number);
+        editor.apply();
         for (Passenger passenger : passengerList) {
             passenger.setReference_number(reference_number);
-            passenger.setPnr_number(reference_number);
-            passenger.setTicket_number(reference_number);
         }
 
         Log.e("error","iko");
@@ -262,11 +230,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
 
             Log.e("passengers", gson.toJson(passengerList));
 
-            SharedPreferences.Editor editor = prefs.edit();
 
-            editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING,gson.toJson(passengerList));
-
-            editor.apply();
 
         Intent intent =new Intent(PassengerDetailActivity.this, PaymentMethodsActivity.class);
         startActivity(intent);

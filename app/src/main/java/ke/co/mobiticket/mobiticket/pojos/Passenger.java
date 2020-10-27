@@ -1,13 +1,10 @@
 package ke.co.mobiticket.mobiticket.pojos;
 
 public class Passenger {
-    private String access_token;
-    private String action;
+
     private String source;
     private String travel_from;
     private String travel_to;
-    private String travel_date;
-    private String travel_time;
     private String pickup_point;
     private String dropoff_point;
     private String seat;
@@ -16,10 +13,7 @@ public class Passenger {
     private String first_name;
     private String middle_name;
     private String last_name;
-    private String pnr_number;
-    private String ticket_number;
     private String reference_number;
-    private String payment_id;
     private String total_fare;
     private String operator_id;
     private String ticketing_agent_id;
@@ -28,21 +22,6 @@ public class Passenger {
     private String payment_method_id;
 
 
-    public String getAccess_token() {
-        return access_token;
-    }
-
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
 
     public String getSource() {
         return source;
@@ -66,22 +45,6 @@ public class Passenger {
 
     public void setTravel_to(String travel_to) {
         this.travel_to = travel_to;
-    }
-
-    public String getTravel_date() {
-        return travel_date;
-    }
-
-    public void setTravel_date(String travel_date) {
-        this.travel_date = travel_date;
-    }
-
-    public String getTravel_time() {
-        return travel_time;
-    }
-
-    public void setTravel_time(String travel_time) {
-        this.travel_time = travel_time;
     }
 
     public String getPickup_point() {
@@ -148,21 +111,6 @@ public class Passenger {
         this.last_name = last_name;
     }
 
-    public String getPnr_number() {
-        return pnr_number;
-    }
-
-    public void setPnr_number(String pnr_number) {
-        this.pnr_number = pnr_number;
-    }
-
-    public String getTicket_number() {
-        return ticket_number;
-    }
-
-    public void setTicket_number(String ticket_number) {
-        this.ticket_number = ticket_number;
-    }
 
     public String getReference_number() {
         return reference_number;
@@ -172,13 +120,6 @@ public class Passenger {
         this.reference_number = reference_number;
     }
 
-    public String getPayment_id() {
-        return payment_id;
-    }
-
-    public void setPayment_id(String payment_id) {
-        this.payment_id = payment_id;
-    }
 
     public String getTotal_fare() {
         return total_fare;

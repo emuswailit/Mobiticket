@@ -126,6 +126,19 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
                                         @Override
                                         public void onItemClick(View view, Vehicle obj, int position) {
                                             Toast.makeText(BusListActivity.this, obj.getRegistration_number(), Toast.LENGTH_SHORT).show();
+                                            Gson gson=new Gson();
+                                            Log.e("vehicle", gson.toJson(obj));
+                                            SharedPreferences.Editor editor = prefs.edit();
+
+
+                                            editor.putString(Constants.TICKET_VEHICLE_ID, obj.getVehicle_id());
+                                            editor.putString(Constants.TICKET_TOTAL_FARE, obj.getCurrent_fare());
+                                            editor.putString(Constants.TICKET_VEHICLE_OPERATOR_ID, obj.getOperator_id());
+                                            editor.putString(Constants.TICKET_VEHICLE_TRIP_NUMBER, obj.getTrip_number());
+
+
+
+                                            editor.apply();
                                             startActivity(PassengerDetailActivity.class);
                                         }
                                     });
