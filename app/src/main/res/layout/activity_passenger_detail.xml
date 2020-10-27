@@ -189,26 +189,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
-<ProgressBar
-    android:visibility="gone"
-    android:layout_gravity="center"
-    android:id="@+id/progressBar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-/>                <Button
+                <ProgressBar
                     android:visibility="gone"
-                    android:id="@+id/btnBook"
-                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/bg_btn_shape"
-                    android:fontFamily="@font/googlesansbold"
-                    android:text="@string/text_done"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_large" />
+                    />                <Button
+                android:visibility="gone"
+                android:id="@+id/btnBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/bg_btn_shape"
+                android:fontFamily="@font/googlesansbold"
+                android:text="@string/text_done"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_large" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
