@@ -1,9 +1,413 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PaymentActivity">
+    android:background="@color/app_background"
+    tools:context=".activities.PassengerDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/view_height"-->
+    <!--        android:background="@drawable/bg_toolbar" />-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/Toolbar"
+        android:visibility="visible"
+        app:contentInsetStart="0dp"
+        app:titleTextColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_left_arrow_white"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/googlesansextrabold"
+                android:text="@string/payment"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_mlarge" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/bg_card">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_medium">
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardMpesaXpress"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+
+                            android:text="Mpesa Express"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etMpesaPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                        android:layout_margin="@dimen/spacing_medium"
+
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="07XX......."
+                            android:inputType="phone"
+
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+
+                        <Button
+                            android:id="@+id/btnMpesaExpress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/lbl_submit"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                        <TextView
+                            android:id="@+id/tvMpesaExpressOutcome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMpesaPaybill"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+
+                            android:text="Mpesa Paybill"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_large" />
+
+
+
+
+                        <Button
+                            android:id="@+id/btnMpesaPaybill"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/text_done"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardJambopayWallet"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+
+                            android:text="Jambopay Wallet"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etJambopayWalletUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:background="@drawable/bg_rounded_border_edittext"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="Enter wallet username"
+                            android:inputType="text"
+
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etJambopayWalletPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:background="@drawable/bg_rounded_border_edittext"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="Enter wallet password"
+                            android:inputType="textPassword"
+
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+                        <Button
+                            android:id="@+id/btnJambopayWallet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/text_done"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                    </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardJambopayAgency"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        app:cardCornerRadius="@dimen/spacing_small"
+                        app:cardElevation="@dimen/card_shadow">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/spacing_small"
+                                android:fontFamily="@font/googlesansregular"
+
+                                android:text="Jambopay Agency"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/font_large" />
+
+                            <EditText
+                                android:id="@+id/etJambopayAgencyUsername"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/bg_rounded_border_edittext"
+                                android:fontFamily="@font/googlesansregular"
+                                android:hint="Enter agency username"
+                                android:inputType="text"
+
+                                android:textColor="@color/textchild"
+                                android:textSize="@dimen/font_large" />
+
+                            <EditText
+                                android:id="@+id/etJambopayAgencyPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/bg_rounded_border_edittext"
+                                android:fontFamily="@font/googlesansregular"
+                                android:hint="Enter agency password"
+                                android:inputType="textPassword"
+
+                                android:textColor="@color/textchild"
+                                android:textSize="@dimen/font_large" />
+
+                            <Button
+                                android:id="@+id/btnJambopayAgency"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_medium"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:background="@drawable/bg_btn_shape"
+                                android:fontFamily="@font/googlesansbold"
+                                android:text="@string/text_done"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_large" />
+
+                        </LinearLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCommuterNFC"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+
+                            android:text="Commuter NFC Card"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_large" />
+
+
+
+
+                        <Button
+                            android:id="@+id/btnCommuterNFC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/text_done"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSuccess"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:id="@+id/tvMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+
+                            android:text="Success"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_xxlarge" />
+
+                    </LinearLayout>
+
+
+
+
+
+             </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

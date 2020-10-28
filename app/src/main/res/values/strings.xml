@@ -152,6 +152,8 @@
     <string name="text_select_number_of_seats">Number of seats required</string>
     <string name="where_to">Where are you travelling to?</string>
     <string name="payment_methods">Payment Methods</string>
+    <string name="payment">Make payment</string>
+    <string name="lbl_submit">Submit</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

@@ -61,6 +61,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         initLayouts();
         prefs = AppController.getInstance().getMobiPrefs();
         String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
+        Log.e("retrievePassengers", passengerListString);
         if (passengerListString.isEmpty() || passengerListString.equals("")) {
             finish();
         } else {
@@ -174,6 +175,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
                     try {
                         for (Passenger passenger : passengerList) {
+                            int seat=1;
 
                             //Set other vehicle parameters to ticket
 
@@ -189,6 +191,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                             passenger.setTravel_to(prefs.getString(Constants.TICKET_TRAVEL_TO, ""));
                             passenger.setDropoff_point(prefs.getString(Constants.TICKET_DROPOFF_POINT, ""));
                             passenger.setPayment_method_id(payment_method_id);
+                            passenger.setSeat(String.valueOf(seat++)); //TODO : remove this hard coded data
 
                         }
 
@@ -227,7 +230,9 @@ public class PaymentMethodsActivity extends BaseActivity {
         request.setAction(Constants.CREATE_ACTION);
         request.setTicket(passengerList);
         Log.e("tickets", gson.toJson(passengerList));
+        Log.e("request", gson.toJson(request));
         Call<ReserveTicketResponse> call = api.reserveTickets(request);
+
         progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ReserveTicketResponse>() {
             @Override
@@ -235,24 +240,17 @@ public class PaymentMethodsActivity extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
-//                        passengerList.clear();
-//
-//                        SharedPreferences.Editor editor = prefs.edit();
-//
-//                        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
-//
-//                        editor.apply();
-//                        Toast.makeText(PaymentMethodsActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PaymentMethodsActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
                         String reference_number = response.body().getReference_number();
                         confirmReservation(reference_number, payment_method_id);
 
 
                     } else {
-                        SharedPreferences.Editor editor = prefs.edit();
-
-                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
-                        editor.apply();
-                        startActivity(PaymentActivity.class);
+//                        SharedPreferences.Editor editor = prefs.edit();
+//
+//                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
+//                        editor.apply();
+//                        startActivity(PaymentActivity.class);
                         showCustomDialog("Reserve tickets", response.body().getResponse_message());
                     }
 
@@ -305,8 +303,8 @@ public class PaymentMethodsActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        //No back press
-    }
+//    @Override
+//    public void onBackPressed() {
+//        //No back press
+//    }
 }

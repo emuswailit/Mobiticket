@@ -120,9 +120,6 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                     passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
                     passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
                     passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
-
-
-
                     passengerList.add(passenger);
                 }
 
@@ -137,8 +134,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                     passenger.setEmail_address(email);
                     passenger.setFirst_name(first_name);
                     passenger.setLast_name(last_name);
-
-
+                    passenger.setMiddle_name(" ");
 
                     passengerList.add(passenger);
                 }
@@ -148,7 +144,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                         try{
                             Gson gson=new Gson();
                             Log.e("array", gson.toJson(passengerList));
-                            generateReferenceNumber();
+                            generateReferenceNumber(passengerList);
                         }catch(Exception e){
                             Log.e("gerenerateRefNum:", e.toString());
                         }
@@ -175,7 +171,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void generateReferenceNumber() {
+    private void generateReferenceNumber(final List<Passenger> passengerList) {
 
         //Generate reference number for the tickets
         GenerateReferenceNumberInterface api= AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
@@ -196,6 +192,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                             if (passengerList.size()>0){
                                 String reference_number=referenceNumberResponse.getReference_number();
                                 finalizePassengerData(passengerList,reference_number );
+                                Log.e("reference", reference_number);
                             }
                         }
                     }else {
@@ -222,15 +219,18 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
             passenger.setReference_number(reference_number);
         }
 
-        Log.e("error","iko");
+
 
         try {
-            Gson gson=new Gson();
 
+
+            //Represent finalized ticket as json and save it as shared preferences for use in future activities
+            Gson gson=new Gson();
+            SharedPreferences.Editor editor1 = prefs.edit();
+            editor1.putString(Constants.PASSENGER_DATA_THIS_BOOKING, gson.toJson(passengerList));
+            editor1.apply();
 
             Log.e("passengers", gson.toJson(passengerList));
-
-
 
         Intent intent =new Intent(PassengerDetailActivity.this, PaymentMethodsActivity.class);
         startActivity(intent);

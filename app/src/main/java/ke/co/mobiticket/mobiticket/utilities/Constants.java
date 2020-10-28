@@ -41,6 +41,7 @@ public class Constants {
     public static final String SEARCH_ACTION = "search";
     public static final String NO_INTERNET_TITLE ="No Internet connection!" ;
     public static final String PASSENGER_DATA_THIS_BOOKING ="passenger_data_this_booking" ;
+
     public static final String READ_ACTION = "read";
     public static final String VEHICLE_CURRENT_FARE ="current_fare" ;
     public static final String VEHICLE_CURRENT_STATION ="current_station" ;
@@ -52,6 +53,7 @@ public class Constants {
     public static final String TICKET_PICKUP_POINT ="pickup_point" ;
     public static final String TICKET_PAYMENT_METHOD_ID ="payment_method_id" ;
     public static final String TICKET_REFERENCE_NUMBER ="reference_number" ;
+    public static final String AUTHORIZE_PAYMENT_ACTION ="authorizepayment" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";
