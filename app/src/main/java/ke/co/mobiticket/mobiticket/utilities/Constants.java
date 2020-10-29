@@ -43,7 +43,7 @@ public class Constants {
     public static final String PASSENGER_DATA_THIS_BOOKING ="passenger_data_this_booking" ;
 
     public static final String READ_ACTION = "read";
-    public static final String VEHICLE_CURRENT_FARE ="current_fare" ;
+    public static final String TICKET_VEHICLE_CURRENT_FARE ="current_fare" ;
     public static final String VEHICLE_CURRENT_STATION ="current_station" ;
     public static final String TICKET_VEHICLE_ID = "vehicle_id";
     public static final String TICKET_TOTAL_FARE ="total_fare" ;

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -204,11 +205,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.btnSearchWhereTo:
-                Log.e("clicked","clicked");
+
                 String search = etWhereTo.getText().toString();
                 if (!search.isEmpty()||!search.equals("")) {
                     if (AppController.getInstance().isNetworkConnected()){
-                        searchWhereTo(search);
+                        try {
+                            searchWhereTo(search);
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
+                        }
+
                     }else {
 //                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
                         startActivity(new Intent(getActivity(), NoInternetActivity.class));
@@ -311,6 +317,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setKeywords(search);
         request.setAction(Constants.SEARCH_ACTION);
+        Gson gson=new Gson();
+        Log.e("clicked",gson.toJson(request));
         progressBar.setVisibility(View.VISIBLE);
         Call<SearchRoutesResponse> call = api.retrieveRoutes(request);
         call.enqueue(new Callback<SearchRoutesResponse>() {
@@ -318,58 +326,63 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<SearchRoutesResponse> call, Response<SearchRoutesResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 SearchRoutesResponse searchRoutesResponse=response.body();
-                if (searchRoutesResponse.getResponse_code().equals("0")){
-                    cardSearchRoutes.setVisibility(View.VISIBLE);
-                    rvSearchRoutes.setLayoutManager(new LinearLayoutManager(getActivity()));
+                if (response.body() !=null) {
+                    if (searchRoutesResponse.getResponse_code().equals("0")) {
+                        cardSearchRoutes.setVisibility(View.VISIBLE);
+                        rvSearchRoutes.setLayoutManager(new LinearLayoutManager(getActivity()));
 //                    rvSearchRoutes.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
-                    rvSearchRoutes.setHasFixedSize(true);
-                    //set data and list adapter
+                        rvSearchRoutes.setHasFixedSize(true);
+                        //set data and list adapter
 
-                    if (searchRoutesResponse.getRoute().size()>0){
-                        RouteAdapter routeAdapter = new RouteAdapter(getActivity(), searchRoutesResponse.getRoute());
-                        rvSearchRoutes.setAdapter(routeAdapter);
-                        routeAdapter.setOnItemClickListener(new RouteAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, Route obj, int position) {
+                        if (searchRoutesResponse.getRoute().size() > 0) {
+                            RouteAdapter routeAdapter = new RouteAdapter(getActivity(), searchRoutesResponse.getRoute());
+                            rvSearchRoutes.setAdapter(routeAdapter);
+                            routeAdapter.setOnItemClickListener(new RouteAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, Route obj, int position) {
 //                                retrieveRouteDetail(obj.getId());
 //                                cardSearchRoutes.setVisibility(View.GONE);
 ////                                cardSearchDestinations.setVisibility(View.GONE);
-                                Log.e("id", obj.getId());
-                                Log.e("from", obj.getOrigin());
-                                Log.e("to", obj.getDestination());
+                                    Log.e("id", obj.getId());
+                                    Log.e("from", obj.getOrigin());
+                                    Log.e("to", obj.getDestination());
 
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
-                                editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
-                                editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
-                                editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
-                                editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
-                                editor.apply();
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+                                    editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
+                                    editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+                                    editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
+                                    editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
+                                    editor.apply();
 
-                                Intent intent = new Intent(getActivity(), BusListActivity.class);
-                                intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
-                                intent.putExtra(Constants.intentdata.FROM, mFrom);
-                                intent.putExtra(Constants.intentdata.TO, mTo);
-                                startActivity(intent);
-                            }
-                        });
-                        labelSearchRoutes.setText(searchRoutesResponse.getRoute().size()+ " routes retrieved for your search \" "+search+" \"");
-                    }else {
-                        labelSearchRoutes.setText("No routes retrieved for criteria \" "+ search+ " \" ");
+                                    Intent intent = new Intent(getActivity(), BusListActivity.class);
+                                    intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
+                                    intent.putExtra(Constants.intentdata.FROM, mFrom);
+                                    intent.putExtra(Constants.intentdata.TO, mTo);
+                                    startActivity(intent);
+                                }
+                            });
+                            labelSearchRoutes.setText(searchRoutesResponse.getRoute().size() + " routes retrieved for your search \" " + search + " \"");
+                        } else {
+                            labelSearchRoutes.setText("No routes retrieved for criteria \" " + search + " \" ");
+                        }
+
+
+                    } else {
+                        String title = "Search Destinations";
+                        String message = searchRoutesResponse.getResponse_message();
+                        showCustomDialog(title, message);
                     }
 
-
-
                 }else {
-                    String title = "Search Destinations";
-                    String message = searchRoutesResponse.getResponse_message();
-                        showCustomDialog(title, message);
+                    showCustomDialog("Search destinations","An error occurred!");
                 }
             }
 
             @Override
             public void onFailure(Call<SearchRoutesResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                Log.e("Error",t.getLocalizedMessage());
             }
         });
 

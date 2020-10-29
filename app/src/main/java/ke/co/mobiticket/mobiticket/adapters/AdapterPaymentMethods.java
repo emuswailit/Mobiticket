@@ -69,23 +69,23 @@ public class AdapterPaymentMethods extends RecyclerView.Adapter<RecyclerView.Vie
 
             PaymentMethod p = items.get(position);
             view.name.setText(p.getName());
-            if (p.getName().equals("Visa")){
+            if (p.getId().equals("8")){
                view.image.setImageResource(R.drawable.ic_visa_new);
-            }else if (p.getName().equals("Mastercard")){
+            }else if (p.getId().equals("9")){
                 view.image.setImageResource(R.drawable.ic_mastercard_new);
-            }else if (p.getName().equals("Jambopay Agent")){
+            }else if (p.getId().equals("4")){
                 view.image.setImageResource(R.drawable.ic_jambopay_agent);
-            }else if (p.getName().equals("Jambopay Wallet")){
+            }else if (p.getId().equals("3")){
                 view.image.setImageResource(R.drawable.ic_jambopay_wallet);
-            }else if (p.getName().equals("Pesalink")){
+            }else if (p.getId().equals("7")){
                 view.image.setImageResource(R.drawable.pesalink);
-            }else if (p.getName().equals("Mpesa Paybill")){
+            }else if (p.getId().equals("2")){
                 view.image.setImageResource(R.drawable.ic_mpesa);
-            }else if (p.getName().equals("Mpesa Xpress")){
+            }else if (p.getId().equals("1")){
                 view.image.setImageResource(R.drawable.ic_mpesa);
-            }else if (p.getName().equals("Mobiagent Card")){
+            }else if (p.getId().equals("6")){
                 view.image.setImageResource(R.drawable.mticket_green);
-            }else if (p.getName().equals("Mobicommuter Card")){
+            }else if (p.getId().equals("5")){
                 view.image.setImageResource(R.drawable.mticket_green);
             }
 

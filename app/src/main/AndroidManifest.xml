@@ -13,7 +13,12 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.NoInternetActivity"></activity>
+        <service
+            android:stopWithTask="false"
+            android:name=".services.TicketVerificationService"
+            android:exported="false"></service>
+
+        <activity android:name=".activities.NoInternetActivity" />
         <activity
             android:name=".activities.PaymentActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

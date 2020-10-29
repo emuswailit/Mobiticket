@@ -11,5 +11,5 @@ import retrofit2.http.POST;
 public interface MpesaPaybillInterface {
 
     @POST("ticket/")
-    Call<MpesaPaybillResponse> mpesaExpressPayment(@Body MpesaPaybillRequest request);
+    Call<MpesaPaybillResponse> mpesaPaybillPayment(@Body MpesaPaybillRequest request);
 }

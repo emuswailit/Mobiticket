@@ -132,7 +132,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
 
 
                                             editor.putString(Constants.TICKET_VEHICLE_ID, obj.getVehicle_id());
-                                            editor.putString(Constants.TICKET_TOTAL_FARE, obj.getCurrent_fare());
+                                            editor.putString(Constants.TICKET_VEHICLE_CURRENT_FARE, obj.getCurrent_fare());
                                             editor.putString(Constants.TICKET_VEHICLE_OPERATOR_ID, obj.getOperator_id());
                                             editor.putString(Constants.TICKET_VEHICLE_TRIP_NUMBER, obj.getTrip_number());
 

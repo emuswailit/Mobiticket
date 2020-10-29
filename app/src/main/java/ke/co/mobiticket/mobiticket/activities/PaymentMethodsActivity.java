@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ import retrofit2.Response;
 public class PaymentMethodsActivity extends BaseActivity {
     private RecyclerView rvPaymentMethods;
     private TextView tvPaymentMethods;
+    private ImageView ivBack;
+    private double total_cost=0.00;
     ProgressBar progressBar;
     SharedPreferences prefs;
     AdapterPaymentMethods mAdapter;
@@ -74,6 +77,17 @@ public class PaymentMethodsActivity extends BaseActivity {
         }
 
         retrievePaymentMethods();
+        initListeners();
+    }
+
+    private void initListeners() {
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(PassengerDetailActivity.class);
+                finish();
+            }
+        });
     }
 
     private void retrievePaymentMethods() {
@@ -107,7 +121,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                                 @Override
                                 public void onItemClick(View view, PaymentMethod obj, int position) {
                                     String payment_method_id = obj.getId();
-                                    showCustomYesNoDialog(obj.getName(), "Use this methd to pay now?", payment_method_id);
+                                    showCustomYesNoDialog(obj.getName(), "Use "+obj.getName()+" to pay your fare now?", payment_method_id);
                                     Toast.makeText(PaymentMethodsActivity.this, obj.getName(), Toast.LENGTH_SHORT).show();
 
 
@@ -134,6 +148,8 @@ public class PaymentMethodsActivity extends BaseActivity {
     }
 
     private void initLayouts() {
+        ivBack = findViewById(R.id.ivBack);
+
         rvPaymentMethods = findViewById(R.id.rvPaymentMethods);
         rvPaymentMethods.setLayoutManager(new LinearLayoutManager(this));
         rvPaymentMethods.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
@@ -150,7 +166,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
             final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-            dialog.setContentView(R.layout.dialog_select_yes_or_no);
+            dialog.setContentView(R.layout.dialog_accept_payment_method);
             dialog.setCancelable(false);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -158,10 +174,36 @@ public class PaymentMethodsActivity extends BaseActivity {
             lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
+            ImageView card_logo = dialog.findViewById(R.id.card_logo);
+            if (payment_method_id.equals("8")){
+                card_logo.setImageResource(R.drawable.ic_visa_new);
+            }else if (payment_method_id.equals("9")){
+                card_logo.setImageResource(R.drawable.ic_mastercard_new);
+            }else if (payment_method_id.equals("4")){
+                card_logo.setImageResource(R.drawable.ic_jambopay_agent);
+            }else if (payment_method_id.equals("3")){
+                card_logo.setImageResource(R.drawable.ic_jambopay_wallet);
+            }else if (payment_method_id.equals("7")){
+                card_logo.setImageResource(R.drawable.pesalink);
+            }else if (payment_method_id.equals("2")){
+                card_logo.setImageResource(R.drawable.ic_mpesa);
+            }else if (payment_method_id.equals("1")){
+                card_logo.setImageResource(R.drawable.ic_mpesa);
+            }else if (payment_method_id.equals("6")){
+                card_logo.setImageResource(R.drawable.mticket_green);
+            }else if (payment_method_id.equals("5")){
+                card_logo.setImageResource(R.drawable.mticket_green);
+            }
+
             TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvTickets = dialog.findViewById(R.id.tvTickets);
+            TextView tvTotalCost = dialog.findViewById(R.id.tvTotalCost);
             TextView tvContent = dialog.findViewById(R.id.content);
             tvContent.setText(message);
             tvTitle.setText(title);
+            total_cost=Double.valueOf(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE,""))* passengerList.size();
+            tvTickets.setText("Tickets: "+ passengerList.size());
+            tvTotalCost.setText("KES "+ String.format("%.2f",total_cost));
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
