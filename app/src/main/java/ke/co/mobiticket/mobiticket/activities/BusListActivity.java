@@ -69,7 +69,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
         if (AppController.getInstance().isNetworkConnected()) {
             searchBuses(from, to);
         } else {
-            showCustomDialog(Constants.NO_INTERNET_TITLE,Constants.NO_INTERNET_MESSAGE);
+            startActivity(NoInternetActivity.class);
         }
 
         Toast.makeText(this, from + " to " + to, Toast.LENGTH_SHORT).show();

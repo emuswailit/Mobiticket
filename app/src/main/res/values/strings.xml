@@ -154,6 +154,8 @@
     <string name="payment_methods">Payment Methods</string>
     <string name="payment">Make payment</string>
     <string name="lbl_submit">Submit</string>
+    <string name="RETRY">Retry</string>
+    <string name="owner_travelling">Is account owner travelling?</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

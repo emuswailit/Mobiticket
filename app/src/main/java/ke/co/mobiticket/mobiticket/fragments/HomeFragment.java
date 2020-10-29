@@ -42,6 +42,7 @@ import java.util.Objects;
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.BusListActivity;
+import ke.co.mobiticket.mobiticket.activities.NoInternetActivity;
 import ke.co.mobiticket.mobiticket.adapters.RouteAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Route;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.RouteDetailInterface;
@@ -209,7 +210,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if (AppController.getInstance().isNetworkConnected()){
                         searchWhereTo(search);
                     }else {
-                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+//                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+                        startActivity(new Intent(getActivity(), NoInternetActivity.class));
                     }
 
                 } else {

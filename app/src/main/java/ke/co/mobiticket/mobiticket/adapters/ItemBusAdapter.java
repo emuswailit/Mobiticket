@@ -40,12 +40,13 @@ public class ItemBusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvOperatorName, tvVehicleType, tvCurrentFare, tvRoutes;
+        public TextView tvOperatorName, tvVehicleType,tvRegistrationNumber, tvCurrentFare, tvRoutes;
         public MaterialCardView cardView;
         public OriginalViewHolder(View v) {
             super(v);
             tvOperatorName =  v.findViewById(R.id.tvRouteName);
             tvVehicleType =  v.findViewById(R.id.tvVehicleType);
+            tvRegistrationNumber =  v.findViewById(R.id.tvRegistrationNumber);
             tvCurrentFare =  v.findViewById(R.id.tvCurrentFare);
             cardView =  v.findViewById(R.id.card);
 
@@ -68,7 +69,8 @@ public class ItemBusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final Vehicle p = items.get(position);
             view.tvOperatorName.setText(p.getOperator_name());
-            view.tvVehicleType.setText(p.getRegistration_number()+ "\n"+ p.getVehicle_type());
+            view.tvVehicleType.setText( p.getVehicle_type());
+            view.tvRegistrationNumber.setText(p.getRegistration_number());
             view.tvCurrentFare.setText("KES "+p.getCurrent_fare());
 
 //            Tools.displayImageOriginal(ctx, view.image, p.image);

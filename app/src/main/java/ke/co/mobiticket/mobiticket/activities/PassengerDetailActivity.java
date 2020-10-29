@@ -71,7 +71,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
         prefs = AppController.getInstance().getMobiPrefs();
         initLayouts();
         String title = "Number of seats required";
-        String message = "Is " + AppController.getInstance().camelCase(prefs.getString(Constants.FIRST_NAME, "")) + " " + AppController.getInstance().camelCase(prefs.getString(Constants.LAST_NAME, "")) + " travelling? ";
+        String message = "Include ticket for " + AppController.getInstance().camelCase(prefs.getString(Constants.FIRST_NAME, "")) + " " + AppController.getInstance().camelCase(prefs.getString(Constants.LAST_NAME, "")) + " ? ";
         showYesNoDialog(title, message);
         try {
             initializeListeners();
@@ -151,7 +151,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
 
 
                     }else {
-                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+                        startActivity(NoInternetActivity.class);
                     }
 
 

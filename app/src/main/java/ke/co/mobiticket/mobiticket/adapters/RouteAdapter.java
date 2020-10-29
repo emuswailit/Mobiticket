@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,15 +43,18 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvRouteName, tvStops, tvCurrentFare, tvRoutes;
+        public LinearLayout llDynamicContent;
         public MaterialCardView cardView;
+
         public OriginalViewHolder(View v) {
             super(v);
-            tvRouteName =  v.findViewById(R.id.tvRouteName);
-            tvStops =  v.findViewById(R.id.tvStops);
-            tvCurrentFare =  v.findViewById(R.id.tvCurrentFare);
-            cardView =  v.findViewById(R.id.card);
+            tvRouteName = v.findViewById(R.id.tvRouteName);
+            tvStops = v.findViewById(R.id.tvStops);
+            tvCurrentFare = v.findViewById(R.id.tvCurrentFare);
+            cardView = v.findViewById(R.id.card);
+            llDynamicContent = v.findViewById(R.id.llDynamicContent);
 
-    }
+        }
     }
 
     @Override
@@ -64,16 +68,25 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        String str ="";
+        String str = "";
         if (holder instanceof OriginalViewHolder) {
             final OriginalViewHolder view = (OriginalViewHolder) holder;
 
             final Route p = items.get(position);
             view.tvRouteName.setText(p.getName());
-            for ( String stop: p.getStop()){
-            str+=stop+" >>> ";
+            int distance=3;
+            for (String stop : p.getStop()) {
+                str += stop + " >>> ";
+                View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
+                final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
+                final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
+                final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
+                tvBusStopName.setText(stop);
+                tvBusStopDetail.setText("Nairobi County");
+                tvBusStopDistance.setText(String.valueOf(distance=distance+2)+ " km");
+                view.llDynamicContent.addView(view1);
             }
-            view.tvStops.setText(str);
+//            view.tvStops.setText(str);
 //            view.tvCurrentFare.setText("KES "+p.getCurrent_fare());
 
 //            Tools.displayImageOriginal(ctx, view.image, p.image);
@@ -87,11 +100,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
 
 
-
-
         }
     }
-
 
 
     @Override

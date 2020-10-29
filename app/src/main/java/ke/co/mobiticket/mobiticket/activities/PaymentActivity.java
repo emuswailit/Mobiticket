@@ -1,7 +1,5 @@
 package ke.co.mobiticket.mobiticket.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +13,16 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.pojos.Ticket;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.MpesaExpressInterface;
+import ke.co.mobiticket.mobiticket.retrofit.interfaces.SearchTicketInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.MpesaExpressRequest;
+import ke.co.mobiticket.mobiticket.retrofit.requests.SearchTicketRequest;
 import ke.co.mobiticket.mobiticket.retrofit.responses.MpesaExpressResponse;
+import ke.co.mobiticket.mobiticket.retrofit.responses.SearchTicketResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
 import retrofit2.Call;
@@ -143,7 +147,7 @@ public class PaymentActivity extends BaseActivity {
 
     }
 
-    private void verifyPaymentByMpesaXPress(String payment_method_id, String reference_number, String mpesa_phone_number) {
+    private void verifyPaymentByMpesaXPress(String payment_method_id, final String reference_number, String mpesa_phone_number) {
         MpesaExpressInterface api=AppController.getInstance().getRetrofit().create(MpesaExpressInterface.class);
         MpesaExpressRequest request=new MpesaExpressRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -175,6 +179,9 @@ public class PaymentActivity extends BaseActivity {
                             Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
 //                            showCustomDialog("Mpesa Express Payment",customer_message );
 
+                            //Check if ticket is
+                            searchTicket(reference_number);
+
                         }else {
                             showCustomDialog("Mpesa Express Payment", response.body().getResponse_message());
                         }
@@ -193,6 +200,40 @@ public class PaymentActivity extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
+
+    }
+
+    private void searchTicket(String reference_number) {
+        SearchTicketInterface api=AppController.getInstance().getRetrofit().create(SearchTicketInterface.class);
+        SearchTicketRequest request=new SearchTicketRequest();
+        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
+        request.setAction(Constants.SEARCH_ACTION);
+        request.setKeywords(reference_number);
+
+        Call<SearchTicketResponse> call = api.searchTicket(request);
+        call.enqueue(new Callback<SearchTicketResponse>() {
+            @Override
+            public void onResponse(Call<SearchTicketResponse> call, Response<SearchTicketResponse> response) {
+               if (response.body()!=null){
+                   if (response.body().getResponse_code().equals("0")){
+                       showTicketDialog(response.body().getTicket());
+                   }
+
+               }else {
+                   showCustomDialog("Search Ticket","Error occurred while searching for tickets");
+               }
+            }
+
+            @Override
+            public void onFailure(Call<SearchTicketResponse> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    private void showTicketDialog(List<Ticket> ticket) {
 
     }
 

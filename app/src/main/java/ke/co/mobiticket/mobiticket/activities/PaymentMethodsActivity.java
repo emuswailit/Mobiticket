@@ -203,7 +203,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                             }
 
                         } else {
-                            showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+                            startActivity(NoInternetActivity.class);
                         }
 
 

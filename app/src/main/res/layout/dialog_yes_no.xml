@@ -9,28 +9,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:gravity="center"
         android:minHeight="120dp"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_mlarge">
+        >
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:tint="@android:color/white"
-            android:background="@drawable/ic_info"
+            android:background="@drawable/ic_seater"
             />
 
         <TextView
+
             android:id="@+id/title"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_middle"
-            android:text="Number of tickets"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="Select number of tickets"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -50,11 +50,11 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:layout_marginBottom="@dimen/spacing_xsmall"
             app:cardCornerRadius="@dimen/spacing_small"
-            app:cardElevation="@dimen/card_shadow">
+            >
             <LinearLayout
                 android:weightSum="8"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="80dp">
                 <ImageView
 
                     android:clickable="true"
@@ -62,7 +62,7 @@
                     android:id="@+id/btnSubtract"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_btn_shape"
+                    android:background="@drawable/btn_rounded_red"
                     android:contentDescription="@string/contentdescription"
                     android:fontFamily="@font/googlesansbold"
                     android:padding="@dimen/spacing_25sdp"
@@ -71,7 +71,7 @@
 android:id="@+id/tvSeatCount"
                     android:layout_gravity="center"
                     android:text="1"
-                    android:textSize="18sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_weight="2"
@@ -85,7 +85,7 @@ android:id="@+id/tvSeatCount"
                     android:layout_weight="3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_btn_shape"
+                    android:background="@drawable/btn_rounded_green"
                     android:contentDescription="@string/contentdescription"
                     android:fontFamily="@font/googlesansbold"
                     android:padding="@dimen/spacing_25sdp"
@@ -93,6 +93,7 @@ android:id="@+id/tvSeatCount"
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <TextView
+            android:textStyle="bold"
             android:layout_gravity="center"
             android:id="@+id/content"
             android:layout_width="wrap_content"
@@ -104,7 +105,16 @@ android:id="@+id/tvSeatCount"
             android:textColor="@color/grey_60" />
 
     </LinearLayout>
-
+    <com.google.android.material.card.MaterialCardView
+android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_xsmall"
+        app:cardCornerRadius="@dimen/spacing_small"
+        >
     <LinearLayout
         android:id="@+id/lyt_action"
         android:weightSum="2"
@@ -139,6 +149,7 @@ android:id="@+id/tvSeatCount"
 
 
     </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </LinearLayout>

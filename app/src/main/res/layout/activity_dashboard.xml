@@ -8,6 +8,18 @@
     android:overScrollMode="always"
     android:scrollbarAlwaysDrawVerticalTrack="true">
 
+  <androidx.core.widget.NestedScrollView
+      android:id="@+id/nested_scroll_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="none"
+      android:scrollingCache="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
   <androidx.appcompat.widget.Toolbar
 
       android:id="@+id/toolbar"
@@ -48,8 +60,10 @@
       android:layout_above="@id/bottom"
       android:layout_below="@id/toolbar" />
 
+
+  </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
   <include
       android:id="@+id/bottom"
       layout="@layout/layout_bottom_bar"/>
-
 </RelativeLayout>
