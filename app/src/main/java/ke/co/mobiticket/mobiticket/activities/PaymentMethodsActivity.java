@@ -100,6 +100,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                             //set data and list adapter
                             mAdapter = new AdapterPaymentMethods(PaymentMethodsActivity.this, resp.getPaymentmethod());
                             rvPaymentMethods.setAdapter(mAdapter);
+                            RunLayoutAnimation(rvPaymentMethods);
 
                             // on item list clicked
                             mAdapter.setOnItemClickListener(new AdapterPaymentMethods.OnItemClickListener() {

@@ -55,7 +55,7 @@ import ke.co.mobiticket.mobiticket.R;
 
 public class Tools {
 
-        public static void displayImageRound(final Context ctx, final ImageView img, @DrawableRes int drawable) {
+        public static void displayImageRound(final Context ctx, final ImageView img, @DrawableRes Drawable drawable) {
         try {
             Glide.with(ctx).load(drawable).asBitmap().centerCrop().into(new BitmapImageViewTarget(img) {
                 @Override
