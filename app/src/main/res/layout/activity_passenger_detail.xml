@@ -111,7 +111,7 @@
                                 android:layout_marginStart="@dimen/spacing_large"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/googlesansregular"
-                                android:text="Name"
+                                android:text="Name:"
                                 android:textColor="@color/textchild"
                                 android:textSize="@dimen/font_large" />
 

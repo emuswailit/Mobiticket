@@ -1,12 +1,15 @@
 package ke.co.mobiticket.mobiticket.pojos;
 
+import java.util.List;
+
 public class Route {
+    public boolean expanded=false;
     private String id;
     private String name;
     private String origin;
     private String destination;
     private String number;
-    private String [] stop;
+    private List<Stop> stop;
     private String modified;
     private String created;
     private String status;
@@ -44,11 +47,11 @@ public class Route {
         this.number = number;
     }
 
-    public String[] getStop() {
+    public List<Stop> getStop() {
         return stop;
     }
 
-    public void setStop(String[] stop) {
+    public void setStop(List<Stop> stop) {
         this.stop = stop;
     }
 

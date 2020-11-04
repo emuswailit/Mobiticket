@@ -19,6 +19,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -157,6 +158,33 @@ public class BaseActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+    public void showProgressDialog(Dialog dialog, String message) {
+        try {
+
+
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_progress);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            ProgressBar progressBar = dialog.findViewById(R.id.progress_bar);
+            TextView tvMessage = dialog.findViewById(R.id.tvMessage);
+            tvMessage.setText(message);
+
+
 
             dialog.show();
             dialog.getWindow().setAttributes(lp);

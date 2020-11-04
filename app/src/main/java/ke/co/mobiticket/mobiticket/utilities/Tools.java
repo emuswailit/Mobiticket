@@ -44,6 +44,7 @@ import androidx.core.widget.NestedScrollView;
 //import com.material.components.model.DeviceInfo;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.net.URI;
@@ -68,7 +69,15 @@ public class Tools {
         } catch (Exception e) {
         }
     }
-
+    public static void displayImageOriginal(Context ctx, ImageView img, @DrawableRes int drawable) {
+        try {
+            Glide.with(ctx).load(drawable)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(img);
+        } catch (Exception e) {
+        }
+    }
     public static void setSystemBarColor(AppCompatActivity act) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = act.getWindow();

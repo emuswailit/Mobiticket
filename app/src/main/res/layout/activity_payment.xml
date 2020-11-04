@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:background="@color/app_background"
     tools:context=".activities.PaymentActivity">
 
@@ -33,9 +34,11 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_left_arrow_white" />
+                android:src="@drawable/ic_left_arrow_white"
+                android:visibility="gone" />
 
             <TextView
+
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_medium"
-
+                    android:visibility="visible"
                     app:cardCornerRadius="@dimen/spacing_small"
                     app:cardElevation="@dimen/card_shadow">
 
@@ -89,8 +92,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:visibility="gone" />
-                        <TextView
 
+                        <TextView
+                            android:visibility="gone"
                             android:id="@+id/tvMessage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -98,9 +102,9 @@
                             android:layout_marginStart="@dimen/spacing_small"
                             android:fontFamily="@font/googlesansregular"
 
-                            android:text="Success"
+                            android:text=""
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_xxlarge" />
+                            android:textSize="@dimen/font_xlarge" />
 
 
                     </LinearLayout>
@@ -109,71 +113,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardMpesaXpress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_medium"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/spacing_small"
-                    app:cardElevation="@dimen/card_shadow">
 
-                    <LinearLayout
-                        android:background="@color/green_100"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_margin="@dimen/spacing_medium"
-                            android:layout_marginStart="@dimen/spacing_small"
-                            android:fontFamily="@font/googlesansregular"
-
-                            android:text="Mpesa Express"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
-
-                        <EditText
-
-                            android:id="@+id/etMpesaPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/spacing_medium"
-
-                            android:fontFamily="@font/googlesansregular"
-                            android:hint="Enter Mpesa number to pay from"
-                            android:inputType="phone"
-
-                            android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
-
-
-                        <Button
-                            android:id="@+id/btnMpesaExpress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:background="@drawable/bg_btn_shape"
-                            android:fontFamily="@font/googlesansbold"
-                            android:text="@string/lbl_submit"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/font_large" />
-
-                        <TextView
-                            android:id="@+id/tvMpesaExpressOutcome"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-
-                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardMpesaPaybill"
@@ -254,14 +194,14 @@
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Wallet"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_xlarge" />
 
                         <EditText
 
-                            android:layout_margin="@dimen/spacing_medium"
                             android:id="@+id/etJambopayWalletUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
                             android:fontFamily="@font/googlesansregular"
                             android:hint="Enter wallet username"
                             android:inputType="text"
@@ -274,8 +214,8 @@
                             android:id="@+id/etJambopayWalletPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
                             android:layout_marginTop="@dimen/spacing_medium"
-                         android:layout_margin="@dimen/spacing_medium"
                             android:fontFamily="@font/googlesansregular"
                             android:hint="Enter wallet password"
                             android:inputType="textPassword"
@@ -300,15 +240,15 @@
                     </LinearLayout>
 
 
-
                 </com.google.android.material.card.MaterialCardView>
+
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
                     android:id="@+id/cardJambopayAgency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_100"
                     android:layout_margin="@dimen/spacing_medium"
+                    android:background="@color/green_100"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/spacing_small"
                     app:cardElevation="@dimen/card_shadow">
 
@@ -319,6 +259,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -326,13 +267,13 @@
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Agency"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_xlarge" />
 
                         <EditText
                             android:id="@+id/etJambopayAgencyUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                           android:layout_margin="@dimen/spacing_medium"
+                            android:layout_margin="@dimen/spacing_medium"
                             android:fontFamily="@font/googlesansregular"
                             android:hint="Enter agency username"
                             android:inputType="text"
@@ -353,6 +294,134 @@
 
                         <Button
                             android:id="@+id/btnJambopayAgency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/text_done"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRedeemVoucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:background="@color/green_100"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+                            android:text="Redeem Voucher"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etVoucherNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="Enter voucher number"
+                            android:inputType="text"
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etSecurityPin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="Security pin"
+                            android:inputType="numberPassword"
+
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+                        <Button
+                            android:id="@+id/btnRedeemVoucher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_medium"
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:background="@drawable/bg_btn_shape"
+                            android:fontFamily="@font/googlesansbold"
+                            android:text="@string/text_done"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_large" />
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMpesaXpress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:background="@color/green_100"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+                            android:text="Mpesa Express"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_xlarge" />
+
+                        <EditText
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:id="@+id/etMpesaPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint="Enter Mpesa phone number"
+                            android:inputType="text"
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+
+
+                        <Button
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:id="@+id/btnMpesaExpress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_medium"
@@ -393,8 +462,17 @@
 
                             android:text="Commuter NFC Card"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_xlarge" />
 
+                        <TextView
+                            android:textSize="18sp"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:fontFamily="@font/googlesansregular"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Please tap your card! " />
 
                         <Button
                             android:id="@+id/btnCommuterNFC"
@@ -408,12 +486,50 @@
                             android:text="@string/text_done"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
 
                 </com.google.android.material.card.MaterialCardView>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lblPurchasedTickets"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Purchased tickets" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        app:cardCornerRadius="@dimen/spacing_small"
+                        app:cardElevation="@dimen/card_shadow">
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+
+                        android:id="@+id/rvRecentTickets"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        android:scrollingCache="true" />
+
+                </LinearLayout>
 
 
             </LinearLayout>

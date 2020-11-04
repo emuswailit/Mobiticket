@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView ivBack;
     private TextView tvTitle;
     private Button btnLogin;
@@ -93,11 +93,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void processLogin(String username, String password) {
+        final Dialog dialog = new Dialog(LoginActivity.this);
         ServerLoginRequest request = new ServerLoginRequest();
         request.setAction(Constants.LOGIN_ACTION);
         request.setUsername(username);
         request.setPassword(password);
-        progressBar.setVisibility(View.VISIBLE);
+        showProgressDialog(dialog,"Logging in\nPlease wait....");
 
         try {
             LoginInterface api = AppController.getInstance().getRetrofit().create(LoginInterface.class);
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 @Override
                 public void onResponse(Call<ServerLoginResponse> call, Response<ServerLoginResponse> response) {
-                    progressBar.setVisibility(View.GONE);
+                    dialog.dismiss();
 
                     if (response.body() == null) {
                         Toast.makeText(LoginActivity.this, "Error occured while loging in!", Toast.LENGTH_SHORT).show();
@@ -141,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 @Override
                 public void onFailure(Call<ServerLoginResponse> call, Throwable t) {
-                    progressBar.setVisibility(View.VISIBLE);
+                   dialog.dismiss();
                 }
             });
         } catch (Exception e) {
@@ -190,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void showCustomDialog(String title, String message) {
+    public void showCustomDialog(String title, String message) {
         try {
 
 

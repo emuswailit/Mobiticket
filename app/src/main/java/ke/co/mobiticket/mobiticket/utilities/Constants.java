@@ -54,6 +54,11 @@ public class Constants {
     public static final String TICKET_PAYMENT_METHOD_ID ="payment_method_id" ;
     public static final String TICKET_REFERENCE_NUMBER ="reference_number" ;
     public static final String AUTHORIZE_PAYMENT_ACTION ="authorizepayment" ;
+    public static final String WRITE_CARD_ACTION = "writerfcard";
+    public static final String RECENT_TICKETS ="recent_tickets" ;
+    public static final String PUBLIC_KEY ="" ;
+    public static final String PRIVATE_KEY ="" ;
+    public static final String SECRET_KEY = "";
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

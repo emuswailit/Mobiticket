@@ -48,6 +48,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
     Gson gson = new Gson();
     SharedPreferences prefs;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,6 +96,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void searchBuses(String from, String to) {
+        final Dialog dialog=new Dialog(BusListActivity.this);
         try {
             SearchVehiclesInterface api = AppController.getInstance().getRetrofit().create(SearchVehiclesInterface.class);
             ServerSearchVehiclesRequest request = new ServerSearchVehiclesRequest();
@@ -103,13 +105,14 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
             request.setTravel_to(to);
             request.setAction(Constants.SEARCH_VEHICLES);
             Call<ServerSearchVehiclesResponse> call = api.searchVehicles(request);
-            progressBar.setVisibility(View.VISIBLE);
+            String message ="Retrieving buses\n\nPlease wait.....";
+           showProgressDialog(dialog, message);
             call.enqueue(new Callback<ServerSearchVehiclesResponse>() {
 
                 @Override
                 public void onResponse(Call<ServerSearchVehiclesResponse> call, Response<ServerSearchVehiclesResponse> response) {
                     Log.e("body", gson.toJson(response.body()));
-                    progressBar.setVisibility(View.GONE);
+                    dialog.dismiss();
                     if (response.body() != null) {
 
 
@@ -161,7 +164,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onFailure(Call<ServerSearchVehiclesResponse> call, Throwable t) {
-                    progressBar.setVisibility(View.GONE);
+                    dialog.dismiss();
                     Log.e("Search vehicles error", t.toString());
                 }
             });

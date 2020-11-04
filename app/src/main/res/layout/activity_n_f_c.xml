@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height"
+        android:background="@drawable/bg_toolbar" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/Toolbar"
+        app:contentInsetStart="0dp"
+        app:title="NFC Cards"
+        app:titleTextColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_left_arrow_white" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_toStartOf="@id/ivFilter"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/googlesansextrabold"
+                android:singleLine="true"
+                android:text="NFC Cards"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_mlarge"
+                tools:text="NFC" />
+
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_filter_fill" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/bg_card">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/lblContact"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/spacing_small"
+                                    android:layout_marginTop="@dimen/spacing_medium"
+                                    android:layout_marginEnd="@dimen/spacing_medium"
+                                    android:fontFamily="@font/googlesansbold"
+                                    android:paddingStart="@dimen/spacing_small"
+                                    android:paddingEnd="@dimen/spacing_small"
+                                    android:text="@string/write_nfc_card"
+                                    android:textColor="@color/textheader"
+                                    android:textSize="@dimen/font_large" />
+
+
+
+                                <View
+                                    android:id="@+id/view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/viewheight"
+                                    android:layout_marginStart="@dimen/spacing_large"
+                                    android:background="@color/light_grey"
+                                    android:padding="@dimen/spacing_small" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:weightSum="6"
+                                    android:layout_marginStart="@dimen/spacing_medium"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="@dimen/spacing_medium"
+                                    android:layout_marginBottom="@dimen/spacing_xsmall"
+                                    android:padding="@dimen/spacing_small">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+
+                                        android:layout_weight="2"
+                                        android:fontFamily="@font/googlesansregular"
+                                        android:text="@string/lbl_username"
+                                        android:textColor="@color/textchild"
+                                        android:textSize="@dimen/font_large" />
+
+                                    <EditText
+                                        android:inputType="text"
+                                        android:id="@+id/etJambopayWalletUsername"
+                                        android:fontFamily="@font/googlesansregular"
+                                        android:hint="@string/hint_wallet_username"
+                                        android:layout_weight="4"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_weight="6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/spacing_medium"
+                                    android:layout_marginTop="@dimen/spacing_small"
+                                    android:layout_marginBottom="@dimen/spacing_small"
+                                    android:gravity="center_vertical"
+                                    android:padding="@dimen/spacing_small">
+
+                                    <TextView
+                                        android:layout_weight="2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+
+                                        android:fontFamily="@font/googlesansregular"
+
+                                        android:text="@string/wallet_password"
+                                        android:textColor="@color/textchild"
+                                        android:textSize="@dimen/font_large" />
+
+                            <EditText
+                                android:inputType="textPassword"
+                              android:id="@+id/etJambopayWalletPassword"
+                                android:fontFamily="@font/googlesansregular"
+                                android:hint="@string/hint_wallet_password"
+                                android:layout_weight="4"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                                </LinearLayout>
+
+                                <View
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/viewheight"
+                                    android:layout_marginStart="@dimen/spacing_large"
+                                    android:background="@color/light_grey"
+                                    android:padding="@dimen/spacing_small" />
+                                <ProgressBar
+                                    android:visibility="gone"
+                                    android:id="@+id/progressBar"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <LinearLayout
+                                    android:layout_weight="6"
+                                    android:layout_marginStart="@dimen/spacing_medium"
+                                    android:layout_marginEnd="@dimen/spacing_medium"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="@dimen/spacing_medium"
+                                    android:layout_marginBottom="@dimen/spacing_small"
+                                    android:padding="@dimen/spacing_small">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+
+                                        android:layout_weight="2"
+                                        android:fontFamily="@font/googlesansregular"
+                                        android:text="@string/lbl_card_type"
+                                        android:textColor="@color/textchild"
+                                        android:textSize="@dimen/font_large" />
+
+                                    <Spinner
+                                        android:id="@+id/spCardType"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="@dimen/spacing_small"
+                                        android:layout_marginEnd="@dimen/spacing_small"
+                                        android:layout_weight="4"
+                                        android:background="@android:color/transparent"
+                                        android:fontFamily="@font/googlesansregular"
+
+                                        />
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+
+
+
+
+
+
+                            <Button
+                                android:id="@+id/btnSubmit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_medium"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:background="@drawable/bg_btn_shape"
+                                android:fontFamily="@font/googlesansbold"
+                                android:text="@string/text_submit"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_large" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

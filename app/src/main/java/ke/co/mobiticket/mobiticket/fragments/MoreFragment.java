@@ -19,6 +19,7 @@ import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.CardsActivity;
 import ke.co.mobiticket.mobiticket.activities.HelpActivity;
+import ke.co.mobiticket.mobiticket.activities.NFCActivity;
 import ke.co.mobiticket.mobiticket.activities.OperatorsActivity;
 import ke.co.mobiticket.mobiticket.activities.ProfileSettingsActivity;
 import ke.co.mobiticket.mobiticket.activities.SelectionActivity;
@@ -35,7 +36,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
     /*variable declaration*/
     public static final String mTitle = "More";
-    private TextView mTvProfileSettings, mTvWallet, mTvCards, mTvOperators, mTvHelp, mTvLogout, mTvSetting;
+    private TextView mTvProfileSettings, mTvWallet, mTvCards, mTvOperators, mTvHelp, mTvLogout, mTvSetting,tvTapCard;
     private String mFlag = "1";
 
     /* create view */
@@ -56,6 +57,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         mTvHelp.setOnClickListener(this);
         mTvLogout.setOnClickListener(this);
         mTvSetting.setOnClickListener(this);
+        tvTapCard.setOnClickListener(this);
     }
 
     /* init layout */
@@ -67,6 +69,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         mTvHelp = view.findViewById(R.id.tvHelp);
         mTvLogout = view.findViewById(R.id.tvLogout);
         mTvSetting = view.findViewById(R.id.tvSetting);
+        tvTapCard = view.findViewById(R.id.tvTapCard);
     }
 
     /* onClick listener */
@@ -105,6 +108,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                     });
             AlertDialog alert = builder.create();
             alert.show();
+        }else if (v==tvTapCard){
+            startActivity(new Intent(getActivity(), NFCActivity.class));
         }
     }
 }

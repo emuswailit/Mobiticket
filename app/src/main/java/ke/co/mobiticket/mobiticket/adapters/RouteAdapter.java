@@ -1,23 +1,24 @@
 package ke.co.mobiticket.mobiticket.adapters;
 
 import android.content.Context;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.pojos.Route;
-
+import ke.co.mobiticket.mobiticket.pojos.Stop;
+import ke.co.mobiticket.mobiticket.utilities.Tools;
+import ke.co.mobiticket.mobiticket.utilities.ViewAnimation;
 
 public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -41,26 +42,28 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView tvRouteName, tvStops, tvCurrentFare, tvRoutes;
+        public ImageView image;
+        public TextView tvRouteName;
+        public ImageButton bt_expand;
+        public View lyt_expand;
+        public View lyt_parent;
         public LinearLayout llDynamicContent;
-        public MaterialCardView cardView;
 
         public OriginalViewHolder(View v) {
             super(v);
-            tvRouteName = v.findViewById(R.id.tvRouteName);
-            tvStops = v.findViewById(R.id.tvStops);
-            tvCurrentFare = v.findViewById(R.id.tvCurrentFare);
-            cardView = v.findViewById(R.id.card);
-            llDynamicContent = v.findViewById(R.id.llDynamicContent);
-
+            image = (ImageView) v.findViewById(R.id.image);
+            llDynamicContent = (LinearLayout) v.findViewById(R.id.llDynamicContent);
+            tvRouteName = (TextView) v.findViewById(R.id.tvRouteName);
+            bt_expand = (ImageButton) v.findViewById(R.id.bt_expand);
+            lyt_expand = (View) v.findViewById(R.id.lyt_expand);
+            lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_route, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_route_expand, parent, false);
         vh = new OriginalViewHolder(v);
         return vh;
     }
@@ -68,29 +71,26 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        String str = "";
         if (holder instanceof OriginalViewHolder) {
             final OriginalViewHolder view = (OriginalViewHolder) holder;
 
             final Route p = items.get(position);
             view.tvRouteName.setText(p.getName());
+
             int distance=3;
-            for (String stop : p.getStop()) {
-                str += stop + " >>> ";
+            for (Stop stop : p.getStop()) {
+
                 View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
                 final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
                 final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
                 final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
-                tvBusStopName.setText(stop);
+                tvBusStopName.setText(stop.getName());
                 tvBusStopDetail.setText("Nairobi County");
                 tvBusStopDistance.setText(String.valueOf(distance=distance+2)+ " km");
                 view.llDynamicContent.addView(view1);
             }
-//            view.tvStops.setText(str);
-//            view.tvCurrentFare.setText("KES "+p.getCurrent_fare());
-
-//            Tools.displayImageOriginal(ctx, view.image, p.image);
-            view.cardView.setOnClickListener(new View.OnClickListener() {
+            Tools.displayImageOriginal(ctx, view.image, R.drawable.ic_buslogo);
+            view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mOnItemClickListener != null) {
@@ -99,10 +99,35 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
+            view.bt_expand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean show = toggleLayoutExpand(!p.expanded, v, view.lyt_expand);
+                    items.get(position).expanded = show;
+                }
+            });
+
+
+            // void recycling view
+            if(p.expanded){
+                view.lyt_expand.setVisibility(View.VISIBLE);
+            } else {
+                view.lyt_expand.setVisibility(View.GONE);
+            }
+            Tools.toggleArrow(p.expanded, view.bt_expand, false);
 
         }
     }
 
+    private boolean toggleLayoutExpand(boolean show, View view, View lyt_expand) {
+        Tools.toggleArrow(show, view);
+        if (show) {
+            ViewAnimation.expand(lyt_expand);
+        } else {
+            ViewAnimation.collapse(lyt_expand);
+        }
+        return show;
+    }
 
     @Override
     public int getItemCount() {

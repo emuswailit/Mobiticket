@@ -124,12 +124,13 @@ public class DashboardActivity extends BaseActivity implements View.OnClickListe
                 mIvPackages.setImageResource(R.drawable.ic_package_fill);
                 break;
             case R.id.llBooking:
-                if (!mMyBookingFragment.isVisible()) {
-                    mTvTitle.setText(BookingFragment.mTitle);
-                    loadFragment(mMyBookingFragment);
-                }
-                setSelected(mIvBooking);
-                mIvBooking.setImageResource(R.drawable.ic_booking_fill);
+                startActivity(TicketsActivity.class);
+//                if (!mMyBookingFragment.isVisible()) {
+//                    mTvTitle.setText(BookingFragment.mTitle);
+//                    loadFragment(mMyBookingFragment);
+//                }
+//                setSelected(mIvBooking);
+//                mIvBooking.setImageResource(R.drawable.ic_booking_fill);
                 break;
             case R.id.llMore:
                 if (!mMoreFragment.isVisible()) {

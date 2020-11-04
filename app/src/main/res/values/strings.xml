@@ -5,19 +5,19 @@
     <string name="log_in">Log In</string>
     <string name="text_done">Done</string>
     <string name="hint_email">Enter your email</string>
-    <string name="text_phone">Phone :</string>
+    <string name="text_phone">Phone: </string>
     <string name="hint_mobile">Enter Mobile Number</string>
     <string name="text_contact_information">Contact Information</string>
-    <string name="lbl_email">Email :</string>
+    <string name="lbl_email">Email:</string>
     <string name="text_login">Log In</string>
     <string name="text_login_credentials">Log in credentials</string>
     <string name="hint_password">Password</string>
     <string name="text_password">Password:</string>
     <string name="text_register">Register</string>
     <string name="text_register_details">Enter details to begin registration</string>
-    <string name="lbl_national_id">National ID #:</string>
+    <string name="lbl_national_id">National ID:</string>
     <string name="hint_national_id">Enter national ID number</string>
-    <string name="text_yob">Year of birth</string>
+    <string name="text_yob">Year of birth:</string>
     <string name="hint_yob">Enter year of birth e.g. 1999</string>
     <string name="text_submit">Submit</string>
     <string name="lbl_firstname">First Name:</string>
@@ -156,6 +156,14 @@
     <string name="lbl_submit">Submit</string>
     <string name="RETRY">Retry</string>
     <string name="owner_travelling">Is account owner travelling?</string>
+    <string name="lbl_tap_cards">Tap Cards</string>
+    <string name="write_nfc_card">Enter NFC card details</string>
+    <string name="wallet_password">Password</string>
+    <string name="hint_wallet_password">Jambopay wallet password</string>
+    <string name="hint_wallet_username">Jambopay wallet username</string>
+    <string name="lbl_card_type">Card Type:</string>
+    <string name="bookings">My Tickets</string>
+    <string name="action_search">Search</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
@@ -168,5 +176,18 @@
         <item>Non AC</item>
         <item>Normal</item>
     </string-array>
+    <string name="title_activity_bookings">BookingsActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_tickets">TicketsActivity</string>
+    <string name="toolbar_title">My tickets</string>
+    <string name="text_searched">Current search results</string>
+    <string name="stops_on_route">Stops along this route</string>
 
 </resources>

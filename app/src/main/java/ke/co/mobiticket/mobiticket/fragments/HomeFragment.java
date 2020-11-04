@@ -43,6 +43,7 @@ import java.util.Objects;
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.BusListActivity;
+import ke.co.mobiticket.mobiticket.activities.DashboardActivity;
 import ke.co.mobiticket.mobiticket.activities.NoInternetActivity;
 import ke.co.mobiticket.mobiticket.adapters.RouteAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Route;
@@ -79,29 +80,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProgressBar progressBar;
     MaterialCardView cardSearchRoutes;
     MaterialCardView cardSearchDestinations;
-
-    private final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            mDepartDateCalendar.set(Calendar.YEAR, year);
-            mDepartDateCalendar.set(Calendar.MONTH, monthOfYear);
-            mDepartDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
+    Dialog dialog;
 
 
-    };
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /* update label */
-    private void updateLabel() {
-        mEdDepartDate.setText(Constants.DateFormat.DAY_MONTH_YEAR_FORMATTER.format(mDepartDateCalendar.getTime()));
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,12 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         setListener();
         getData();
 
-//        setOfferAdapter();
 
-        if (mDepartDateCalendar == null) {
-            mDepartDateCalendar = Calendar.getInstance();
-        }
-        updateLabel();
         return view;
     }
 
@@ -126,77 +108,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListener() {
-        mSearch.setOnClickListener(this);
 
-//        mEdDepartDate.setOnClickListener(this); //Disable date select in intracity
-        mIvDescrease.setOnClickListener(this);
-        mIvIncrease.setOnClickListener(this);
-        mIvSwap.setOnClickListener(this);
         btnSearchWhereTo.setOnClickListener(this);
 
-        mEdFromCity.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mEdFromCity.length() > 0) {
-                    mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    mView.setAlpha(0.2f);
-                } else {
-                    mView.setBackgroundColor(getResources().getColor(R.color.view_color));
-                }
-            }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        mEdToCity.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //  if (validate()) {
-                    mFrom = mEdFromCity.getText().toString();
-                    mTo = mEdToCity.getText().toString();
-                    Intent intent = new Intent(getActivity(), BusListActivity.class);
-                    intent.putExtra(Constants.intentdata.TRIP_KEY, mEdFromCity.getText().toString() + " To " + mEdToCity.getText().toString());
-                    startActivity(intent);
-                    //  }
-                    return true;
-                }
-                return false;
-            }
-
-        });
     }
 
     private void initView(View view) {
         cardSearchDestinations = view.findViewById(R.id.cardSearchDestination);
-        labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
-        cardSearchRoutes = view.findViewById(R.id.cardSearchRoutes);
+
         btnSearchWhereTo = view.findViewById(R.id.btnSearchWhereTo);
 
         etWhereTo = view.findViewById(R.id.etWhereTo);
         progressBar = view.findViewById(R.id.progressBar);
-        mEdDepartDate = view.findViewById(R.id.edOneWay);
+
         rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
+        labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
 
-        mEdFromCity = view.findViewById(R.id.edFromCity);
-        mEdToCity = view.findViewById(R.id.edToCity);
-        mIvDescrease = view.findViewById(R.id.ivDescrease);
-        mIvIncrease = view.findViewById(R.id.ivIncrease);
-        mTvCount = view.findViewById(R.id.tvCount);
-        mView = view.findViewById(R.id.view2);
-        mIvSwap = view.findViewById(R.id.ivSwap);
-        mSearch = view.findViewById(R.id.btnSearch);
 
-        destinations = new String[]{getString(R.string.lbl_cbd), getString(R.string.lbl_koja), getString(R.string.lbl_ngumba), getString(R.string.lbl_ruiru)};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_items, destinations);
-        mEdFromCity.setThreshold(1);
-        mEdFromCity.setAdapter(adapter);
-        mEdToCity.setThreshold(1);
-        mEdToCity.setAdapter(adapter);
 
-        mIvDescrease.setVisibility(View.INVISIBLE);
+
 
     }
 
@@ -212,6 +144,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         try {
                             searchWhereTo(search);
                         }catch (Exception e){
+                            Log.e("Error:search", e.toString());
                             Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -225,89 +158,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.edOneWay:
 
-                DatePickerDialog datePickerDialogs = new DatePickerDialog(getActivity(), date, mDepartDateCalendar
-                        .get(Calendar.YEAR), mDepartDateCalendar.get(Calendar.MONTH),
-                        mDepartDateCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialogs.getDatePicker().setMinDate(new Date().getTime());
-                datePickerDialogs.show();
-                break;
 
-            case R.id.ivSwap:
-                String mFromCity = mEdFromCity.getText().toString();
-                String mToCity = mEdToCity.getText().toString();
-                Animation startRotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
-                mIvSwap.startAnimation(startRotateAnimation);
-                mFromCity = mFromCity + mToCity;
-                mToCity = mFromCity.substring(0, mFromCity.length() - mToCity.length());
-                mFromCity = mFromCity.substring(mToCity.length());
-                mEdFromCity.setText(mFromCity);
-                mEdToCity.setText(mToCity);
-                mEdFromCity.setSelection(mFromCity.length());
-                mEdToCity.setSelection(mToCity.length());
-                break;
-            case R.id.ivDescrease:
-                mValue = mValue - 1;
-                mTvCount.setText(String.valueOf(mValue));
 
-                if (mValue <= 1) {
 
-                    ((BaseActivity) Objects.requireNonNull(getActivity())).invisibleView(mIvDescrease);
 
-                } else {
-
-                    ((BaseActivity) getActivity()).showView(mIvDescrease);
-                    mTvCount.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    mTvCount.setTextColor(getResources().getColor(R.color.colorPrimary));
-                }
-                break;
-            case R.id.ivIncrease:
-                mValue = mValue + 1;
-
-                if (mValue < 1) {
-                    mValue = 1;
-
-                } else {
-
-                    if (mValue == 1) ((BaseActivity) getActivity()).invisibleView(mIvDescrease);
-                    else
-                        ((BaseActivity) Objects.requireNonNull(getActivity())).showView(mIvDescrease);
-                    mTvCount.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    mTvCount.setText(String.valueOf(mValue));
-                    mTvCount.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                }
-                break;
-            case R.id.btnSearch:
-                //    if (validate()) {
-
-                mFrom = mEdFromCity.getText().toString();
-                mTo = mEdToCity.getText().toString();
-                if (mFrom.equals("") || mFrom.isEmpty()) {
-                    Toast.makeText(getActivity(), "Please select origin", Toast.LENGTH_SHORT).show();
-                } else if (mTo.equals("") || mTo.isEmpty()) {
-                    Toast.makeText(getActivity(), "Please select destination", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt(Constants.SEAT_COUNT, Integer.valueOf(mTvCount.getText().toString()));
-                    editor.putString(Constants.TICKET_TRAVEL_FROM, mFrom);
-                    editor.putString(Constants.TICKET_PICKUP_POINT, mFrom);
-                    editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
-                    editor.putString(Constants.TICKET_TRAVEL_TO, mTo);
-                    editor.putString(Constants.TICKET_DROPOFF_POINT, mTo);
-                    editor.apply();
-
-                    Intent intent = new Intent(getActivity(), BusListActivity.class);
-                    intent.putExtra(Constants.intentdata.TRIP_KEY, mFrom + " To " + mTo);
-                    intent.putExtra(Constants.intentdata.FROM, mFrom);
-                    intent.putExtra(Constants.intentdata.TO, mTo);
-                    startActivity(intent);
-                }
-
-                //    }
-                break;
         }
     }
 
@@ -319,16 +174,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         request.setAction(Constants.SEARCH_ACTION);
         Gson gson=new Gson();
         Log.e("clicked",gson.toJson(request));
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
+        dialog= new Dialog(getActivity());
+        String message="Retrieving destinations\n\nPlease wait...";
+        showProgressDialog(dialog, message);
         Call<SearchRoutesResponse> call = api.retrieveRoutes(request);
         call.enqueue(new Callback<SearchRoutesResponse>() {
             @Override
             public void onResponse(Call<SearchRoutesResponse> call, Response<SearchRoutesResponse> response) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 SearchRoutesResponse searchRoutesResponse=response.body();
                 if (response.body() !=null) {
                     if (searchRoutesResponse.getResponse_code().equals("0")) {
-                        cardSearchRoutes.setVisibility(View.VISIBLE);
+//                        cardSearchRoutes.setVisibility(View.VISIBLE);
                         rvSearchRoutes.setLayoutManager(new LinearLayoutManager(getActivity()));
 //                    rvSearchRoutes.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
                         rvSearchRoutes.setHasFixedSize(true);
@@ -349,7 +208,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
-                                    editor.putString(Constants.TICKET_TRAVEL_DATE, Constants.DateFormat.YEAR_MONTH_DAY_FORMATTER.format(mDepartDateCalendar.getTime()));
                                     editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
                                     editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
                                     editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
@@ -381,7 +239,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<SearchRoutesResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 Log.e("Error",t.getLocalizedMessage());
             }
         });
@@ -435,6 +294,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     dialog.dismiss();
                 }
             });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+    public void showProgressDialog(Dialog dialog, String message) {
+        try {
+
+
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_progress);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            ProgressBar progressBar = dialog.findViewById(R.id.progress_bar);
+            TextView tvMessage = dialog.findViewById(R.id.tvMessage);
+            tvMessage.setText(message);
+
+
 
             dialog.show();
             dialog.getWindow().setAttributes(lp);

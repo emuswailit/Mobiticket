@@ -55,6 +55,7 @@ public class PaymentMethodsActivity extends BaseActivity {
     AdapterPaymentMethods mAdapter;
     List<Passenger> passengerList;
     Gson gson = new Gson();
+    Dialog dialog;
 
 
     @Override
@@ -63,12 +64,13 @@ public class PaymentMethodsActivity extends BaseActivity {
         setContentView(R.layout.activity_payment_methods);
         initLayouts();
         prefs = AppController.getInstance().getMobiPrefs();
+
         String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
         Log.e("retrievePassengers", passengerListString);
         if (passengerListString.isEmpty() || passengerListString.equals("")) {
             finish();
         } else {
-            Gson gson = new Gson();
+
             passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
 
             for (Passenger passenger : passengerList) {
@@ -95,13 +97,15 @@ public class PaymentMethodsActivity extends BaseActivity {
         RetrievePaymentMethodsRequest request = new RetrievePaymentMethodsRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.READ_ACTION);
-        progressBar.setVisibility(View.VISIBLE);
+        dialog=new Dialog(PaymentMethodsActivity.this);
+        String message= "Retrieving payment methods\n\nPlease wait.....";
+        showProgressDialog(dialog, message);
 
         Call<RetrievePaymentMethodResponse> call = api.retrievePaymentMethods(request);
         call.enqueue(new Callback<RetrievePaymentMethodResponse>() {
             @Override
             public void onResponse(Call<RetrievePaymentMethodResponse> call, Response<RetrievePaymentMethodResponse> response) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 if (response.body() != null) {
                     RetrievePaymentMethodResponse resp = response.body();
                     if (resp.getResponse_code().equals("0")) {
@@ -142,7 +146,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<RetrievePaymentMethodResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+               dialog.dismiss();
             }
         });
     }
@@ -224,7 +228,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
                             //Set payment method to tickets
                             passenger.setVehicle_id(prefs.getString(Constants.TICKET_VEHICLE_ID, ""));
-                            passenger.setTotal_fare(prefs.getString(Constants.TICKET_TOTAL_FARE, ""));
+                            passenger.setTotal_fare(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
                             passenger.setOperator_id(prefs.getString(Constants.TICKET_VEHICLE_OPERATOR_ID, ""));
                             passenger.setTrip_number(prefs.getString(Constants.TICKET_VEHICLE_TRIP_NUMBER, ""));
                             passenger.setTicketing_agent_id(prefs.getString(Constants.ID, ""));
@@ -275,12 +279,14 @@ public class PaymentMethodsActivity extends BaseActivity {
         Log.e("tickets", gson.toJson(passengerList));
         Log.e("request", gson.toJson(request));
         Call<ReserveTicketResponse> call = api.reserveTickets(request);
-
-        progressBar.setVisibility(View.VISIBLE);
+        dialog=new Dialog(PaymentMethodsActivity.this);
+        String message="Making reservation\n\nPlease wait.....";
+showProgressDialog(dialog, message);
+//        progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ReserveTicketResponse>() {
             @Override
             public void onResponse(Call<ReserveTicketResponse> call, Response<ReserveTicketResponse> response) {
-                progressBar.setVisibility(View.GONE);
+               dialog.dismiss();
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         Toast.makeText(PaymentMethodsActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
@@ -305,7 +311,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ReserveTicketResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 Log.e("the error", Objects.requireNonNull(t.getLocalizedMessage()));
             }
         });
@@ -313,6 +319,7 @@ public class PaymentMethodsActivity extends BaseActivity {
     }
 
     private void confirmReservation(final String reference_number, final String payment_method_id) {
+        final Dialog dialog=new Dialog(PaymentMethodsActivity.this);
         ConfirmReservationInterface api = AppController.getInstance().getRetrofit().create(ConfirmReservationInterface.class);
         ConfirmReservationRequest request = new ConfirmReservationRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -320,11 +327,11 @@ public class PaymentMethodsActivity extends BaseActivity {
         request.setKeywords(reference_number);
 
         Call<ConfirmReservationResponse> call = api.confirmTicketReservation(request);
-        progressBar.setVisibility(View.VISIBLE);
+        showProgressDialog(dialog, "Confirming reservation.\n\nPlease wait....");
         call.enqueue(new Callback<ConfirmReservationResponse>() {
             @Override
             public void onResponse(Call<ConfirmReservationResponse> call, Response<ConfirmReservationResponse> response) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         SharedPreferences.Editor editor = prefs.edit();
@@ -341,13 +348,13 @@ public class PaymentMethodsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ConfirmReservationResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
             }
         });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        //No back press
-//    }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

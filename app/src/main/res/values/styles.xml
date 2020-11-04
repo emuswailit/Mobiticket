@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
     <!--style for ripple library-->
     <style name="RippleStyleWhite">
@@ -16,12 +18,14 @@
     </style>
 
     /* Toolbar theme */
+
     <style name="Toolbar">
         <item name="android:fontFamily">@font/googlesansextrabold</item>
     </style>
     /* Rating bar theme */
 
     /* Rating bar theme */
+
     <style name="RatingBar" parent="Theme.MaterialComponents">
         <item name="colorControlNormal">@color/rating</item>
         <item name="colorControlActivated">@color/rating</item>
@@ -30,7 +34,17 @@
     <style name="RippleStyleBlack" parent="RippleStyleWhite">
         <item name="mrl_rippleColor">#8096989A</item>
     </style>
+
     <style name="RippleStyleDark" parent="RippleStyleWhite">
         <item name="mrl_rippleColor">#80000000</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -172,18 +172,18 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void generateReferenceNumber(final List<Passenger> passengerList) {
-
+final Dialog dialog=new Dialog(PassengerDetailActivity.this);
         //Generate reference number for the tickets
         GenerateReferenceNumberInterface api= AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
         GenerateReferenceNumberRequest request= new GenerateReferenceNumberRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.CREATE_REF_NUMBER_ACTION);
-        progressBar.setVisibility(View.VISIBLE);
+       showProgressDialog(dialog, "Saving details\n\nPlease wait.....");
         Call<GenerateReferenceNumberResponse> call= api.generateReferenceNumber(request);
         call.enqueue(new Callback<GenerateReferenceNumberResponse>() {
             @Override
             public void onResponse(Call<GenerateReferenceNumberResponse> call, Response<GenerateReferenceNumberResponse> response) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 if (response.body() !=null ){
                     GenerateReferenceNumberResponse referenceNumberResponse=response.body();
 
@@ -203,7 +203,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onFailure(Call<GenerateReferenceNumberResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
             }
         });
 
