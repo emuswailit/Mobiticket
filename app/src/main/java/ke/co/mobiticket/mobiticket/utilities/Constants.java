@@ -59,6 +59,7 @@ public class Constants {
     public static final String PUBLIC_KEY ="" ;
     public static final String PRIVATE_KEY ="" ;
     public static final String SECRET_KEY = "";
+    public static final String RECENT_ROUTES ="" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

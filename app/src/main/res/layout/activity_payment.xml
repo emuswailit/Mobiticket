@@ -134,10 +134,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/spacing_small"
-                            android:fontFamily="@font/googlesansregular"
+                            android:fontFamily="@font/googlesansextrabold"
                             android:text="Mpesa Paybill"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
+
+                            android:textSize="@dimen/font_xlarge" />
 
                         <TextView
                             android:id="@+id/tvMpesaPaybillPrompt"
@@ -193,7 +193,6 @@
                             android:layout_marginStart="@dimen/spacing_small"
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Wallet"
-                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/font_xlarge" />
 
                         <EditText
@@ -219,7 +218,6 @@
                             android:fontFamily="@font/googlesansregular"
                             android:hint="Enter wallet password"
                             android:inputType="textPassword"
-
                             android:textColor="@color/textchild"
                             android:textSize="@dimen/font_large" />
 
@@ -266,7 +264,6 @@
                             android:layout_marginStart="@dimen/spacing_small"
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Agency"
-                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/font_xlarge" />
 
                         <EditText
@@ -285,7 +282,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
-                            android:fontFamily="@font/googlesansregular"
+                            android:fontFamily="@font/googlesansextrabold"
                             android:hint="Enter agency password"
                             android:inputType="textPassword"
 
@@ -332,10 +329,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/spacing_small"
-                            android:fontFamily="@font/googlesansregular"
+                            android:fontFamily="@font/googlesansextrabold"
                             android:text="Redeem Voucher"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/font_large" />
+
+                            android:textSize="@dimen/font_xlarge" />
 
                         <EditText
                             android:id="@+id/etVoucherNumber"
@@ -400,9 +397,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/spacing_small"
-                            android:fontFamily="@font/googlesansregular"
+                            android:fontFamily="@font/googlesansextrabold"
                             android:text="Mpesa Express"
-                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/font_xlarge" />
 
                         <EditText
@@ -458,10 +454,10 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/spacing_small"
-                            android:fontFamily="@font/googlesansregular"
+                            android:fontFamily="@font/googlesansextrabold"
 
                             android:text="Commuter NFC Card"
-                            android:textColor="@color/colorPrimary"
+
                             android:textSize="@dimen/font_xlarge" />
 
                         <TextView

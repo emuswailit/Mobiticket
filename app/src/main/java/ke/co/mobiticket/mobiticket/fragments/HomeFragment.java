@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,14 +31,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import ke.co.mobiticket.mobiticket.R;
@@ -45,6 +51,7 @@ import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.BusListActivity;
 import ke.co.mobiticket.mobiticket.activities.DashboardActivity;
 import ke.co.mobiticket.mobiticket.activities.NoInternetActivity;
+import ke.co.mobiticket.mobiticket.adapters.LazyAdapterBusStops;
 import ke.co.mobiticket.mobiticket.adapters.RouteAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Route;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.RouteDetailInterface;
@@ -76,12 +83,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView mTvCount;
     private String[] destinations;
     SharedPreferences prefs;
-    private RecyclerView rvSearchRoutes;
+    private RecyclerView rvSearchRoutes, rvRecentSearch;
     private ProgressBar progressBar;
     MaterialCardView cardSearchRoutes;
     MaterialCardView cardSearchDestinations;
     Dialog dialog;
-
+    List<Route> recentSearches = new ArrayList<>();
+    private String recentRoutesListString;
+    Gson gson = new Gson();
 
 
     public HomeFragment() {
@@ -89,16 +98,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         prefs = AppController.getInstance().getMobiPrefs();
+
         initView(view);
         setListener();
         getData();
 
+        Log.e("recents", prefs.getString(Constants.RECENT_ROUTES, ""));
+        Log.e("recentSearches", String.valueOf(recentSearches.size()));
 
         return view;
     }
@@ -112,7 +123,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnSearchWhereTo.setOnClickListener(this);
 
 
-
     }
 
     private void initView(View view) {
@@ -124,10 +134,67 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         progressBar = view.findViewById(R.id.progressBar);
 
         rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
+        rvRecentSearch = view.findViewById(R.id.rvRecentSearch);
         labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
 
 
+        recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
+        try {
+            recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
+        } catch (Exception e) {
 
+        }
+
+//        recentSearches.clear();
+//
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        editor.putString(Constants.RECENT_ROUTES, "");
+//        editor.apply();
+
+        if (recentSearches.size() > 0) {
+
+            try {
+
+
+                //                        cardSearchRoutes.setVisibility(View.VISIBLE);
+                rvRecentSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                    rvSearchRoutes.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
+                rvRecentSearch.setHasFixedSize(true);
+                //set data and list adapter
+                RouteAdapter routeAdapter = new RouteAdapter(getActivity(), recentSearches);
+                rvRecentSearch.setAdapter(routeAdapter);
+                routeAdapter.setOnItemClickListener(new RouteAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, Route obj, int position) {
+//                                retrieveRouteDetail(obj.getId());
+//                                cardSearchRoutes.setVisibility(View.GONE);
+////                                cardSearchDestinations.setVisibility(View.GONE);
+                        Log.e("id", obj.getId());
+                        Log.e("from", obj.getOrigin());
+                        Log.e("to", obj.getDestination());
+                        showDialogPoints(obj);
+
+//                        SharedPreferences.Editor editor = prefs.edit();
+//                        editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+//                        editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+//                        editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
+//                        editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
+//                        editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
+//                        editor.apply();
+//
+//                        Intent intent = new Intent(getActivity(), BusListActivity.class);
+//                        intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
+//                        intent.putExtra(Constants.intentdata.FROM, mFrom);
+//                        intent.putExtra(Constants.intentdata.TO, mTo);
+//                        startActivity(intent);
+                    }
+                });
+
+            } catch (Exception e) {
+                Log.e("err", e.toString());
+            }
+        }
 
 
     }
@@ -139,16 +206,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.btnSearchWhereTo:
 
                 String search = etWhereTo.getText().toString();
-                if (!search.isEmpty()||!search.equals("")) {
-                    if (AppController.getInstance().isNetworkConnected()){
+                if (!search.isEmpty() || !search.equals("")) {
+                    if (AppController.getInstance().isNetworkConnected()) {
                         try {
                             searchWhereTo(search);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Log.e("Error:search", e.toString());
                             Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
                         }
 
-                    }else {
+                    } else {
 //                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
                         startActivity(new Intent(getActivity(), NoInternetActivity.class));
                     }
@@ -157,10 +224,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "Enter your destination!", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
-
-
-
 
 
         }
@@ -172,11 +235,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setKeywords(search);
         request.setAction(Constants.SEARCH_ACTION);
-        Gson gson=new Gson();
-        Log.e("clicked",gson.toJson(request));
+        final Gson gson = new Gson();
+        Log.e("clicked", gson.toJson(request));
 //        progressBar.setVisibility(View.VISIBLE);
-        dialog= new Dialog(getActivity());
-        String message="Retrieving destinations\n\nPlease wait...";
+        dialog = new Dialog(getActivity());
+        String message = "Retrieving destinations\n\nPlease wait...";
         showProgressDialog(dialog, message);
         Call<SearchRoutesResponse> call = api.retrieveRoutes(request);
         call.enqueue(new Callback<SearchRoutesResponse>() {
@@ -184,8 +247,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<SearchRoutesResponse> call, Response<SearchRoutesResponse> response) {
 //                progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
-                SearchRoutesResponse searchRoutesResponse=response.body();
-                if (response.body() !=null) {
+                SearchRoutesResponse searchRoutesResponse = response.body();
+                if (response.body() != null) {
                     if (searchRoutesResponse.getResponse_code().equals("0")) {
 //                        cardSearchRoutes.setVisibility(View.VISIBLE);
                         rvSearchRoutes.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -205,22 +268,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                     Log.e("id", obj.getId());
                                     Log.e("from", obj.getOrigin());
                                     Log.e("to", obj.getDestination());
+                                    showDialogPoints(obj);
 
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
-                                    editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
-                                    editor.putString(Constants.TICKET_PICKUP_POINT, obj.getOrigin());
-                                    editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getDestination());
-                                    editor.apply();
-
-                                    Intent intent = new Intent(getActivity(), BusListActivity.class);
-                                    intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
-                                    intent.putExtra(Constants.intentdata.FROM, mFrom);
-                                    intent.putExtra(Constants.intentdata.TO, mTo);
-                                    startActivity(intent);
                                 }
                             });
-                            labelSearchRoutes.setText(searchRoutesResponse.getRoute().size() + " routes retrieved for your search \" " + search + " \"");
+                            labelSearchRoutes.setText(searchRoutesResponse.getRoute().size() + " routes retrieved for \" " + search + "\"");
                         } else {
                             labelSearchRoutes.setText("No routes retrieved for criteria \" " + search + " \" ");
                         }
@@ -232,8 +284,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         showCustomDialog(title, message);
                     }
 
-                }else {
-                    showCustomDialog("Search destinations","An error occurred!");
+                } else {
+                    showCustomDialog("Search destinations", "An error occurred!");
                 }
             }
 
@@ -241,19 +293,113 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onFailure(Call<SearchRoutesResponse> call, Throwable t) {
 //                progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
-                Log.e("Error",t.getLocalizedMessage());
+                Log.e("Error", t.getLocalizedMessage());
             }
         });
 
     }
 
+    private void showDialogPoints(final Route obj) {
+        try {
+
+
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_points);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            //Spinner for pickup point
+            Spinner spPickUpPoint = dialog.findViewById(R.id.spPickUpPoint);
+            LazyAdapterBusStops lazyPickupPoint = new LazyAdapterBusStops(getActivity(), obj.getStop());
+            lazyPickupPoint.notifyDataSetChanged();
+            spPickUpPoint.setAdapter(lazyPickupPoint);
+            spPickUpPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    Log.e("pickuppoint", obj.getStop().get(position).getId());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(Constants.TICKET_PICKUP_POINT, obj.getStop().get(position).getId());
+                    editor.apply();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+            Spinner spDropoffPoint = dialog.findViewById(R.id.spDropoffPoint);
+            LazyAdapterBusStops lazyDropOffPoint = new LazyAdapterBusStops(getActivity(), obj.getStop());
+            lazyDropOffPoint.notifyDataSetChanged();
+            spDropoffPoint.setAdapter(lazyPickupPoint);
+            spDropoffPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    Log.e("dropoffpoint", obj.getStop().get(position).getId());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getStop().get(position).getId());
+                    editor.apply();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+            ((Button) dialog.findViewById(R.id.btnSubmit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+//                                    Only 10 recent searches will be remembered
+                    if (recentSearches.size() < 10) {
+                        recentSearches.add(obj);
+                    } else {
+                        recentSearches.remove(0);
+                        recentSearches.add(obj);
+                    }
+
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+                    editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+                    editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
+                    editor.apply();
+
+                    Intent intent = new Intent(getActivity(), BusListActivity.class);
+                    intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
+                    intent.putExtra(Constants.intentdata.FROM, mFrom);
+                    intent.putExtra(Constants.intentdata.TO, mTo);
+                    startActivity(intent);
+
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
     private void retrieveRouteDetail(String id) {
-        RouteDetailInterface api=AppController.getInstance().getRetrofit().create(RouteDetailInterface.class);
-        RouteDetailsRequest request= new RouteDetailsRequest();
+        RouteDetailInterface api = AppController.getInstance().getRetrofit().create(RouteDetailInterface.class);
+        RouteDetailsRequest request = new RouteDetailsRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setId(id);
         request.setAction(Constants.READ_ONE_ACTION);
-        Call<RouteDetailsResponse> call=api.retrieveRouteDetails(request);
+        Call<RouteDetailsResponse> call = api.retrieveRouteDetails(request);
         progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<RouteDetailsResponse>() {
             @Override
@@ -263,7 +409,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<RouteDetailsResponse> call, Throwable t) {
-                    progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -290,7 +436,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+
                     dialog.dismiss();
                 }
             });
@@ -306,7 +452,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         try {
 
 
-
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
             dialog.setContentView(R.layout.dialog_progress);
             dialog.setCancelable(false);
@@ -319,7 +464,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             ProgressBar progressBar = dialog.findViewById(R.id.progress_bar);
             TextView tvMessage = dialog.findViewById(R.id.tvMessage);
             tvMessage.setText(message);
-
 
 
             dialog.show();

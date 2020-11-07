@@ -123,22 +123,64 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                     passengerList.add(passenger);
                 }
 
-                for (PassengerInput pi : passengerInputList) {
-                    String first_name = pi.getEtFirstName().getText().toString();
-                    String last_name = pi.getEtLastName().getText().toString();
-                    String email = pi.getEtEmail().getText().toString();
-                    String phone = pi.getEtPhone().getText().toString();
-                    Log.e("full names", first_name + " " + last_name);          Passenger passenger = new Passenger();
-                    passenger.setSource(Constants.SOURCE);
-                    passenger.setMsisdn(phone);
-                    passenger.setEmail_address(email);
-                    passenger.setFirst_name(first_name);
-                    passenger.setLast_name(last_name);
-                    passenger.setMiddle_name(" ");
+//                for (PassengerInput pi : passengerInputList) {
+//
+//                    String last_name = pi.getEtLastName().getText().toString();
+//                    String email = pi.getEtEmail().getText().toString();
+//                    String phone = pi.getEtPhone().getText().toString();
+////                    Log.e("full names", first_name + " " + last_name);
+//
+//                   if (pi.getEtFirstName().getText().toString().isEmpty()||pi.getEtFirstName().getText().toString().equals("")){
+//                       Toast.makeText(this, "First name is required!", Toast.LENGTH_SHORT).show();
+//                   }else{
+//                       String first_name = pi.getEtFirstName().getText().toString();
+//                       Passenger passenger = new Passenger();
+//
+//                       passenger.setSource(Constants.SOURCE);
+//                       passenger.setMsisdn(phone);
+//                       passenger.setEmail_address(email);
+//                       passenger.setFirst_name(first_name);
+//                       passenger.setLast_name(last_name);
+//                       passenger.setMiddle_name(" ");
+//
+//                       passengerList.add(passenger);
+//                   }
+//
+//                }
 
-                    passengerList.add(passenger);
+
+                for (int i=0;i<passengerInputList.size();i++) {
+                    if (passengerInputList.get(i).getEtFirstName().getText().toString().isEmpty() || passengerInputList.get(i).getEtFirstName().getText().toString().equals("")) {
+                        Toast.makeText(this, "First name is required!", Toast.LENGTH_SHORT).show();
+                        passengerInputList.get(i).getEtFirstName().setError("First name is required!");
+                        return;
+                    } else if (passengerInputList.get(i).getEtLastName().getText().toString().isEmpty() || passengerInputList.get(i).getEtLastName().getText().toString().equals("")) {
+                        Toast.makeText(this, "Last name is required!", Toast.LENGTH_SHORT).show();
+                        passengerInputList.get(i).getEtLastName().setError("Last name is required!");
+                        return;
+                    } else if (passengerInputList.get(i).getEtPhone().getText().toString().isEmpty() || passengerInputList.get(i).getEtPhone().getText().toString().equals("")) {
+                        Toast.makeText(this, "Phone number is required!", Toast.LENGTH_SHORT).show();
+                        passengerInputList.get(i).getEtPhone().setError("First name is required!");
+                        return;
+                    } else {
+
+                        String last_name = passengerInputList.get(i).getEtLastName().getText().toString();
+                        String first_name = passengerInputList.get(i).getEtFirstName().getText().toString();
+                        String phone = passengerInputList.get(i).getEtPhone().getText().toString();
+                        String email = passengerInputList.get(i).getEtEmail().getText().toString();
+
+                        Passenger passenger = new Passenger();
+
+                        passenger.setSource(Constants.SOURCE);
+                        passenger.setMsisdn(phone);
+                        passenger.setEmail_address(email);
+                        passenger.setFirst_name(first_name);
+                        passenger.setLast_name(last_name);
+                        passenger.setMiddle_name(" ");
+
+                        passengerList.add(passenger);
+                    }
                 }
-
                 if (passengerList.size()>0){
                     if (AppController.getInstance().isNetworkConnected()){
                         try{
@@ -378,7 +420,7 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
                     }
                 }
             });
-            mTvSeatNo.setText("Passenger " + String.valueOf(i));
+            mTvSeatNo.setText("Passenger " + String.valueOf(i)+" details:");
             mLlDynamicContent.addView(view1);
         }
         mBtnBook.setVisibility(View.VISIBLE);

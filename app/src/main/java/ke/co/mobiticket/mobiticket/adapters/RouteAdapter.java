@@ -2,6 +2,9 @@ package ke.co.mobiticket.mobiticket.adapters;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +47,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView tvRouteName;
+        public TextView tvStops;
         public ImageButton bt_expand;
         public View lyt_expand;
         public View lyt_parent;
@@ -54,6 +58,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             image = (ImageView) v.findViewById(R.id.image);
             llDynamicContent = (LinearLayout) v.findViewById(R.id.llDynamicContent);
             tvRouteName = (TextView) v.findViewById(R.id.tvRouteName);
+            tvStops = (TextView) v.findViewById(R.id.tvStops);
             bt_expand = (ImageButton) v.findViewById(R.id.bt_expand);
             lyt_expand = (View) v.findViewById(R.id.lyt_expand);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
@@ -76,18 +81,46 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final Route p = items.get(position);
             view.tvRouteName.setText(p.getName());
+            view.tvStops.setText("Listed stops on this route: "+String.valueOf(p.getStop().size()));
 
-            int distance=3;
-            for (Stop stop : p.getStop()) {
 
-                View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
-                final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
-                final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
-                final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
-                tvBusStopName.setText(stop.getName());
-                tvBusStopDetail.setText("Nairobi County");
-                tvBusStopDistance.setText(String.valueOf(distance=distance+2)+ " km");
-                view.llDynamicContent.addView(view1);
+
+
+            try {
+                Location originStop = new Location("");
+                Location destinationStop = new Location("");
+
+                for (int i=0;i<p.getStop().size();i++){
+                    originStop.setLatitude(Double.valueOf(p.getStop().get(0).getLat()));
+                    originStop.setLongitude(Double.valueOf(p.getStop().get(0).getLng()));
+
+                    destinationStop.setLatitude(Double.valueOf(p.getStop().get(i).getLat()));
+                    destinationStop.setLongitude(Double.valueOf(p.getStop().get(i).getLng()));
+
+
+                    View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
+                    final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
+                    final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
+                    final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
+                    tvBusStopName.setText(p.getStop().get(i).getName());
+//                    tvBusStopDetail.setText("Nairobi County");
+                    float distanceTo = originStop.distanceTo(destinationStop);
+                    tvBusStopDistance.setText(String.format("%.2f",distanceTo/1000) + " km");
+                    view.llDynamicContent.addView(view1);
+                }
+//                for (Stop stop : p.getStop()) {
+//
+//                    View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
+//                    final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
+//                    final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
+//                    final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
+//                    tvBusStopName.setText(stop.getName());
+//                    tvBusStopDetail.setText("Nairobi County");
+//                    tvBusStopDistance.setText(String.valueOf(distance = distance + 2) + " km");
+//                    view.llDynamicContent.addView(view1);
+//                }
+            }catch (Exception e){
+                Log.e("stops",e.toString());
             }
             Tools.displayImageOriginal(ctx, view.image, R.drawable.ic_buslogo);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {

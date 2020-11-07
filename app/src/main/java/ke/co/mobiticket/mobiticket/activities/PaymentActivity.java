@@ -116,7 +116,7 @@ public class PaymentActivity extends BaseActivity {
             //No NFC in device or NFC could not be initialized
             Toast.makeText(this, "Device not NFC enabled!", Toast.LENGTH_SHORT).show();
             //Close the activity
-            finish();
+//            finish();
         } else {
             Toast.makeText(this, "NFC successfully initialized!", Toast.LENGTH_SHORT).show();
             mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -254,8 +254,13 @@ public class PaymentActivity extends BaseActivity {
             });
 
         } else if (payment_method_id.equals("5")) {
-            cardCommuterNFC.setVisibility(View.VISIBLE);
-            //Activity will be initiated by tapping card
+            if (mNfcAdapter==null){
+                Toast.makeText(this, "NFC not enabled in this device!", Toast.LENGTH_SHORT).show();
+            }else {
+                cardCommuterNFC.setVisibility(View.VISIBLE);
+                //Activity will be initiated by tapping card
+            }
+
         }else if (payment_method_id.equals("10")){
             cardRedeemVoucher.setVisibility(View.VISIBLE);
             btnRedeemVoucher.setOnClickListener(new View.OnClickListener() {
@@ -448,7 +453,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<JambopayWalletResponse> call = api.jambopayWalletPayment(request);
 
-       showProgressDialog(dialog, "Processing payment \nPlease wait...");
+       showProgressDialog(dialog, "Processing payment\n\nPlease wait...");
         call.enqueue(new Callback<JambopayWalletResponse>() {
             @Override
             public void onResponse(Call<JambopayWalletResponse> call, Response<JambopayWalletResponse> response) {
@@ -550,7 +555,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<MpesaExpressResponse> call = api.mpesaExpressPayment(request);
 
-       showProgressDialog(dialog,"Proccessing Mpesa payment.\nPlease wait....");
+       showProgressDialog(dialog,"Proccessing Mpesa payment.\n\nPlease wait....");
         call.enqueue(new Callback<MpesaExpressResponse>() {
             @Override
             public void onResponse(Call<MpesaExpressResponse> call, Response<MpesaExpressResponse> response) {
@@ -568,7 +573,7 @@ public class PaymentActivity extends BaseActivity {
                             Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
 //                            showCustomDialog("Mpesa Express Payment",customer_message );
 
-                            runCheck(reference_number);
+callAsynchronousTask(reference_number);
 
 
                         } else {
@@ -613,7 +618,7 @@ public class PaymentActivity extends BaseActivity {
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.SEARCH_ACTION);
         request.setKeywords(reference_number);
-       showProgressDialog(dialog, "Confirmation \nPlease wait....");
+       showProgressDialog(dialog, "Checking payment status\n\nPlease wait....");
 
         Call<SearchTicketResponse> call = api.searchTicket(request);
         call.enqueue(new Callback<SearchTicketResponse>() {
@@ -694,7 +699,7 @@ public class PaymentActivity extends BaseActivity {
                         }
 
                     } else {
-                        Log.e("search Error", gson.toJson(response.body()));
+                       showCustomDialog("Ticket Payment Status", response.body().getResponse_message());
                     }
 
                 } else {
@@ -892,6 +897,7 @@ try {
     }
 
     private void verifyCommuterNFCCard(String payment_method_id, String card_data, final String reference_number) {
+        final Dialog dialog=new Dialog(PaymentActivity.this);
         CommuterNFCInterface api = AppController.getInstance().getRetrofit().create(CommuterNFCInterface.class);
         CommuterNFCRequest request = new CommuterNFCRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -901,13 +907,12 @@ try {
         request.setPayment_method(payment_method_id);
 
         Log.e("card request", gson.toJson(request));
-        progressBar.setVisibility(View.VISIBLE);
-
+      showProgressDialog(dialog, "Processing Commuter Card payment\n\nPlease wait....");
         Call<CommuterNFCResponse> call = api.verifyCommuterCard(request);
         call.enqueue(new Callback<CommuterNFCResponse>() {
             @Override
             public void onResponse(Call<CommuterNFCResponse> call, Response<CommuterNFCResponse> response) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 if (response.body() != null) {
                     Log.e("commuter card", gson.toJson(response.body()));
                     if (response.body().getResponse_code().equals("0")) {
@@ -921,13 +926,15 @@ try {
                     }
 
                 } else {
-                    showCustomDialog("Commuter Card Payment", "An error occured!");
+                    showCustomDialog("Commuter Card Payment", "An error occured. Please try again!");
                 }
             }
 
             @Override
             public void onFailure(Call<CommuterNFCResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                dialog.dismiss();
+                Log.e("commuter card error", t.getLocalizedMessage());
+                showCustomDialog("Commuter Card Patment", "System error occurred. Please tap card to try again!");
             }
         });
 

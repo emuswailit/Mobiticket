@@ -10,8 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ke.co.mobiticket.mobiticket.R;
-import ke.co.mobiticket.mobiticket.adapters.ItemBusAdapter;
+import ke.co.mobiticket.mobiticket.adapters.BusAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Vehicle;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.SearchVehiclesInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ServerSearchVehiclesRequest;
@@ -122,10 +120,10 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
                                 tvAvailableBus.setText(serverSearchVehiclesResponse.getVehicle().size() + " buses available!");
                                 mBusList = serverSearchVehiclesResponse.getVehicle();
                                 try {
-                                    ItemBusAdapter adapter = new ItemBusAdapter(BusListActivity.this, mBusList);
+                                    BusAdapter adapter = new BusAdapter(BusListActivity.this, mBusList);
                                     mRvBuses.setAdapter(adapter);
                                     RunLayoutAnimation(mRvBuses);
-                                    adapter.setOnItemClickListener(new ItemBusAdapter.OnItemClickListener() {
+                                    adapter.setOnItemClickListener(new BusAdapter.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(View view, Vehicle obj, int position) {
                                             Toast.makeText(BusListActivity.this, obj.getRegistration_number(), Toast.LENGTH_SHORT).show();

@@ -71,6 +71,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:fontFamily="@font/googlesansextrabold"
                     android:layout_margin="@dimen/spacing_small"
                     android:id="@+id/tvBusStopName"
                     android:layout_width="match_parent"
@@ -78,7 +79,7 @@
                     android:gravity="center_vertical"
                     android:text="CBD "
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/colorPrimary"
+
                     android:textStyle="bold" />
 
                 <TextView
@@ -87,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="mind your properties "
+                    android:text=""
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_40" />
 
@@ -96,12 +97,13 @@
             <TextView
                 android:id="@+id/tvBusStopDistance"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/googlesansbold"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:gravity="center_vertical"
-                android:text="5km"
-                android:textColor="@color/grey_20"
-                android:textSize="@dimen/spacing_middle" />
+                android:text=""
+                android:textColor="@color/grey_90"
+                android:textSize="@dimen/spacing_large" />
         </LinearLayout>
 
     </LinearLayout>

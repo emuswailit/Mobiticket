@@ -17,7 +17,7 @@ import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.pojos.Vehicle;
 
 
-public class ItemBusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Vehicle> items = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class ItemBusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public ItemBusAdapter(Context context, List<Vehicle> items) {
+    public BusAdapter(Context context, List<Vehicle> items) {
         this.items = items;
         ctx = context;
     }
@@ -71,7 +71,7 @@ public class ItemBusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view.tvOperatorName.setText(p.getOperator_name());
             view.tvVehicleType.setText( p.getVehicle_type());
             view.tvRegistrationNumber.setText(p.getRegistration_number());
-            view.tvCurrentFare.setText("KES "+p.getCurrent_fare());
+            view.tvCurrentFare.setText("KES "+String.format("%.2f", Double.valueOf(p.getCurrent_fare())));
 
 //            Tools.displayImageOriginal(ctx, view.image, p.image);
             view.cardView.setOnClickListener(new View.OnClickListener() {

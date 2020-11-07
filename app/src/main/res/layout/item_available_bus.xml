@@ -25,9 +25,8 @@
                 android:id="@+id/tvRouteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:background="@drawable/bg_square_text"
+                android:background="@drawable/textview_background"
                 android:fontFamily="@font/googlesansbold"
 
                 android:paddingTop="@dimen/spacing_small"
@@ -35,7 +34,7 @@
                 android:paddingBottom="@dimen/spacing_small"
                 android:text="@string/integrity_intercity"
                 android:textColor="@color/white"
-                android:textSize="@dimen/font_medium" />
+                android:textSize="@dimen/font_large" />
 
 
             <TextView
@@ -131,7 +130,7 @@
                     android:layout_gravity="end"
                     android:fontFamily="@font/googlesansbold"
                     android:text="@string/lbl_fare"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/grey_500"
                     android:textSize="@dimen/font_mlarge" />
 
 

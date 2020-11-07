@@ -35,10 +35,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/spacing_small"
-
                     android:textSize="@dimen/font_large"
-                    android:fontFamily="@font/googlesansregular"
-                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/googlesansextrabold"
+                    android:textColor="@color/grey_500"
                 />
 
                 <ImageView
