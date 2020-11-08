@@ -3,6 +3,7 @@ package ke.co.mobiticket.mobiticket.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -38,6 +40,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     public static final String mTitle = "More";
     private TextView mTvProfileSettings, mTvWallet, mTvCards, mTvOperators, mTvHelp, mTvLogout, mTvSetting,tvTapCard;
     private String mFlag = "1";
+    SharedPreferences prefs;
+
 
     /* create view */
     @Override
@@ -45,6 +49,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_more, null);
         initLayouts(view);
         initializeListeners();
+        prefs=AppController.getInstance().getMobiPrefs();
         return view;
     }
 
@@ -76,19 +81,19 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == mTvProfileSettings)
-            ((BaseActivity) Objects.requireNonNull(getActivity())).startActivity(ProfileSettingsActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(ProfileSettingsActivity.class);
         else if (v == mTvWallet)
-            ((BaseActivity) Objects.requireNonNull(getActivity())).startActivity(WalletActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(WalletActivity.class);
         else if (v == mTvCards) {
             Intent intent = new Intent(getActivity(), CardsActivity.class);
             intent.putExtra(Constants.intentdata.CARDFLAG, mFlag);
             startActivity(intent);
         } else if (v == mTvOperators)
-            ((BaseActivity) Objects.requireNonNull(getActivity())).startActivity(OperatorsActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(OperatorsActivity.class);
         else if (v == mTvHelp)
-            ((BaseActivity) Objects.requireNonNull(getActivity())).startActivity(HelpActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(HelpActivity.class);
         else if (v == mTvSetting)
-            ((BaseActivity) Objects.requireNonNull(getActivity())).startActivity(SettingsActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(SettingsActivity.class);
         else if (v == mTvLogout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(getString(R.string.text_confirmation)).setMessage(getString(R.string.msg_logout));
@@ -97,6 +102,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                         public void onClick(DialogInterface dialog, int id) {
                             AppController.getInstance().logOutUser();
                             getActivity().finish();
+                            Toast.makeText(getActivity(), "Looged out", Toast.LENGTH_SHORT).show();
+
+                            SharedPreferences.Editor editor = prefs.edit();
+
+                            editor.putString(Constants.RECENT_ROUTES, "");
+                            editor.apply();
+
+
                             startActivity(new Intent(getActivity(), SelectionActivity.class));
                         }
                     });

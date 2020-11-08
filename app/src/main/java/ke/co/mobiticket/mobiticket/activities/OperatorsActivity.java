@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -30,7 +31,7 @@ public class OperatorsActivity extends BaseActivity implements View.OnClickListe
     List<DriveVehicle>  driveVehicleList = new ArrayList<>();
     List<ConductVehicle>  conductVehicleList = new ArrayList<>();
     List<OwnedVehicle> ownVehicleList = new ArrayList<>();
-
+    Gson gson=new Gson();
 
 
     @Override
@@ -50,12 +51,14 @@ public class OperatorsActivity extends BaseActivity implements View.OnClickListe
         prefs = AppController.getInstance().getMobiPrefs();
         Log.e("from up",prefs.getString(Constants.ENTIRE_RESPONSE, "") );
         try {
-            Gson gson=new Gson();
+
             //Retrieve vehicles that the user drives, if any
             ServerLoginResponse serverLoginResponse= gson.fromJson(prefs.getString(Constants.ENTIRE_RESPONSE, ""),ServerLoginResponse.class);
             driveVehicleList = serverLoginResponse.getDrive();
             conductVehicleList = serverLoginResponse.getConduct();
             ownVehicleList = serverLoginResponse.getOwned();
+
+            Log.e("serverLoginResponse", gson.toJson(serverLoginResponse));
 
         }catch (Exception e){
             Log.e("Error", e.toString());
@@ -67,20 +70,37 @@ public class OperatorsActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnVehiclesDrive:
-                btnVehiclesDrive.setVisibility(View.VISIBLE);
-                DriveVehiclesFragment driveVehiclesFragment =   DriveVehiclesFragment.newInstance(driveVehicleList);
-                loadFragment(driveVehiclesFragment);
+
+                if (driveVehicleList.size()>0){
+                    btnVehiclesDrive.setVisibility(View.VISIBLE);
+                    DriveVehiclesFragment driveVehiclesFragment =   DriveVehiclesFragment.newInstance(driveVehicleList);
+                    loadFragment(driveVehiclesFragment);
+                }else {
+                    Toast.makeText(this, "No vehicles retrieved!", Toast.LENGTH_SHORT).show();
+                }
+
                 return;
             case R.id.btnVehiclesConduct:
-                btnVehiclesConduct.setVisibility(View.VISIBLE);
-                ConductVehiclesFragment conductVehiclesFragment =   ConductVehiclesFragment.newInstance(conductVehicleList);
-                loadFragment(conductVehiclesFragment);
+                if (conductVehicleList.size()>0){
+                    btnVehiclesConduct.setVisibility(View.VISIBLE);
+                    ConductVehiclesFragment conductVehiclesFragment =   ConductVehiclesFragment.newInstance(conductVehicleList);
+                    loadFragment(conductVehiclesFragment);
+
+                }else {
+                    Toast.makeText(this, "No vehicles retrieved!", Toast.LENGTH_SHORT).show();
+                }
 
                 return;
             case R.id.btnVehiclesOwn:
 
-                OwnedVehiclesFragment ownVehiclesFragment =   OwnedVehiclesFragment.newInstance(ownVehicleList);
-                loadFragment(ownVehiclesFragment);
+                if (ownVehicleList.size()>0){
+                    btnVehiclesOwn.setVisibility(View.VISIBLE);
+                    OwnedVehiclesFragment ownVehiclesFragment =   OwnedVehiclesFragment.newInstance(ownVehicleList);
+                    loadFragment(ownVehiclesFragment);
+                }else {
+                    Toast.makeText(this, "No vehicles retrieved!", Toast.LENGTH_SHORT).show();
+                }
+
                 return;
 
             case R.id.ivBack:

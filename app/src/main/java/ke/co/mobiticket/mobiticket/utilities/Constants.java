@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public class Constants {
     public static final String IS_LOGGED_IN = "isLoggedIn";
-    public static final String BASE_URL = "https://apis.mobiticket.co.ke/v2/";
+    public static final String BASE_URL = "http://apis.mobiticket.co.ke/v2/";
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String ACCESS_TOKEN = "access_token";
@@ -59,7 +59,7 @@ public class Constants {
     public static final String PUBLIC_KEY ="" ;
     public static final String PRIVATE_KEY ="" ;
     public static final String SECRET_KEY = "";
-    public static final String RECENT_ROUTES ="" ;
+    public static final String RECENT_ROUTES ="recent_routes" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

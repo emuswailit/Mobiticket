@@ -528,7 +528,7 @@
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Purchased tickets" />
+                        android:text="Ticket Details" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card1"

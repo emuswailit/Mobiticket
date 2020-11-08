@@ -151,75 +151,75 @@ public class ConductVehiclesFragment extends Fragment {
             public void onResponse(Call<ServerReadOneResponse> call, Response<ServerReadOneResponse> response) {
                 Log.e("body", gson.toJson(response.body()));
                 progressBar.setVisibility(View.GONE);
-//if (response.body() !=null){
-//                if (response.body().getResponse_code().equals("0")) {
-//                    LinearLayout llFinancials = view.findViewById(R.id.llFinancials);
-//                    llFinancials.setVisibility(View.VISIBLE);
-//                    tvExpenses = view.findViewById(R.id.tvExpenses);
-//                    tvCharges = view.findViewById(R.id.tvCharges);
-//                    tvCollection = view.findViewById(R.id.tvCollection);
-//
-//                    Toast.makeText(getActivity(), "Iko", Toast.LENGTH_SHORT).show();
-//                    ServerReadOneResponse serverReadOneResponse = response.body();
-//                    LinearLayout lyt_expand = view.findViewById(R.id.lyt_expand);
-//                    lyt_expand.setVisibility(View.VISIBLE);
-//                    TextView tvSacco = view.findViewById(R.id.tvSacco);
-//                    tvSacco.setText(serverReadOneResponse.getOperator().getName());
-//                    TextView tvDriverDetails = view.findViewById(R.id.tvDriverDetails);
-//                    tvDriverDetails.setText(serverReadOneResponse.getDriver().getFirst_name() + " " + serverReadOneResponse.getDriver().getLast_name() + " " + serverReadOneResponse.getDriver().getPhone_number());
-//
-//                    //Conductor
-//                    tvSacco.setText(serverReadOneResponse.getOperator().getName());
-//                    TextView tvConductorDetails = view.findViewById(R.id.tvConductorDetails);
-//                    tvConductorDetails.setText(serverReadOneResponse.getConductor().getFirst_name() + " " + serverReadOneResponse.getConductor().getLast_name() + " " + serverReadOneResponse.getConductor().getPhone_number());
-//
-//                    List<Expense> expenseList = serverReadOneResponse.getExpense();
-//                    Log.e("Expenses", String.valueOf(expenseList.size()));
-//                    for (Expense expense : expenseList) {
-//                        if (expense.getId() == null || expense.getId().equals("")) {
-//                            Log.e("Invalid expense", "Invalid expense");
-//
-//                        } else {
-//                            totalExpenses = Double.parseDouble(totalExpenses + expense.getAmount());
-//                            tvExpenses.setText(String.valueOf(totalExpenses));
-//                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//
-//                    List<Charge> chargeList = serverReadOneResponse.getCharge();
-//                    Log.e("Charges", String.valueOf(chargeList.size()));
-//                    for (Charge charge : chargeList) {
-//                        if (charge.getId() == null || charge.getId().equals("")) {
-//                            Log.e("Invalid expense", "Invalid expense");
-//
-//                        } else {
-//                            totalCharges = Double.parseDouble(totalCharges + charge.getAmount());
-//                            tvExpenses.setText(String.valueOf(totalExpenses));
-//                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    List<Ticket> ticketList = serverReadOneResponse.getTicket();
-//                    Log.e("Tickets", String.valueOf(ticketList.size()));
-//                    for (Ticket ticket : ticketList) {
-//                        if (ticket.getId() == null || ticket.getId().equals("")) {
-//                            Log.e("Invalid ticket", "Invalid ticket");
-//
-//                        } else {
-//                            totalPayment = Double.parseDouble(totalPayment + ticket.getPayment().get(0).getAmount());
-//                            tvCollection.setText(String.valueOf(totalPayment));
-//
-//                        }
-//                    }
-//
-//                } else {
-//                    Toast.makeText(getActivity(), "Vehicle details not retrieved!", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }else {
-//    Toast.makeText(getActivity(), "Error occured!", Toast.LENGTH_SHORT).show();
-//            }
+if (response.body() !=null){
+                if (response.body().getResponse_code().equals("0")) {
+                    LinearLayout llFinancials = view.findViewById(R.id.llFinancials);
+                    llFinancials.setVisibility(View.VISIBLE);
+                    tvExpenses = view.findViewById(R.id.tvExpenses);
+                    tvCharges = view.findViewById(R.id.tvCharges);
+                    tvCollection = view.findViewById(R.id.tvCollection);
+
+                    Toast.makeText(getActivity(), "Iko", Toast.LENGTH_SHORT).show();
+                    ServerReadOneResponse serverReadOneResponse = response.body();
+                    LinearLayout lyt_expand = view.findViewById(R.id.lyt_expand);
+                    lyt_expand.setVisibility(View.VISIBLE);
+                    TextView tvSacco = view.findViewById(R.id.tvSacco);
+                    tvSacco.setText(serverReadOneResponse.getOperator().getName());
+                    TextView tvDriverDetails = view.findViewById(R.id.tvDriverDetails);
+                    tvDriverDetails.setText(serverReadOneResponse.getDriver().getFirst_name() + " " + serverReadOneResponse.getDriver().getLast_name() + " " + serverReadOneResponse.getDriver().getPhone_number());
+
+                    //Conductor
+                    tvSacco.setText(serverReadOneResponse.getOperator().getName());
+                    TextView tvConductorDetails = view.findViewById(R.id.tvConductorDetails);
+                    tvConductorDetails.setText(serverReadOneResponse.getConductor().getFirst_name() + " " + serverReadOneResponse.getConductor().getLast_name() + " " + serverReadOneResponse.getConductor().getPhone_number());
+
+                    List<Expense> expenseList = serverReadOneResponse.getExpense();
+                    Log.e("Expenses", String.valueOf(expenseList.size()));
+                    for (Expense expense : expenseList) {
+                        if (expense.getId() == null || expense.getId().equals("")) {
+                            Log.e("Invalid expense", "Invalid expense");
+
+                        } else {
+                            totalExpenses = Double.parseDouble(totalExpenses + expense.getAmount());
+                            tvExpenses.setText(String.format("%.2f",totalExpenses));
+                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
+                    List<Charge> chargeList = serverReadOneResponse.getCharge();
+                    Log.e("Charges", String.valueOf(chargeList.size()));
+                    for (Charge charge : chargeList) {
+                        if (charge.getId() == null || charge.getId().equals("")) {
+                            Log.e("Invalid expense", "Invalid expense");
+
+                        } else {
+                            totalCharges = Double.parseDouble(totalCharges + charge.getAmount());
+                            tvExpenses.setText(String.format("%.2f",totalExpenses));
+                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    List<Ticket> ticketList = serverReadOneResponse.getTicket();
+                    Log.e("Tickets", String.valueOf(ticketList.size()));
+                    for (Ticket ticket : ticketList) {
+                        if (ticket.getId() == null || ticket.getId().equals("")) {
+                            Log.e("Invalid ticket", "Invalid ticket");
+
+                        } else {
+                            totalPayment = Double.parseDouble(totalPayment + ticket.getPayment().get(0).getAmount());
+                            tvCollection.setText(String.format("%.2f",totalPayment));
+
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "Vehicle details not retrieved!", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+    Toast.makeText(getActivity(), "Error occured!", Toast.LENGTH_SHORT).show();
+            }
             }
 
             @Override

@@ -264,47 +264,6 @@ public class PaymentMethodsActivity extends BaseActivity {
                         startActivity(NoInternetActivity.class);
                     }
 
-
-//
-//                    try {
-//                        for (Passenger passenger : passengerList) {
-//                            int seat=1;
-//
-//                            //Set other vehicle parameters to ticket
-//
-//                            //Set payment method to tickets
-//                            passenger.setVehicle_id(prefs.getString(Constants.TICKET_VEHICLE_ID, ""));
-//                            passenger.setTotal_fare(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
-//                            passenger.setOperator_id(prefs.getString(Constants.TICKET_VEHICLE_OPERATOR_ID, ""));
-//                            passenger.setTrip_number(prefs.getString(Constants.TICKET_VEHICLE_TRIP_NUMBER, ""));
-//                            passenger.setTicketing_agent_id(prefs.getString(Constants.ID, ""));
-//                            passenger.setSource(Constants.SOURCE);
-//                            passenger.setTravel_from(prefs.getString(Constants.TICKET_TRAVEL_FROM, ""));
-//                            passenger.setPickup_point(prefs.getString(Constants.TICKET_PICKUP_POINT, ""));
-//                            passenger.setTravel_to(prefs.getString(Constants.TICKET_TRAVEL_TO, ""));
-//                            passenger.setDropoff_point(prefs.getString(Constants.TICKET_DROPOFF_POINT, ""));
-//                            passenger.setPayment_method_id(payment_method_id);
-//                            passenger.setSeat(String.valueOf(seat++)); //TODO : remove this hard coded data
-//
-//                        }
-//
-//                        if (AppController.getInstance().isNetworkConnected()) {
-//                            try {
-//                                reserveTickets(passengerList, payment_method_id);
-//                            } catch (Exception e) {
-//
-//                            }
-//
-//                        } else {
-//                            startActivity(NoInternetActivity.class);
-//                        }
-//
-//
-//                    } catch (Exception e) {
-//                        Log.e("error", e.toString());
-//                    }
-
-
                     dialog.dismiss();
                 }
             });

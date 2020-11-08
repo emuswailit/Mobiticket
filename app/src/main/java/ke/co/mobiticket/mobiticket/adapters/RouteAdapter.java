@@ -81,7 +81,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final Route p = items.get(position);
             view.tvRouteName.setText(p.getName());
-            view.tvStops.setText("Listed stops on this route: "+String.valueOf(p.getStop().size()));
+            if (p.getStop() !=null){
+                view.tvStops.setText("Listed stops on this route: "+String.valueOf(p.getStop().size()));
+
+            }
 
 
 

@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     MaterialCardView cardSearchDestinations;
     Dialog dialog;
     List<Route> recentSearches = new ArrayList<>();
-    private String recentRoutesListString;
+
     Gson gson = new Gson();
 
 
@@ -110,20 +110,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         setListener();
         getData();
 
-        Log.e("recents", prefs.getString(Constants.RECENT_ROUTES, ""));
-        Log.e("recentSearches", String.valueOf(recentSearches.size()));
 
         return view;
     }
 
     private void getData() {
-        recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
+     String   recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
         try {
-            recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
-            Log.e("stored string", recentRoutesListString);
-            Log.e("stored routes", String.valueOf(recentSearches.size()));
-            decodeFromStorage(recentSearches);
 
+            if (recentRoutesListString.isEmpty()||recentRoutesListString.equals("")){
+                Toast.makeText(getActivity(), "No recent destinations", Toast.LENGTH_SHORT).show();
+            }else {
+                              recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
+                Log.e("stored string", recentRoutesListString);
+                Log.e("stored routes", String.valueOf(recentSearches.size()));
+                decodeFromStorage(recentSearches);
+
+            }
 
 
         } catch (Exception e) {
@@ -182,7 +185,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         btnSearchWhereTo.setOnClickListener(this);
 
-
     }
 
     private void initView(View view) {
@@ -202,14 +204,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
 
-
-//        recentSearches.clear();
 //
 //        SharedPreferences.Editor editor = prefs.edit();
 //
 //        editor.putString(Constants.RECENT_ROUTES, "");
 //        editor.apply();
-
+//
 
 
 
@@ -342,7 +342,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     Log.e("pickuppoint", obj.getStop().get(position).getId());
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(Constants.TICKET_PICKUP_POINT, obj.getStop().get(position).getId());
+                    editor.putString(Constants.TICKET_PICKUP_POINT, obj.getStop().get(position).getName());
                     editor.apply();
                 }
 
@@ -363,7 +363,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     Log.e("dropoffpoint", obj.getStop().get(position).getId());
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getStop().get(position).getId());
+                    editor.putString(Constants.TICKET_DROPOFF_POINT, obj.getStop().get(position).getName());
                     editor.apply();
                 }
 
@@ -381,29 +381,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                                    Only 10 recent searches will be remembered
 
 
-                    if (prefs.getString(Constants.TICKET_DROPOFF_POINT, "").equals(prefs.getString(Constants.TICKET_PICKUP_POINT, ""))) {
-                        showCustomDialog("Origin and destination", "The two points need to be different");
-                    } else {
-                        if (recentSearches.size() < 10) {
-                            recentSearches.add(obj);
+                    try {
+                        if (prefs.getString(Constants.TICKET_DROPOFF_POINT, "").equals(prefs.getString(Constants.TICKET_PICKUP_POINT, ""))) {
+                            showCustomDialog("Origin and destination", "The two points need to be different");
                         } else {
-                            recentSearches.remove(0);
-                            recentSearches.add(obj);
-                        }
+                            if (recentSearches.size() < 10) {
+                                recentSearches.add(obj);
+                            } else {
+                                recentSearches.remove(0);
+                                recentSearches.add(obj);
+                            }
 
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
-                        editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+                            editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
                         editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
-                        editor.apply();
+                            editor.apply();
 
-                        Intent intent = new Intent(getActivity(), BusListActivity.class);
-                        intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
-                        intent.putExtra(Constants.intentdata.FROM, mFrom);
-                        intent.putExtra(Constants.intentdata.TO, mTo);
-                        startActivity(intent);
-                        dialog.dismiss();
+                            Intent intent = new Intent(getActivity(), BusListActivity.class);
+                            intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
+                            intent.putExtra(Constants.intentdata.FROM, mFrom);
+                            intent.putExtra(Constants.intentdata.TO, mTo);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    }catch (Exception e){
+                       Log.e("recents",e.toString());
                     }
+
                 }
             });
 

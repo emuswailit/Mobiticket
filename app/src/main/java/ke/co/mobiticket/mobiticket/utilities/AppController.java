@@ -24,8 +24,8 @@ public class AppController extends Application {
 
     public static AppController mInstance;
     public boolean isLoggedIn;
+    SharedPreferences prefs;
 
-    private SharedPreferences prefs;
     String current_date_time;
     public static synchronized AppController getInstance() {
         return mInstance;
@@ -34,8 +34,8 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+         prefs = getSharedPreferences(Constants.SHARED_PREFRENCES, Context.MODE_PRIVATE);
 
-        prefs = getSharedPreferences(Constants.SHARED_PREFRENCES, Context.MODE_PRIVATE);
         mInstance = this;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
         final Date date1 = new Date();
@@ -45,7 +45,7 @@ public class AppController extends Application {
 
     //Centralize SharedPreferences declaration
     public SharedPreferences getMobiPrefs() {
-        SharedPreferences prefs = getSharedPreferences(Constants.SHARED_PREFRENCES, Context.MODE_PRIVATE);
+
         return prefs;
     }
 
@@ -55,18 +55,7 @@ public class AppController extends Application {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    public boolean isLoggedIn() {
 
-        if (prefs.getBoolean(Constants.IS_LOGGED_IN, false)) {
-
-            return true;
-        } else {
-            Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-
-    }
 
 
     public void logOutUser() {
@@ -88,9 +77,11 @@ public class AppController extends Application {
         editor.putString(Constants.DRIVE,null);
         editor.putString(Constants.CONDUCT,null);
         editor.putString(Constants.ENTIRE_RESPONSE,null);
+        editor.putString(Constants.RECENT_ROUTES,null);
+        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING,null);
 
         editor.apply();
-
+Log.e("logged out", "out");
     }
 
     public void logInUser(ServerLoginResponse serverLoginResponse, String json_string) {
