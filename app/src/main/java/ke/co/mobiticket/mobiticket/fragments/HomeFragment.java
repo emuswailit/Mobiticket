@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     MaterialCardView cardSearchDestinations;
     Dialog dialog;
     List<Route> recentSearches = new ArrayList<>();
+   List<String> routeIdsList=new ArrayList<>();
 
     Gson gson = new Gson();
 
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         try {
 
             if (recentRoutesListString.isEmpty()||recentRoutesListString.equals("")){
-                Toast.makeText(getActivity(), "No recent destinations", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "No recent destinations", Toast.LENGTH_SHORT).show();
             }else {
                               recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
                 Log.e("stored string", recentRoutesListString);
@@ -228,7 +229,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             searchWhereTo(search);
                         } catch (Exception e) {
                             Log.e("Error:search", e.toString());
-                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -237,7 +238,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "Enter your destination!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Enter your destination!", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -385,12 +386,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         if (prefs.getString(Constants.TICKET_DROPOFF_POINT, "").equals(prefs.getString(Constants.TICKET_PICKUP_POINT, ""))) {
                             showCustomDialog("Origin and destination", "The two points need to be different");
                         } else {
-                            if (recentSearches.size() < 10) {
-                                recentSearches.add(obj);
-                            } else {
-                                recentSearches.remove(0);
-                                recentSearches.add(obj);
+                            for (Route route: recentSearches){
+                                //Retrieve  IDS of all routes in recent searched list and save in a strings list
+                                routeIdsList.add(route.getId());
                             }
+
+                            //Check if route ID is in the list
+                            if (routeIdsList.contains(obj.getId())){
+                               //Route is already added to recents
+                            }else {
+
+                                //List of recent routes will be limited to 10 items long
+                                if (recentSearches.size() < 10) {
+
+                                    recentSearches.add(obj);
+                                } else {
+                                    recentSearches.remove(0);
+                                    recentSearches.add(obj);
+                                }
+                            }
+
 
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
