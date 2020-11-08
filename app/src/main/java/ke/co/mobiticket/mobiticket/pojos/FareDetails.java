@@ -1,8 +1,8 @@
 package ke.co.mobiticket.mobiticket.pojos;
 
 public class FareDetails {
-    private String from;
-    private String to;
+    private String travel_from;
+    private String travel_to;
     private String current_station;
     private String current_fare;
     private String lat;
@@ -10,22 +10,22 @@ public class FareDetails {
     private String speed;
     private String created;
     private String updated;
-    private String status;
+    private String fare_status;
 
-    public String getFrom() {
-        return from;
+    public String getTravel_from() {
+        return travel_from;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setTravel_from(String travel_from) {
+        this.travel_from = travel_from;
     }
 
-    public String getTo() {
-        return to;
+    public String getTravel_to() {
+        return travel_to;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setTravel_to(String travel_to) {
+        this.travel_to = travel_to;
     }
 
     public String getCurrent_station() {
@@ -84,12 +84,12 @@ public class FareDetails {
         this.updated = updated;
     }
 
-    public String getStatus() {
-        return status;
+    public String getFare_status() {
+        return fare_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFare_status(String fare_status) {
+        this.fare_status = fare_status;
     }
 }
 

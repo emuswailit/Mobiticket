@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     SharedPreferences prefs;
     private RecyclerView rvSearchRoutes, rvRecentSearch;
     private ProgressBar progressBar;
+    private LinearLayout llRecentRoutes,llSearchedRoutes;
     MaterialCardView cardSearchRoutes;
     MaterialCardView cardSearchDestinations;
     Dialog dialog;
@@ -115,44 +117,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getData() {
-
-    }
-
-    private void setListener() {
-
-        btnSearchWhereTo.setOnClickListener(this);
-
-
-    }
-
-    private void initView(View view) {
-        cardSearchDestinations = view.findViewById(R.id.cardSearchDestination);
-
-        btnSearchWhereTo = view.findViewById(R.id.btnSearchWhereTo);
-
-        etWhereTo = view.findViewById(R.id.etWhereTo);
-        progressBar = view.findViewById(R.id.progressBar);
-
-        rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
-        rvRecentSearch = view.findViewById(R.id.rvRecentSearch);
-        labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
-
-
         recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
         try {
             recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
+            Log.e("stored string", recentRoutesListString);
+            Log.e("stored routes", String.valueOf(recentSearches.size()));
+            decodeFromStorage(recentSearches);
+
+
+
         } catch (Exception e) {
 
         }
+    }
 
-//        recentSearches.clear();
-//
-//        SharedPreferences.Editor editor = prefs.edit();
-//
-//        editor.putString(Constants.RECENT_ROUTES, "");
-//        editor.apply();
-
+    private void decodeFromStorage(List<Route> recentSearches) {
         if (recentSearches.size() > 0) {
+            llRecentRoutes.setVisibility(View.VISIBLE);
 
             try {
 
@@ -195,6 +176,41 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Log.e("err", e.toString());
             }
         }
+    }
+
+    private void setListener() {
+
+        btnSearchWhereTo.setOnClickListener(this);
+
+
+    }
+
+    private void initView(View view) {
+        llRecentRoutes = view.findViewById(R.id.llRecentRoutes);
+        llSearchedRoutes = view.findViewById(R.id.llSearchedRoutes);
+
+        cardSearchDestinations = view.findViewById(R.id.cardSearchDestination);
+
+        btnSearchWhereTo = view.findViewById(R.id.btnSearchWhereTo);
+
+        etWhereTo = view.findViewById(R.id.etWhereTo);
+        progressBar = view.findViewById(R.id.progressBar);
+
+        rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
+        rvRecentSearch = view.findViewById(R.id.rvRecentSearch);
+        labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
+
+
+
+
+//        recentSearches.clear();
+//
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        editor.putString(Constants.RECENT_ROUTES, "");
+//        editor.apply();
+
+
 
 
     }
@@ -257,6 +273,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         //set data and list adapter
 
                         if (searchRoutesResponse.getRoute().size() > 0) {
+                            llSearchedRoutes.setVisibility(View.VISIBLE);
                             RouteAdapter routeAdapter = new RouteAdapter(getActivity(), searchRoutesResponse.getRoute());
                             rvSearchRoutes.setAdapter(routeAdapter);
                             routeAdapter.setOnItemClickListener(new RouteAdapter.OnItemClickListener() {
@@ -362,27 +379,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 public void onClick(View v) {
 
 //                                    Only 10 recent searches will be remembered
-                    if (recentSearches.size() < 10) {
-                        recentSearches.add(obj);
+
+
+                    if (prefs.getString(Constants.TICKET_DROPOFF_POINT, "").equals(prefs.getString(Constants.TICKET_PICKUP_POINT, ""))) {
+                        showCustomDialog("Origin and destination", "The two points need to be different");
                     } else {
-                        recentSearches.remove(0);
-                        recentSearches.add(obj);
+                        if (recentSearches.size() < 10) {
+                            recentSearches.add(obj);
+                        } else {
+                            recentSearches.remove(0);
+                            recentSearches.add(obj);
+                        }
+
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
+                        editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
+                        editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
+                        editor.apply();
+
+                        Intent intent = new Intent(getActivity(), BusListActivity.class);
+                        intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
+                        intent.putExtra(Constants.intentdata.FROM, mFrom);
+                        intent.putExtra(Constants.intentdata.TO, mTo);
+                        startActivity(intent);
+                        dialog.dismiss();
                     }
-
-
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
-                    editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
-                    editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
-                    editor.apply();
-
-                    Intent intent = new Intent(getActivity(), BusListActivity.class);
-                    intent.putExtra(Constants.intentdata.TRIP_KEY, obj.getOrigin() + " To " + obj.getDestination());
-                    intent.putExtra(Constants.intentdata.FROM, mFrom);
-                    intent.putExtra(Constants.intentdata.TO, mTo);
-                    startActivity(intent);
-
-                    dialog.dismiss();
                 }
             });
 

@@ -137,10 +137,13 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
                                             editor.putString(Constants.TICKET_VEHICLE_OPERATOR_ID, obj.getOperator_id());
                                             editor.putString(Constants.TICKET_VEHICLE_TRIP_NUMBER, obj.getTrip_number());
 
-
-
                                             editor.apply();
-                                            startActivity(PassengerDetailActivity.class);
+
+                                            //Move straight to payment methods
+                                            startActivity(PaymentMethodsActivity.class);
+
+                                            //Deprecating this activity so that phone owner can only pay for self
+//                                            startActivity(PassengerDetailActivity.class);
                                         }
                                     });
 

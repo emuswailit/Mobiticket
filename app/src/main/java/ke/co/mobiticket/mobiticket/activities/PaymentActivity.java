@@ -146,6 +146,7 @@ public class PaymentActivity extends BaseActivity {
         } else {
             Gson gson = new Gson();
             passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
+            Log.e("Passengers at pay", String.valueOf(passengerList.size()));
 
             for (Passenger passenger : passengerList) {
                 Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
@@ -183,8 +184,11 @@ public class PaymentActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Log.e("clicked", "clicked");
+
+                        //Set mpesa number to user phone number, user can change this
+
                         mpesa_phone_number = etMpesaPhone.getText().toString();
-                        Log.e("mpeasa phone", mpesa_phone_number);
+                        Log.e("mpesa phone", mpesa_phone_number);
 //                        progressBar.setVisibility(View.VISIBLE);
                         try {
                             verifyPaymentByMpesaXPress(payment_method_id, reference_number, mpesa_phone_number);
@@ -215,6 +219,7 @@ public class PaymentActivity extends BaseActivity {
 
             //Payment via Jambopay wallet
             cardJambopayWallet.setVisibility(View.VISIBLE);
+            etJambopayWalletUsername.setText(prefs.getString(Constants.PHONE_NUMBER,""));
 
             btnJambopayWallet.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -226,6 +231,7 @@ public class PaymentActivity extends BaseActivity {
             });
         } else if (payment_method_id.equals("4")) {
             cardJambopayAgency.setVisibility(View.VISIBLE);
+            etJambopayAgencyUsername.setText(prefs.getString(Constants.PHONE_NUMBER,""));
 
             btnJambopayAgency.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -527,6 +533,7 @@ public class PaymentActivity extends BaseActivity {
         lblPurchasedTickets = findViewById(R.id.lblPurchasedTickets);
 
         etMpesaPhone = findViewById(R.id.etMpesaPhone);
+        etMpesaPhone.setText(prefs.getString(Constants.PHONE_NUMBER,""));
         etJambopayWalletUsername = findViewById(R.id.etJambopayWalletUsername);
         etJambopayWalletPassword = findViewById(R.id.etJambopayWalletPassword);
 

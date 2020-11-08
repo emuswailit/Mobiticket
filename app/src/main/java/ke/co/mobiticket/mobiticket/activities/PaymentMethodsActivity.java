@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -30,12 +31,15 @@ import ke.co.mobiticket.mobiticket.adapters.AdapterPaymentMethods;
 import ke.co.mobiticket.mobiticket.pojos.Passenger;
 import ke.co.mobiticket.mobiticket.pojos.PaymentMethod;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.ConfirmReservationInterface;
+import ke.co.mobiticket.mobiticket.retrofit.interfaces.GenerateReferenceNumberInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.ReserveTicketsInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.RetrievePaymentMethodsInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ConfirmReservationRequest;
+import ke.co.mobiticket.mobiticket.retrofit.requests.GenerateReferenceNumberRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ReserveTicketsRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.RetrievePaymentMethodsRequest;
 import ke.co.mobiticket.mobiticket.retrofit.responses.ConfirmReservationResponse;
+import ke.co.mobiticket.mobiticket.retrofit.responses.GenerateReferenceNumberResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.ReserveTicketResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.RetrievePaymentMethodResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
@@ -49,13 +53,15 @@ public class PaymentMethodsActivity extends BaseActivity {
     private RecyclerView rvPaymentMethods;
     private TextView tvPaymentMethods;
     private ImageView ivBack;
-    private double total_cost=0.00;
+    private double total_cost = 0.00;
     ProgressBar progressBar;
     SharedPreferences prefs;
     AdapterPaymentMethods mAdapter;
-    List<Passenger> passengerList;
+    List<Passenger> passengerList = new ArrayList<>();
     Gson gson = new Gson();
     Dialog dialog;
+
+
 
 
     @Override
@@ -65,28 +71,30 @@ public class PaymentMethodsActivity extends BaseActivity {
         initLayouts();
         prefs = AppController.getInstance().getMobiPrefs();
 
-        String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
-        Log.e("retrievePassengers", passengerListString);
-        if (passengerListString.isEmpty() || passengerListString.equals("")) {
-            finish();
-        } else {
-
-            passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
-
-            for (Passenger passenger : passengerList) {
-                Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
-            }
-        }
+//        String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
+//        Log.e("retrievePassengers", passengerListString);
+//        if (passengerListString.isEmpty() || passengerListString.equals("")) {
+//            finish();
+//        } else {
+//
+//            passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
+//
+//            for (Passenger passenger : passengerList) {
+//                Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
 
         retrievePaymentMethods();
         initListeners();
+
+
     }
 
     private void initListeners() {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(PassengerDetailActivity.class);
+                startActivity(BusListActivity.class);
                 finish();
             }
         });
@@ -97,8 +105,8 @@ public class PaymentMethodsActivity extends BaseActivity {
         RetrievePaymentMethodsRequest request = new RetrievePaymentMethodsRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.READ_ACTION);
-        dialog=new Dialog(PaymentMethodsActivity.this);
-        String message= "Retrieving payment methods\n\nPlease wait.....";
+        dialog = new Dialog(PaymentMethodsActivity.this);
+        String message = "Retrieving payment methods\n\nPlease wait.....";
         showProgressDialog(dialog, message);
 
         Call<RetrievePaymentMethodResponse> call = api.retrievePaymentMethods(request);
@@ -124,10 +132,16 @@ public class PaymentMethodsActivity extends BaseActivity {
                             mAdapter.setOnItemClickListener(new AdapterPaymentMethods.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, PaymentMethod obj, int position) {
-                                    String payment_method_id = obj.getId();
-                                    showCustomYesNoDialog(obj.getName(), "Use "+obj.getName()+" to pay your fare now?", payment_method_id);
-                                    Toast.makeText(PaymentMethodsActivity.this, obj.getName(), Toast.LENGTH_SHORT).show();
+                                String     payment_method_id = obj.getId();
+                        SharedPreferences.Editor editor = prefs.edit();
 
+                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
+                        editor.apply();
+                                    try {
+                                        showCustomYesNoDialog(obj.getName(), "Use " + obj.getName() + " to pay your fare now?", payment_method_id);
+                                    } catch (Exception e) {
+                                        Log.e("dialog p/meth", e.toString());
+                                    }
 
                                 }
                             });
@@ -146,7 +160,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<RetrievePaymentMethodResponse> call, Throwable t) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
     }
@@ -179,23 +193,23 @@ public class PaymentMethodsActivity extends BaseActivity {
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
             ImageView card_logo = dialog.findViewById(R.id.card_logo);
-            if (payment_method_id.equals("8")){
+            if (payment_method_id.equals("8")) {
                 card_logo.setImageResource(R.drawable.ic_visa_new);
-            }else if (payment_method_id.equals("9")){
+            } else if (payment_method_id.equals("9")) {
                 card_logo.setImageResource(R.drawable.ic_mastercard_new);
-            }else if (payment_method_id.equals("4")){
+            } else if (payment_method_id.equals("4")) {
                 card_logo.setImageResource(R.drawable.ic_jambopay_agent);
-            }else if (payment_method_id.equals("3")){
+            } else if (payment_method_id.equals("3")) {
                 card_logo.setImageResource(R.drawable.ic_jambopay_wallet);
-            }else if (payment_method_id.equals("7")){
+            } else if (payment_method_id.equals("7")) {
                 card_logo.setImageResource(R.drawable.pesalink);
-            }else if (payment_method_id.equals("2")){
+            } else if (payment_method_id.equals("2")) {
                 card_logo.setImageResource(R.drawable.ic_mpesa);
-            }else if (payment_method_id.equals("1")){
+            } else if (payment_method_id.equals("1")) {
                 card_logo.setImageResource(R.drawable.ic_mpesa);
-            }else if (payment_method_id.equals("6")){
+            } else if (payment_method_id.equals("6")) {
                 card_logo.setImageResource(R.drawable.mticket_green);
-            }else if (payment_method_id.equals("5")){
+            } else if (payment_method_id.equals("5")) {
                 card_logo.setImageResource(R.drawable.mticket_green);
             }
 
@@ -205,9 +219,9 @@ public class PaymentMethodsActivity extends BaseActivity {
             TextView tvContent = dialog.findViewById(R.id.content);
             tvContent.setText(message);
             tvTitle.setText(title);
-            total_cost=Double.valueOf(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE,""))* passengerList.size();
-            tvTickets.setText("Tickets: "+ passengerList.size());
-            tvTotalCost.setText("KES "+ String.format("%.2f",total_cost));
+            total_cost = Double.valueOf(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
+//            tvTickets.setText("Tickets: "+ passengerList.size());
+            tvTotalCost.setText("KES " + String.format("%.2f", total_cost));
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,44 +233,76 @@ public class PaymentMethodsActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
 
+                    Passenger passenger = new Passenger();
+                    passenger.setVehicle_id(prefs.getString(Constants.TICKET_VEHICLE_ID, ""));
+                    passenger.setTotal_fare(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
+                    passenger.setOperator_id(prefs.getString(Constants.TICKET_VEHICLE_OPERATOR_ID, ""));
+                    passenger.setTrip_number(prefs.getString(Constants.TICKET_VEHICLE_TRIP_NUMBER, ""));
+                    passenger.setTicketing_agent_id(prefs.getString(Constants.ID, ""));
+                    passenger.setSource(Constants.SOURCE);
+                    passenger.setTravel_from(prefs.getString(Constants.TICKET_TRAVEL_FROM, ""));
+                    passenger.setPickup_point(prefs.getString(Constants.TICKET_PICKUP_POINT, ""));
+                    passenger.setTravel_to(prefs.getString(Constants.TICKET_TRAVEL_TO, ""));
+                    passenger.setDropoff_point(prefs.getString(Constants.TICKET_DROPOFF_POINT, ""));
+                    passenger.setPayment_method_id(payment_method_id);
+                    passenger.setSeat("Free Seating"); //TODO : remove this hard coded data
+                    passenger.setEmail_address(prefs.getString(Constants.EMAIL_ADDRESS, ""));
+                    passenger.setMsisdn(prefs.getString(Constants.PHONE_NUMBER, ""));
+                    passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
+                    passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
+                    passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
+                    passengerList.add(passenger);
 
-                    try {
-                        for (Passenger passenger : passengerList) {
-                            int seat=1;
 
-                            //Set other vehicle parameters to ticket
+                    if (AppController.getInstance().isNetworkConnected()) {
 
-                            //Set payment method to tickets
-                            passenger.setVehicle_id(prefs.getString(Constants.TICKET_VEHICLE_ID, ""));
-                            passenger.setTotal_fare(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
-                            passenger.setOperator_id(prefs.getString(Constants.TICKET_VEHICLE_OPERATOR_ID, ""));
-                            passenger.setTrip_number(prefs.getString(Constants.TICKET_VEHICLE_TRIP_NUMBER, ""));
-                            passenger.setTicketing_agent_id(prefs.getString(Constants.ID, ""));
-                            passenger.setSource(Constants.SOURCE);
-                            passenger.setTravel_from(prefs.getString(Constants.TICKET_TRAVEL_FROM, ""));
-                            passenger.setPickup_point(prefs.getString(Constants.TICKET_PICKUP_POINT, ""));
-                            passenger.setTravel_to(prefs.getString(Constants.TICKET_TRAVEL_TO, ""));
-                            passenger.setDropoff_point(prefs.getString(Constants.TICKET_DROPOFF_POINT, ""));
-                            passenger.setPayment_method_id(payment_method_id);
-                            passenger.setSeat(String.valueOf(seat++)); //TODO : remove this hard coded data
-
+                        if (passengerList.size()>0){
+                            generateReferenceNumber(payment_method_id);
                         }
 
-                        if (AppController.getInstance().isNetworkConnected()) {
-                            try {
-                                reserveTickets(passengerList, payment_method_id);
-                            } catch (Exception e) {
-
-                            }
-
-                        } else {
-                            startActivity(NoInternetActivity.class);
-                        }
-
-
-                    } catch (Exception e) {
-                        Log.e("error", e.toString());
+                    } else {
+                        startActivity(NoInternetActivity.class);
                     }
+
+
+//
+//                    try {
+//                        for (Passenger passenger : passengerList) {
+//                            int seat=1;
+//
+//                            //Set other vehicle parameters to ticket
+//
+//                            //Set payment method to tickets
+//                            passenger.setVehicle_id(prefs.getString(Constants.TICKET_VEHICLE_ID, ""));
+//                            passenger.setTotal_fare(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
+//                            passenger.setOperator_id(prefs.getString(Constants.TICKET_VEHICLE_OPERATOR_ID, ""));
+//                            passenger.setTrip_number(prefs.getString(Constants.TICKET_VEHICLE_TRIP_NUMBER, ""));
+//                            passenger.setTicketing_agent_id(prefs.getString(Constants.ID, ""));
+//                            passenger.setSource(Constants.SOURCE);
+//                            passenger.setTravel_from(prefs.getString(Constants.TICKET_TRAVEL_FROM, ""));
+//                            passenger.setPickup_point(prefs.getString(Constants.TICKET_PICKUP_POINT, ""));
+//                            passenger.setTravel_to(prefs.getString(Constants.TICKET_TRAVEL_TO, ""));
+//                            passenger.setDropoff_point(prefs.getString(Constants.TICKET_DROPOFF_POINT, ""));
+//                            passenger.setPayment_method_id(payment_method_id);
+//                            passenger.setSeat(String.valueOf(seat++)); //TODO : remove this hard coded data
+//
+//                        }
+//
+//                        if (AppController.getInstance().isNetworkConnected()) {
+//                            try {
+//                                reserveTickets(passengerList, payment_method_id);
+//                            } catch (Exception e) {
+//
+//                            }
+//
+//                        } else {
+//                            startActivity(NoInternetActivity.class);
+//                        }
+//
+//
+//                    } catch (Exception e) {
+//                        Log.e("error", e.toString());
+//                    }
 
 
                     dialog.dismiss();
@@ -270,7 +316,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         }
     }
 
-    private void reserveTickets(final List<Passenger> passengerList, final String payment_method_id) {
+    private void reserveTickets(final List<Passenger> passengerList, final String payment_method_id, final String reference_number) {
         ReserveTicketsInterface api = AppController.getInstance().getRetrofit().create(ReserveTicketsInterface.class);
         ReserveTicketsRequest request = new ReserveTicketsRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -279,19 +325,19 @@ public class PaymentMethodsActivity extends BaseActivity {
         Log.e("tickets", gson.toJson(passengerList));
         Log.e("request", gson.toJson(request));
         Call<ReserveTicketResponse> call = api.reserveTickets(request);
-        dialog=new Dialog(PaymentMethodsActivity.this);
-        String message="Making reservation\n\nPlease wait.....";
-showProgressDialog(dialog, message);
+        dialog = new Dialog(PaymentMethodsActivity.this);
+        String message = "Making reservation\n\nPlease wait.....";
+        showProgressDialog(dialog, message);
 //        progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ReserveTicketResponse>() {
             @Override
             public void onResponse(Call<ReserveTicketResponse> call, Response<ReserveTicketResponse> response) {
-               dialog.dismiss();
+                dialog.dismiss();
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         Toast.makeText(PaymentMethodsActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
                         String reference_number = response.body().getReference_number();
-                        confirmReservation(reference_number, payment_method_id);
+                        confirmReservation(reference_number, passengerList);
 
 
                     } else {
@@ -318,8 +364,8 @@ showProgressDialog(dialog, message);
 
     }
 
-    private void confirmReservation(final String reference_number, final String payment_method_id) {
-        final Dialog dialog=new Dialog(PaymentMethodsActivity.this);
+    private void confirmReservation(final String reference_number, final List<Passenger> passengerList) {
+        final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
         ConfirmReservationInterface api = AppController.getInstance().getRetrofit().create(ConfirmReservationInterface.class);
         ConfirmReservationRequest request = new ConfirmReservationRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -335,13 +381,13 @@ showProgressDialog(dialog, message);
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         SharedPreferences.Editor editor = prefs.edit();
-
-                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
-                        editor.putString(Constants.TICKET_REFERENCE_NUMBER, reference_number);
-
+                        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, gson.toJson(passengerList));
                         editor.apply();
+
                         startActivity(PaymentActivity.class);
                         finish();
+                    } else {
+                        showCustomDialog("Confirm reservation", response.body().getResponse_message());
                     }
                 }
             }
@@ -356,5 +402,53 @@ showProgressDialog(dialog, message);
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+
+    private void generateReferenceNumber(final String payment_method_id) {
+        final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
+        //Generate reference number for the tickets
+        GenerateReferenceNumberInterface api = AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
+        GenerateReferenceNumberRequest request = new GenerateReferenceNumberRequest();
+        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
+        request.setAction(Constants.CREATE_REF_NUMBER_ACTION);
+        showProgressDialog(dialog, "Generate reference number\n\nPlease wait.....");
+        Call<GenerateReferenceNumberResponse> call = api.generateReferenceNumber(request);
+        call.enqueue(new Callback<GenerateReferenceNumberResponse>() {
+            @Override
+            public void onResponse(Call<GenerateReferenceNumberResponse> call, Response<GenerateReferenceNumberResponse> response) {
+                dialog.dismiss();
+                if (response.body() != null) {
+                    GenerateReferenceNumberResponse referenceNumberResponse = response.body();
+
+                    if (referenceNumberResponse.getResponse_code().equals("0")) {
+                        if (!referenceNumberResponse.getReference_number().isEmpty() || !referenceNumberResponse.getReference_number().equals("")) {
+                            if (passengerList.size() > 0) {
+                               String  reference_number = referenceNumberResponse.getReference_number();
+                                SharedPreferences.Editor editor = prefs.edit();
+
+                                editor.putString(Constants.TICKET_REFERENCE_NUMBER, reference_number);
+                                editor.apply();
+                                Log.e("new ref", reference_number);
+                                for (Passenger passenger : passengerList) {
+                                    passenger.setReference_number(reference_number);
+                                }
+
+                                reserveTickets(passengerList, payment_method_id, reference_number);
+
+                            }
+                        }
+                    } else {
+                        showCustomDialog("Generating reference number", referenceNumberResponse.getResponse_message());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenerateReferenceNumberResponse> call, Throwable t) {
+                dialog.dismiss();
+            }
+        });
+
     }
 }

@@ -71,7 +71,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:fontFamily="@font/googlesansextrabold"
+                    android:fontFamily="@font/googlesansregular"
                     android:layout_margin="@dimen/spacing_small"
                     android:id="@+id/tvBusStopName"
                     android:layout_width="match_parent"

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/RippleStyleBlack"
+
+android:background="@color/grey_3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+android:layout_marginTop="@dimen/spacing_medium"
         android:id="@+id/card"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+android:elevation="@dimen/spacing_small"
         android:layout_marginStart="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_medium"
         android:layout_marginBottom="@dimen/spacing_medium"
@@ -16,255 +20,145 @@
         app:cardElevation="@dimen/card_shadow">
 
     <LinearLayout
+
         android:id="@+id/lyt_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
+
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_large"
-            android:text="Passenger"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/grey_40" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvReferenceNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_person" />
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_weight="1"
+                android:text=""
+               android:fontFamily="@font/googlesansbold"
+                android:textColor="@color/grey_60" />
 
             <TextView
-                android:id="@+id/tvName"
-                android:layout_width="0dp"
+                android:id="@+id/tvJourney"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:fontFamily="@font/googlesansregular"
+
                 android:textColor="@color/grey_60" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:background="@color/grey_20" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_smartphone" />
-
             <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/grey_60" />
-
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_large"
-            android:text="Payment status"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/grey_40" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_attach_money" />
-
-            <TextView
+                android:fontFamily="@font/googlesansregular"
                 android:id="@+id/tvAmount"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+
                 android:textColor="@color/grey_60" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:background="@color/grey_20" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/baseline_done_all_black_24" />
-
             <TextView
                 android:id="@+id/tvPaymentStatus"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/grey_60" />
-
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_large"
-            android:text="Departure"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/grey_40" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_event" />
-
-            <TextView
-                android:id="@+id/tvTravelDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Thus, 10 Mar 2018"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/grey_60" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
-
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/baseline_alarm_black_24" />
-
-            <TextView
-                android:id="@+id/tvTravelTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="10.30pm"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+             android:fontFamily="@font/googlesansregular"
                 android:textColor="@color/grey_60" />
 
         </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:background="@color/grey_20" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_large"
-            android:text="Seat details"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/grey_40" />
+
+
+
         <LinearLayout
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="Travel Date and Time: "
+              android:fontFamily="@font/googlesansbold"
+                android:textColor="@color/grey_40" />
+            <LinearLayout
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tvTravelDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thus, 10 Mar 2018"
+             android:fontFamily="@font/googlesansregular"
+                    android:textColor="@color/grey_60" />
+                <TextView
+                    android:id="@+id/tvTravelTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="10.30pm"
+                  android:fontFamily="@font/googlesansregular"
+                    android:textColor="@color/grey_60" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/grey_20" />
+
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/spacing_medium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:fontFamily="@font/googlesansbold"
 
-            <View
-                android:layout_width="@dimen/spacing_xmedium"
-                android:layout_height="0dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seat details"
+                android:textColor="@color/grey_40" />
 
-            <ImageButton
-                android:layout_width="@dimen/spacing_xmlarge"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_seater" />
+
 
             <TextView
-                android:layout_width="0dp"
+                android:fontFamily="@font/googlesansregular"
+                android:id="@+id/tvSeat"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Free Seating"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+
                 android:textColor="@color/grey_60" />
 
         </LinearLayout>
@@ -273,4 +167,4 @@
     </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</com.balysv.materialripple.MaterialRippleLayout>
+</LinearLayout>

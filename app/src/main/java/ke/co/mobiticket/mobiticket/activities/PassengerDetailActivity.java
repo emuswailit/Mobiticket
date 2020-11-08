@@ -43,9 +43,9 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     private LinearLayout mLlDynamicContent;
     private int mCount;
     private ProgressBar progressBar;
-    private int seatCount=1;
+    private int seatCount = 1;
     private String[] mSplited;
-    private EditText etAccountOwnerPhone, etAccountOwnerNames, etOtherPassengerFirstName, etOtherPassengerLastName, etOtherPassengerPhone,etOtherPassengerEmail;
+    private EditText etAccountOwnerPhone, etAccountOwnerNames, etOtherPassengerFirstName, etOtherPassengerLastName, etOtherPassengerPhone, etOtherPassengerEmail;
     private ImageView mIVBack;
     private Boolean selfTravelling = true;
     private LinearLayout llAccountOwnerDetails;
@@ -123,33 +123,8 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                     passengerList.add(passenger);
                 }
 
-//                for (PassengerInput pi : passengerInputList) {
-//
-//                    String last_name = pi.getEtLastName().getText().toString();
-//                    String email = pi.getEtEmail().getText().toString();
-//                    String phone = pi.getEtPhone().getText().toString();
-////                    Log.e("full names", first_name + " " + last_name);
-//
-//                   if (pi.getEtFirstName().getText().toString().isEmpty()||pi.getEtFirstName().getText().toString().equals("")){
-//                       Toast.makeText(this, "First name is required!", Toast.LENGTH_SHORT).show();
-//                   }else{
-//                       String first_name = pi.getEtFirstName().getText().toString();
-//                       Passenger passenger = new Passenger();
-//
-//                       passenger.setSource(Constants.SOURCE);
-//                       passenger.setMsisdn(phone);
-//                       passenger.setEmail_address(email);
-//                       passenger.setFirst_name(first_name);
-//                       passenger.setLast_name(last_name);
-//                       passenger.setMiddle_name(" ");
-//
-//                       passengerList.add(passenger);
-//                   }
-//
-//                }
-
-
-                for (int i=0;i<passengerInputList.size();i++) {
+//Check if first name, last name and phone of other passengers is entered; they are required
+                for (int i = 0; i < passengerInputList.size(); i++) {
                     if (passengerInputList.get(i).getEtFirstName().getText().toString().isEmpty() || passengerInputList.get(i).getEtFirstName().getText().toString().equals("")) {
                         Toast.makeText(this, "First name is required!", Toast.LENGTH_SHORT).show();
                         passengerInputList.get(i).getEtFirstName().setError("First name is required!");
@@ -164,6 +139,7 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                         return;
                     } else {
 
+                        //Retrieve details of other passengers from dynamic edit texts
                         String last_name = passengerInputList.get(i).getEtLastName().getText().toString();
                         String first_name = passengerInputList.get(i).getEtFirstName().getText().toString();
                         String phone = passengerInputList.get(i).getEtPhone().getText().toString();
@@ -179,28 +155,28 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
                         passenger.setMiddle_name(" ");
 
                         passengerList.add(passenger);
+
+                        Log.e("added passengers", String.valueOf(passengerList.size()));
                     }
                 }
-                if (passengerList.size()>0){
-                    if (AppController.getInstance().isNetworkConnected()){
-                        try{
-                            Gson gson=new Gson();
+                if (passengerList.size() > 0) {
+                    if (AppController.getInstance().isNetworkConnected()) {
+                        try {
+                            Gson gson = new Gson();
                             Log.e("array", gson.toJson(passengerList));
                             generateReferenceNumber(passengerList);
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             Log.e("gerenerateRefNum:", e.toString());
                         }
 
 
-                    }else {
+                    } else {
                         startActivity(NoInternetActivity.class);
                     }
 
 
-
-
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.e("error", e.toString());
             }
 
@@ -214,30 +190,30 @@ public class PassengerDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void generateReferenceNumber(final List<Passenger> passengerList) {
-final Dialog dialog=new Dialog(PassengerDetailActivity.this);
+        final Dialog dialog = new Dialog(PassengerDetailActivity.this);
         //Generate reference number for the tickets
-        GenerateReferenceNumberInterface api= AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
-        GenerateReferenceNumberRequest request= new GenerateReferenceNumberRequest();
+        GenerateReferenceNumberInterface api = AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
+        GenerateReferenceNumberRequest request = new GenerateReferenceNumberRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.CREATE_REF_NUMBER_ACTION);
-       showProgressDialog(dialog, "Saving details\n\nPlease wait.....");
-        Call<GenerateReferenceNumberResponse> call= api.generateReferenceNumber(request);
+        showProgressDialog(dialog, "Saving details\n\nPlease wait.....");
+        Call<GenerateReferenceNumberResponse> call = api.generateReferenceNumber(request);
         call.enqueue(new Callback<GenerateReferenceNumberResponse>() {
             @Override
             public void onResponse(Call<GenerateReferenceNumberResponse> call, Response<GenerateReferenceNumberResponse> response) {
                 dialog.dismiss();
-                if (response.body() !=null ){
-                    GenerateReferenceNumberResponse referenceNumberResponse=response.body();
+                if (response.body() != null) {
+                    GenerateReferenceNumberResponse referenceNumberResponse = response.body();
 
-                    if (referenceNumberResponse.getResponse_code().equals("0")){
-                        if (!referenceNumberResponse.getReference_number().isEmpty()||!referenceNumberResponse.getReference_number().equals("") ){
-                            if (passengerList.size()>0){
-                                String reference_number=referenceNumberResponse.getReference_number();
-                                finalizePassengerData(passengerList,reference_number );
+                    if (referenceNumberResponse.getResponse_code().equals("0")) {
+                        if (!referenceNumberResponse.getReference_number().isEmpty() || !referenceNumberResponse.getReference_number().equals("")) {
+                            if (passengerList.size() > 0) {
+                                String reference_number = referenceNumberResponse.getReference_number();
+                                finalizePassengerData(passengerList, reference_number);
                                 Log.e("reference", reference_number);
                             }
                         }
-                    }else {
+                    } else {
                         showCustomDialog("Generating reference number", referenceNumberResponse.getResponse_message());
                     }
                 }
@@ -262,23 +238,22 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
         }
 
 
-
         try {
 
 
             //Represent finalized ticket as json and save it as shared preferences for use in future activities
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             SharedPreferences.Editor editor1 = prefs.edit();
             editor1.putString(Constants.PASSENGER_DATA_THIS_BOOKING, gson.toJson(passengerList));
             editor1.apply();
 
             Log.e("passengers", gson.toJson(passengerList));
 
-        Intent intent =new Intent(PassengerDetailActivity.this, PaymentMethodsActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(PassengerDetailActivity.this, PaymentMethodsActivity.class);
+            startActivity(intent);
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("error", e.toString());
         }
 
@@ -324,12 +299,12 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
                 @Override
                 public void onClick(View v) {
                     try {
-                        if (seatCount>1){
-                            seatCount=seatCount-1;
+                        if (seatCount > 1) {
+                            seatCount = seatCount - 1;
                             tvSeatCount.setText(String.valueOf(seatCount));
                         }
-                    }catch (Exception e){
-                        Log.e("error",e.toString());
+                    } catch (Exception e) {
+                        Log.e("error", e.toString());
                     }
 
 
@@ -340,9 +315,9 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
                 @Override
                 public void onClick(View v) {
                     try {
-                        seatCount=seatCount +1;
+                        seatCount = seatCount + 1;
                         tvSeatCount.setText(String.valueOf(seatCount));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("error", e.toString());
                     }
 
@@ -420,7 +395,7 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
                     }
                 }
             });
-            mTvSeatNo.setText("Passenger " + String.valueOf(i)+" details:");
+            mTvSeatNo.setText("Passenger " + String.valueOf(i) + " details:");
             mLlDynamicContent.addView(view1);
         }
         mBtnBook.setVisibility(View.VISIBLE);
@@ -436,7 +411,7 @@ final Dialog dialog=new Dialog(PassengerDetailActivity.this);
         } else if (seatCount > 1) {
             etAccountOwnerNames.setText(AppController.getInstance().camelCase(accountOwnerFirstName) + " " + AppController.getInstance().camelCase(accountOwnerMiddleName) + " " + AppController.getInstance().camelCase(accountOwnerLastName));
             etAccountOwnerPhone.setText(accountOwnerPhone);
-            int seatsMinusAccountOwner = seatCount-1;
+            int seatsMinusAccountOwner = seatCount - 1;
             int i = 0;
             while (i < seatsMinusAccountOwner) {
                 PassengerInput pi = new PassengerInput();

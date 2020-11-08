@@ -101,7 +101,8 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
     private void initListeners() {
 
 
-        rvRecentTickets.setLayoutManager(new LinearLayoutManager(this));
+//        rvRecentTickets.setLayoutManager(new LinearLayoutManager(this));
+        rvRecentTickets.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvRecentTickets.setHasFixedSize(true);
 
         adapter = new TicketsAdapter(TicketsActivity.this, recentTicketsList);
@@ -121,7 +122,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         rvRecentTickets = findViewById(R.id.rvRecentTickets);
         rvSearchedTickets = findViewById(R.id.rvSearchedTickets);
         ivBack = findViewById(R.id.ivBack);
-        cardSearchedTickets = findViewById(R.id.cardSearchedTickets);
+//        cardSearchedTickets = findViewById(R.id.cardSearchedTickets);
 
     }
 

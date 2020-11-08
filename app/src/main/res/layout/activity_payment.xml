@@ -194,7 +194,15 @@
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Wallet"
                             android:textSize="@dimen/font_xlarge" />
-
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+                            android:text="Use your Jambopay wallet number below or change to another"
+                            android:textSize="@dimen/font_large" />
                         <EditText
 
                             android:id="@+id/etJambopayWalletUsername"
@@ -265,7 +273,15 @@
                             android:fontFamily="@font/googlesansregular"
                             android:text="Jambopay Agency"
                             android:textSize="@dimen/font_xlarge" />
-
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+                            android:text="Use your Jambopay agency number below or change to another"
+                            android:textSize="@dimen/font_large" />
                         <EditText
                             android:id="@+id/etJambopayAgencyUsername"
                             android:layout_width="match_parent"
@@ -400,7 +416,15 @@
                             android:fontFamily="@font/googlesansextrabold"
                             android:text="Mpesa Express"
                             android:textSize="@dimen/font_xlarge" />
-
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:fontFamily="@font/googlesansregular"
+                            android:text="Use your Mpesa  number below or change to another"
+                            android:textSize="@dimen/font_large" />
                         <EditText
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:id="@+id/etMpesaPhone"

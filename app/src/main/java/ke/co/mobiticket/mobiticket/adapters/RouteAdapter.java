@@ -122,7 +122,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }catch (Exception e){
                 Log.e("stops",e.toString());
             }
-            Tools.displayImageOriginal(ctx, view.image, R.drawable.ic_buslogo);
+            Tools.displayImageOriginal(ctx, view.image, R.drawable.route);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="50dp"
-    android:background="@color/app_background"
+    android:background="@color/grey_300"
     tools:context=".activities.PaymentActivity">
 
     <RelativeLayout
@@ -89,14 +89,7 @@
                         </LinearLayout>
 
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardSearchedTickets"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_medium"
-                        android:visibility="gone"
-                        app:cardCornerRadius="@dimen/spacing_small"
-                        app:cardElevation="@dimen/card_shadow">
+
 
 
 
@@ -106,7 +99,7 @@
                             android:layout_height="match_parent"
                             android:scrollbars="vertical"
                             android:scrollingCache="true" />
-                    </com.google.android.material.card.MaterialCardView>
+
                     <View
 
                         android:layout_width="match_parent"
@@ -118,15 +111,6 @@
                         android:fontFamily="@font/googlesansbold"
                         android:gravity="center"
                         android:text="Recent tickets" />
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardRecentTickets"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_medium"
-
-                        app:cardCornerRadius="@dimen/spacing_small"
-                        app:cardElevation="@dimen/card_shadow">
-
 
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -135,7 +119,7 @@
                             android:layout_height="match_parent"
                             android:scrollbars="vertical"
                             android:scrollingCache="true" />
-                    </com.google.android.material.card.MaterialCardView>
+
                 </LinearLayout>
 
 

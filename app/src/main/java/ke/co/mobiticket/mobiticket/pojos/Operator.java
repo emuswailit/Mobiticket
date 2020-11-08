@@ -2,12 +2,12 @@ package ke.co.mobiticket.mobiticket.pojos;
 
 public class Operator {
 
+    private String id;
     private String name;
     private String type;
     private String trading_name;
     private String registration_number;
     private String tax_id;
-    private String operator;
     private String website;
     private String phone_number;
     private String email_address;
@@ -18,6 +18,14 @@ public class Operator {
     private String created;
     private String modified;
     private String status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -57,14 +65,6 @@ public class Operator {
 
     public void setTax_id(String tax_id) {
         this.tax_id = tax_id;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
     }
 
     public String getWebsite() {

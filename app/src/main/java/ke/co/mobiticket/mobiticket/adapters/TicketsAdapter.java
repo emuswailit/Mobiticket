@@ -84,18 +84,20 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvName, tvPhone,tvAmount,tvPaymentStatus,tvTravelDate,tvTravelTime;
+        public TextView tvJourney,tvSeat, tvAmount,tvPaymentStatus,tvTravelDate,tvTravelTime, tvReferenceNumber;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
 
+            tvSeat = (TextView) v.findViewById(R.id.tvSeat);
+            tvReferenceNumber = (TextView) v.findViewById(R.id.tvReferenceNumber);
             tvTravelDate = (TextView) v.findViewById(R.id.tvTravelDate);
             tvTravelTime = (TextView) v.findViewById(R.id.tvTravelTime);
-            tvName = (TextView) v.findViewById(R.id.tvName);
+            tvJourney = (TextView) v.findViewById(R.id.tvJourney);
             tvAmount = (TextView) v.findViewById(R.id.tvAmount);
             tvPaymentStatus = (TextView) v.findViewById(R.id.tvPaymentStatus);
-            tvPhone = (TextView) v.findViewById(R.id.tvPhone);
+
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
@@ -115,22 +117,23 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
             Ticket p = items.get(position);
-            view.tvName.setText(AppController.getInstance().camelCase(p.getFirst_name()) + " " + AppController.getInstance().camelCase(p.getMiddle_name()) + " " + AppController.getInstance().camelCase(p.getLast_name()));
-            view.tvPhone.setText(p.getMsisdn());
+            view.tvJourney.setText(AppController.getInstance().camelCase(p.getPickup_point()) + " to " + AppController.getInstance().camelCase(p.getDropoff_point()) );
+            view.tvReferenceNumber.setText("Ticket #: "+p.getReference_number());
             if (p.getTotal_fare().equals("")){
-                view.tvAmount.setText(String.format("%.2f",0.00));
+                view.tvAmount.setText("Ticket Cost: KES "+String.format("%.2f",0.00));
             }else {
-                view.tvAmount.setText(String.format("%.2f",Double.valueOf(p.getTotal_fare())));
+                view.tvAmount.setText("Ticket Cost: KES "+String.format("%.2f",Double.valueOf(p.getTotal_fare())));
             }
 
-            view.tvPaymentStatus.setText(p.getStatus());
-            if (p.getStatus().equals("Pending")){
-                view.tvPaymentStatus.setTextColor(Color.RED);
-            }else  if (p.getStatus().equals("Confirmed")){
-                view.tvPaymentStatus.setTextColor(Color.GREEN);
-            }
-            view.tvTravelDate.setText(p.getTravel_date());
-            view.tvTravelTime.setText(p.getTravel_time());
+            view.tvPaymentStatus.setText("Payment Status: "+ p.getStatus());
+//            if (p.getStatus().equals("Pending")){
+//                view.tvPaymentStatus.setTextColor(Color.RED);
+//            }else  if (p.getStatus().equals("Confirmed")){
+//                view.tvPaymentStatus.setTextColor(Color.GREEN);
+//            }
+            view.tvTravelDate.setText("Date: " +p.getTravel_date());
+            view.tvTravelTime.setText("Time: "+ p.getTravel_time());
+            view.tvSeat.setText("Seat No: "+p.getSeat());
 //            Tools.displayImageRound(ctx, view.image, p.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override

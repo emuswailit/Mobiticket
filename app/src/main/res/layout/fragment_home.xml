@@ -104,12 +104,13 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-            <ProgressBar
-                android:id="@+id/progressBar"
+            <LinearLayout
                 android:visibility="gone"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:id="@+id/llSearchedRoutes"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_large"
@@ -132,7 +133,13 @@
                 android:clipToPadding="false"
                 android:paddingStart="@dimen/spacing_medium"
                 android:paddingEnd="0dp" />
-
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/llRecentRoutes"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_large"
@@ -155,8 +162,7 @@
                 android:paddingStart="@dimen/spacing_medium"
                 android:paddingEnd="0dp" />
 
-
-
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
