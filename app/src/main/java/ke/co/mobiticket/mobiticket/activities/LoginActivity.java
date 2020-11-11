@@ -1,13 +1,7 @@
 package ke.co.mobiticket.mobiticket.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ivBack = findViewById(R.id.ivBack);
         tvTitle = findViewById(R.id.tvTitle);
         btnLogin = findViewById(R.id.btnLogin);
-        etUsername = findViewById(R.id.etUsername);
+        etUsername = findViewById(R.id.etPhoneNumber);
         etPassword = findViewById(R.id.etPassword);
         progressBar = findViewById(R.id.progressBar);
     }

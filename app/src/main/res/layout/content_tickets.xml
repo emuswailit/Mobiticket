@@ -29,64 +29,73 @@
 
 
                 <LinearLayout
-
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:weightSum="5"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone" />
+                    <LinearLayout
+                        android:layout_weight="4"
+                        android:id="@+id/llSearchDestination"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/spacing_large"
+                        android:orientation="vertical">
 
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_marginTop="@dimen/spacing_xsmall"
+                            android:fontFamily="@font/googlesansregular"
+                            android:padding="@dimen/spacing_small"
+                            android:text="@string/reference_number_or_phone"
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
 
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <LinearLayout
+                        <EditText
+                            android:id="@+id/etKeywords"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:weightSum="4">
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/spacing_small"
+                            android:layout_marginEnd="@dimen/spacing_small"
+                            android:layout_weight="4"
+                            android:background="@android:color/transparent"
+                            android:fontFamily="@font/googlesansregular"
+                            android:hint=""
 
-                            <EditText
-                                android:id="@+id/etKeywords"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:background="@drawable/bg_rounded_border_edittext"
-                                android:fontFamily="@font/googlesansregular"
-                                android:hint="Reference number or phone"
-                                android:paddingEnd="@dimen/spacing_medium"
-                                android:textColor="@color/green_700" />
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
 
-                            <ImageButton
+                    </LinearLayout>
 
-                                android:id="@+id/btnSearchTicket"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_medium"
-                                android:layout_marginEnd="@dimen/spacing_medium"
-                                android:layout_weight="1"
-                                android:background="@color/colorPrimary"
-                                android:paddingStart="@dimen/spacing_small"
-                                android:paddingEnd="@dimen/spacing_medium"
-                                android:src="@drawable/baseline_search_white_24" />
-                        </LinearLayout>
-                            <TextView
-                                android:id="@+id/tvSearchResult"
-                                android:fontFamily="@font/googlesansregular"
-                                android:text=""
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end">
+
+                        <ImageView
+                            android:layout_marginEnd="@dimen/spacing_medium"
+                            android:id="@+id/btnSearchTicket"
+                            android:layout_width="wrap_content"
+                            android:layout_height="75dp"
+                            android:background="@drawable/bg_btn_shape"
+                            android:clickable="true"
+                            android:contentDescription="@string/contentdescription"
+                            android:fontFamily="@font/googlesansbold"
+                            android:padding="@dimen/spacing_25sdp"
+                            android:scaleType="center"
+                            android:src="@drawable/baseline_search_white_24" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
 
 
@@ -123,7 +132,6 @@
                 </LinearLayout>
 
 
-            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 </RelativeLayout>

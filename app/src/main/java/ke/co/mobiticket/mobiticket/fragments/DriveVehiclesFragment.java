@@ -183,8 +183,8 @@ public class DriveVehiclesFragment extends Fragment {
 
                         }else {
                             totalExpenses= Double.parseDouble(totalExpenses+expense.getAmount());
-                            tvExpenses.setText(String.valueOf(totalExpenses));
-                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+                            tvExpenses.setText(String.format("%.2f",totalExpenses));
+
                         }
                     }
 
@@ -197,8 +197,8 @@ public class DriveVehiclesFragment extends Fragment {
 
                         }else {
                             totalCharges= Double.parseDouble(totalCharges+charge.getAmount());
-                            tvExpenses.setText(String.valueOf(totalExpenses));
-                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+                            tvExpenses.setText(String.format("%.2f",totalExpenses));
+
                         }
                     }
 

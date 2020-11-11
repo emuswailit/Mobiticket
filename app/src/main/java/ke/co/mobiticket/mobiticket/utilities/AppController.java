@@ -137,7 +137,14 @@ Log.e("json_string",json_string);
         }
         return out;
     }
-
+    public String getTodaysDate() {
+        String today_date;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        final Date date1 = new Date();
+        today_date = dateFormat.format(date1);
+        Log.e("Selected date", today_date);
+        return today_date;
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package ke.co.mobiticket.mobiticket.pojos;
 
 public class Vehicle {
+    public boolean section;
     private String vehicle_id;
     private String travel_from;
     private String travel_to;

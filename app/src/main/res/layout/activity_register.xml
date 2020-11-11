@@ -160,7 +160,7 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/spacing_large"
+                                    android:layout_marginStart="@dimen/spacing_small"
                                     android:layout_weight="2"
                                     android:fontFamily="@font/googlesansregular"
 

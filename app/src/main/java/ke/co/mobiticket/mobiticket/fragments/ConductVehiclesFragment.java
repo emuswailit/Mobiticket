@@ -1,5 +1,7 @@
 package ke.co.mobiticket.mobiticket.fragments;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.activities.VehicleActivity;
 import ke.co.mobiticket.mobiticket.adapters.AdapterListExpandConductVehicle;
 import ke.co.mobiticket.mobiticket.pojos.Charge;
 import ke.co.mobiticket.mobiticket.pojos.ConductVehicle;
@@ -113,15 +120,15 @@ public class ConductVehiclesFragment extends Fragment {
                     public void onItemClick(View view, ConductVehicle obj, int position) {
                         Snackbar.make(view,obj.getRegistration_number(),Snackbar.LENGTH_LONG).show();
                         TextView tvDetails=view.findViewById(R.id.tvDetails);
-
+                        showCustomYesNoDialog("Vehicle Report", "Would you like to veiw a detailed vehicle report?", obj, view);
                         if (obj.getStatus().equals("Active")){
                             tvDetails.setTextColor(Color.GREEN);
                         }else{
                             tvDetails.setTextColor(Color.RED);
                         }
 
-                        //Retrieve further details for a vehicle based on supplied ID
-                        readOne(obj.getId(), view);
+
+
                     }
                 });
 
@@ -196,7 +203,7 @@ if (response.body() !=null){
                         } else {
                             totalCharges = Double.parseDouble(totalCharges + charge.getAmount());
                             tvExpenses.setText(String.format("%.2f",totalExpenses));
-                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+
                         }
                     }
 
@@ -207,8 +214,13 @@ if (response.body() !=null){
                             Log.e("Invalid ticket", "Invalid ticket");
 
                         } else {
-                            totalPayment = Double.parseDouble(totalPayment + ticket.getPayment().get(0).getAmount());
-                            tvCollection.setText(String.format("%.2f",totalPayment));
+                            try {
+
+                            }catch (Exception e){
+                                totalPayment = totalPayment + Double.parseDouble(ticket.getPayment().get(0).getAmount());
+                                tvCollection.setText(String.format("%.2f",totalPayment));
+
+                            }
 
                         }
                     }
@@ -230,5 +242,53 @@ if (response.body() !=null){
         });
     }
 
+
+    public void showCustomYesNoDialog(String title, String message, final ConductVehicle obj, final View view) {
+        try {
+
+
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_view_ticket_details);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Retrieve further details for a vehicle based on supplied ID
+                    readOne(obj.getId(), view);
+                    dialog.dismiss();
+                }
+            });
+            ((Button) dialog.findViewById(R.id.bt_yes)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent =new Intent(getActivity(), VehicleActivity.class);
+                    intent.putExtra("vehicle_id",obj.getId());
+                    intent.putExtra("vehicle_reg",obj.getRegistration_number());
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
 
 }

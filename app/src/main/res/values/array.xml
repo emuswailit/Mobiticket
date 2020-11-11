@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <!--shopping category data-->
+    <integer-array name="shop_category_icon">
+        <item>@drawable/ic_devices</item>
+        <item>@drawable/ic_accessibility</item>
+        <item>@drawable/ic_face</item>
+        <item>@drawable/ic_child_friendly</item>
+        <item>@drawable/ic_weekend</item>
+
+        <item>@drawable/ic_pool</item>
+        <item>@drawable/ic_confirmation_number</item>
+        <item>@drawable/ic_restaurant</item>
+    </integer-array>
+
+    <integer-array name="shop_category_bg">
+        <item>@drawable/image_4</item>
+        <item>@drawable/image_19</item>
+        <item>@drawable/image_20</item>
+        <item>@drawable/image_21</item>
+        <item>@drawable/image_8</item>
+
+        <item>@drawable/image_22</item>
+        <item>@drawable/image_23</item>
+        <item>@drawable/image_24</item>
+    </integer-array>
+
+    <string-array name="shop_category_title">
+        <item>Gadgets and Computers</item>
+        <item>Fashion</item>
+        <item>Beauty and Health</item>
+        <item>Babies and Kids</item>
+        <item>Home and Garden</item>
+
+        <item>Sports and Hobby</item>
+        <item>Ticket and Voucher</item>
+        <item>Service and Food</item>
+    </string-array>
+
+    <string-array name="shop_category_brief">
+        <item>100k Items</item>
+        <item>655k Items</item>
+        <item>221k Items</item>
+        <item>85k Items</item>
+        <item>725k Items</item>
+
+        <item>932k Items</item>
+        <item>475k Items</item>
+        <item>362k Items</item>
+    </string-array>
+
+    <!--shopping product data-->
+    <integer-array name="shop_product_image">
+        <item>@drawable/image_shop_1</item>
+        <item>@drawable/image_shop_2</item>
+        <item>@drawable/image_shop_3</item>
+        <item>@drawable/image_shop_4</item>
+        <item>@drawable/image_shop_5</item>
+
+        <item>@drawable/image_shop_6</item>
+        <item>@drawable/image_shop_7</item>
+        <item>@drawable/image_shop_8</item>
+    </integer-array>
+</resources>

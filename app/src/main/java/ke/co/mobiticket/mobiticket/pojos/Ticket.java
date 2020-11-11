@@ -3,6 +3,7 @@ package ke.co.mobiticket.mobiticket.pojos;
 import java.util.List;
 
 public class Ticket {
+    public boolean section;
     private String id;
     private String source;
     private String travel_from;
@@ -32,6 +33,11 @@ public class Ticket {
     private String modified;
     private String status;
     private List<Payment> payment;
+
+    public Ticket(String s, boolean b) {
+        this.first_name =s;
+        this.section=b;
+    }
 
 
     public String getId() {

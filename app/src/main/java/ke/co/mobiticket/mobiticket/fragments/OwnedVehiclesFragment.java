@@ -182,7 +182,7 @@ public class OwnedVehiclesFragment extends Fragment {
                         }else {
                             totalExpenses= Double.parseDouble(totalExpenses+expense.getAmount());
                             tvExpenses.setText(String.valueOf(totalExpenses));
-                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
+
                         }
                     }
 
@@ -196,22 +196,27 @@ public class OwnedVehiclesFragment extends Fragment {
                         }else {
                             totalCharges= Double.parseDouble(totalCharges+charge.getAmount());
                             tvExpenses.setText(String.format("%.2f",totalExpenses));
-                            Toast.makeText(getActivity(), "Valid expense detected!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    List<Ticket>  ticketList= serverReadOneResponse.getTicket();
-                    Log.e("Tickets", String.valueOf(ticketList.size()));
-                    for (Ticket ticket : ticketList){
-                        if (ticket.getId()==null||ticket.getId().equals("")){
-                            Log.e("Invalid ticket", "Invalid ticket");
-
-                        }else {
-                            totalPayment= Double.parseDouble(totalPayment+ticket.getPayment().get(0).getAmount());
-                            tvCollection.setText(String.format("%.2f",totalPayment));
 
                         }
                     }
+
+                    try {
+                        List<Ticket>  ticketList= serverReadOneResponse.getTicket();
+                        Log.e("Tickets", String.valueOf(ticketList.size()));
+                        for (Ticket ticket : ticketList){
+                            if (ticket.getId()==null||ticket.getId().equals("")){
+                                Log.e("Invalid ticket", "Invalid ticket");
+
+                            }else {
+                                totalPayment= Double.parseDouble(totalPayment+ticket.getPayment().get(0).getAmount());
+                                tvCollection.setText(String.format("%.2f",totalPayment));
+
+                            }
+                        }
+                    }catch (Exception e){
+
+                    }
+
 
                 }else{
                     Toast.makeText(getActivity(), "Vehicle details not retrieved!", Toast.LENGTH_SHORT).show();

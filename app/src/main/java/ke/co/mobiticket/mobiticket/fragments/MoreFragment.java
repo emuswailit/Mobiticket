@@ -27,6 +27,7 @@ import ke.co.mobiticket.mobiticket.activities.ProfileSettingsActivity;
 import ke.co.mobiticket.mobiticket.activities.SelectionActivity;
 
 import ke.co.mobiticket.mobiticket.activities.SettingsActivity;
+import ke.co.mobiticket.mobiticket.activities.StakeholderMenuActivity;
 import ke.co.mobiticket.mobiticket.activities.WalletActivity;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
@@ -89,7 +90,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             intent.putExtra(Constants.intentdata.CARDFLAG, mFlag);
             startActivity(intent);
         } else if (v == mTvOperators)
-            ((BaseActivity) requireActivity()).startActivity(OperatorsActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(StakeholderMenuActivity.class);
         else if (v == mTvHelp)
             ((BaseActivity) requireActivity()).startActivity(HelpActivity.class);
         else if (v == mTvSetting)

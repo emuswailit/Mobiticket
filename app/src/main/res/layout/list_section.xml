@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/section_item_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@color/white"
+        android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="@font/googlesansregular"
+                android:gravity="center"
+                android:id="@+id/lblTripNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trip No:" />
+
+            <TextView
+                android:fontFamily="@font/googlesansbold"
+                android:gravity="center"
+                android:id="@+id/tvTripNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="@font/googlesansregular"
+                android:gravity="center"
+                android:id="@+id/lblTripTickets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Tickets:" />
+
+            <TextView
+                android:fontFamily="@font/googlesansbold"
+                android:gravity="center"
+                android:id="@+id/tvTripTickets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="@font/googlesansregular"
+                android:gravity="center"
+                android:id="@+id/lblTripAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Amount:" />
+
+            <TextView
+                android:fontFamily="@font/googlesansbold"
+                android:gravity="center"
+                android:id="@+id/tvTripAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="7dp" />
+
+
+</LinearLayout>

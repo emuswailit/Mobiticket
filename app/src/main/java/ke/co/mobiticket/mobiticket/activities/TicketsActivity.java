@@ -45,7 +45,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
     private ImageView ivBack;
     SharedPreferences prefs;
     private EditText etKeywords;
-    private ImageButton btnSearchTicket;
+    private ImageView btnSearchTicket;
     List<Ticket> recentTicketsList = null;
     MaterialCardView cardSearchedTickets;
     TicketsAdapter adapter = null;
@@ -116,7 +116,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         //Tickets
 
         etKeywords = findViewById(R.id.etKeywords);
-        tvSearchResult = findViewById(R.id.tvSearchResult);
+//        tvSearchResult = findViewById(R.id.tvSearchResult);
         progressBar = findViewById(R.id.progressBar);
         btnSearchTicket = findViewById(R.id.btnSearchTicket);
         rvRecentTickets = findViewById(R.id.rvRecentTickets);
