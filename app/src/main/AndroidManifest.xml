@@ -60,7 +60,7 @@
             android:name=".activities.PassengerDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.SelectionActivity" />
+        <activity android:name=".activities.SelectionActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activities.BusListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

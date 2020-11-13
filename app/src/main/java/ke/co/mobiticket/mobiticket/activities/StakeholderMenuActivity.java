@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import ke.co.mobiticket.mobiticket.utilities.Constants;
 public class StakeholderMenuActivity extends BaseActivity implements View.OnClickListener {
 
     SharedPreferences prefs;
+    private ImageView ivBack;
     List<DriveVehicle> driveVehicleList = new ArrayList<>();
     List<ConductVehicle>  conductVehicleList = new ArrayList<>();
     List<OwnedVehicle> ownVehicleList = new ArrayList<>();
@@ -62,9 +64,11 @@ public class StakeholderMenuActivity extends BaseActivity implements View.OnClic
         cardDrivers.setOnClickListener(this);
         cardConductors.setOnClickListener(this);
         cardMarketPlace.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
     }
 
     private void initLayouts() {
+        ivBack=findViewById(R.id.ivBack);
         cardOwners=findViewById(R.id.cardOwners);
         cardDrivers=findViewById(R.id.cardDrivers);
         cardConductors=findViewById(R.id.cardConductors);
@@ -107,6 +111,9 @@ public class StakeholderMenuActivity extends BaseActivity implements View.OnClic
             case R.id.cardMarketPlace:
                 startActivity(MarketPlaceActivity.class);
                 Toast.makeText(this, "Welcome to the marketplace", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ivBack:
+                finish();
                 break;
         }
     }

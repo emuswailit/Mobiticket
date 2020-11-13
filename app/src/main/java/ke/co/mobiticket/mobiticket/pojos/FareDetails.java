@@ -9,8 +9,17 @@ public class FareDetails {
     private String lng;
     private String speed;
     private String created;
+    private String trip_number;
     private String updated;
     private String fare_status;
+
+    public String getTrip_number() {
+        return trip_number;
+    }
+
+    public void setTrip_number(String trip_number) {
+        this.trip_number = trip_number;
+    }
 
     public String getTravel_from() {
         return travel_from;

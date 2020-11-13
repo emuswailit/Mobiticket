@@ -45,7 +45,7 @@ public class DashboardActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("ClickableViewAccessibility")
     public void initLayouts() {
 
-        mTvTitle = findViewById(R.id.tvTitle);
+        mTvTitle = findViewById(R.id.tvTitle);mTvTitle.setText("Vehicles and Destinations");
         mIvNotification = findViewById(R.id.ivNotification);
         mLlHome = findViewById(R.id.llHome);
         mLllPackages = findViewById(R.id.llPackage);

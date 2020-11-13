@@ -52,15 +52,19 @@ import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.BusListActivity;
 import ke.co.mobiticket.mobiticket.activities.DashboardActivity;
 import ke.co.mobiticket.mobiticket.activities.NoInternetActivity;
+import ke.co.mobiticket.mobiticket.activities.PaymentMethodsActivity;
 import ke.co.mobiticket.mobiticket.adapters.LazyAdapterBusStops;
 import ke.co.mobiticket.mobiticket.adapters.RouteAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Route;
+import ke.co.mobiticket.mobiticket.retrofit.interfaces.ReadOneInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.RouteDetailInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.SearchRouteInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.RouteDetailsRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.SearchRouteRequest;
+import ke.co.mobiticket.mobiticket.retrofit.requests.ServerReadOneRequest;
 import ke.co.mobiticket.mobiticket.retrofit.responses.RouteDetailsResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.SearchRoutesResponse;
+import ke.co.mobiticket.mobiticket.retrofit.responses.ServerReadOneResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
 import retrofit2.Call;
@@ -74,13 +78,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public static String mTitle = "Mobiticket";
     private AutoCompleteTextView mEdFromCity, mEdToCity;
-    private EditText etWhereTo;
+    private EditText etWhereTo,etSearchVehicle;
     private TextView mEdDepartDate, labelSearchRoutes;
     private Calendar mDepartDateCalendar;
     public static String mFrom, mTo;
     private int mValue = 0;
     private View mView;
-    private ImageView mIvSwap, mIvDescrease, mIvIncrease, mSearch, btnSearchWhereTo;
+    private ImageView mIvSwap, mIvDescrease, mIvIncrease, mSearch, btnSearchWhereTo, btnSearchVehicle;
     private TextView mTvCount;
     private String[] destinations;
     SharedPreferences prefs;
@@ -88,7 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProgressBar progressBar;
     private LinearLayout llRecentRoutes,llSearchedRoutes;
     MaterialCardView cardSearchRoutes;
-    MaterialCardView cardSearchDestinations;
+    MaterialCardView cardSearchDestinations, cardReadyMatatu,cardRecentRoutes;
     Dialog dialog;
     List<Route> recentSearches = new ArrayList<>();
    List<String> routeIdsList=new ArrayList<>();
@@ -185,6 +189,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void setListener() {
 
         btnSearchWhereTo.setOnClickListener(this);
+        btnSearchVehicle.setOnClickListener(this);
 
     }
 
@@ -193,10 +198,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         llSearchedRoutes = view.findViewById(R.id.llSearchedRoutes);
 
         cardSearchDestinations = view.findViewById(R.id.cardSearchDestination);
+        cardReadyMatatu = view.findViewById(R.id.cardReadyMatatu);
+        cardRecentRoutes = view.findViewById(R.id.cardRecentRoutes);
 
         btnSearchWhereTo = view.findViewById(R.id.btnSearchWhereTo);
+        btnSearchVehicle = view.findViewById(R.id.btnSearchVehicle);
 
         etWhereTo = view.findViewById(R.id.etWhereTo);
+        etSearchVehicle = view.findViewById(R.id.etSearchVehicle);
 
 
         rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
@@ -222,27 +231,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.btnSearchWhereTo:
 
-                String search = etWhereTo.getText().toString();
-                if (!search.isEmpty() || !search.equals("")) {
-                    if (AppController.getInstance().isNetworkConnected()) {
-                        try {
-                            searchWhereTo(search);
-                        } catch (Exception e) {
-                            Log.e("Error:search", e.toString());
-//                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } else {
-//                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
-                        startActivity(new Intent(getActivity(), NoInternetActivity.class));
-                    }
-
-                } else {
-//                    Toast.makeText(getActivity(), "Enter your destination!", Toast.LENGTH_SHORT).show();
-                }
+prepareSearchDestination();
+                break;
+            case R.id.btnSearchVehicle:
+                prepareSearchVehicle();
                 break;
 
+        }
+    }
 
+    private void prepareSearchDestination() {
+        String search = etWhereTo.getText().toString();
+        if (!search.isEmpty() || !search.equals("")) {
+            if (AppController.getInstance().isNetworkConnected()) {
+                try {
+                    searchWhereTo(search);
+                } catch (Exception e) {
+                    Log.e("Error:search", e.toString());
+//                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+//                        showCustomDialog(Constants.NO_INTERNET_TITLE, Constants.NO_INTERNET_MESSAGE);
+                startActivity(new Intent(getActivity(), NoInternetActivity.class));
+            }
+
+        } else {
+//                    Toast.makeText(getActivity(), "Enter your destination!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void prepareSearchVehicle() {
+        String vehicle_registration= etSearchVehicle.getText().toString();
+        if (vehicle_registration.isEmpty()||vehicle_registration.equals("")){
+            Toast.makeText(getActivity(), "Enter vehicle registration number", Toast.LENGTH_SHORT).show();
+        }else {
+            //Hide all other views
+            readOne(vehicle_registration);
         }
     }
 
@@ -506,6 +531,96 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             TextView tvMessage = dialog.findViewById(R.id.tvMessage);
             tvMessage.setText(message);
 
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+
+    private void readOne(final String vehicle_registration) {
+
+
+        final Dialog dialog=new Dialog(getActivity());
+        ReadOneInterface api = AppController.getInstance().getRetrofit().create(ReadOneInterface.class);
+        ServerReadOneRequest request=new ServerReadOneRequest();
+        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN,""));
+        request.setId(vehicle_registration);
+        request.setAction(Constants.READ_ONE_ACTION);
+        Call<ServerReadOneResponse> call = api.readOne(request);
+        String message ="Retrieving details"+ getResources().getString(R.string.txt_please_wait);
+        showProgressDialog(dialog, message);
+        call.enqueue(new Callback<ServerReadOneResponse>() {
+            @Override
+            public void onResponse(Call<ServerReadOneResponse> call, Response<ServerReadOneResponse> response) {
+                Log.e("body", gson.toJson(response.body()));
+                ServerReadOneResponse readOneResponse=response.body();
+                dialog.dismiss();
+                String registration_number=readOneResponse.getRegistration_number();
+                if (registration_number.isEmpty()||registration_number.equals("")){
+                    return;
+                }else {
+                    showCustomYesNoDialog(vehicle_registration, "Do you confirm that you are proceeding to pay fare for this vehicle?", readOneResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerReadOneResponse> call, Throwable t) {
+                Log.e("Error occured", t.toString());
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showCustomYesNoDialog(String title, String message, final ServerReadOneResponse readOneResponse) {
+        try {
+
+
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_view_ticket_details);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    finish();
+                    dialog.dismiss();
+                }
+            });
+            ((Button) dialog.findViewById(R.id.bt_yes)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences.Editor editor = prefs.edit();
+
+
+                    editor.putString(Constants.TICKET_VEHICLE_ID, readOneResponse.getId());
+                    editor.putString(Constants.TICKET_VEHICLE_CURRENT_FARE, readOneResponse.getFare_details().getCurrent_fare());
+                    editor.putString(Constants.TICKET_VEHICLE_OPERATOR_ID, readOneResponse.getOperator().getId());
+                    editor.putString(Constants.TICKET_VEHICLE_TRIP_NUMBER, readOneResponse.getFare_details().getTrip_number());
+
+                    editor.apply();
+
+                    //Move straight to payment methods
+                    Intent intent=new Intent(getActivity(), PaymentMethodsActivity.class);
+                    startActivity(intent);
+
+                    dialog.dismiss();
+                }
+            });
 
             dialog.show();
             dialog.getWindow().setAttributes(lp);
