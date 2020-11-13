@@ -197,7 +197,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnSearchWhereTo = view.findViewById(R.id.btnSearchWhereTo);
 
         etWhereTo = view.findViewById(R.id.etWhereTo);
-        progressBar = view.findViewById(R.id.progressBar);
+
 
         rvSearchRoutes = view.findViewById(R.id.rvSearchRoutes);
         rvRecentSearch = view.findViewById(R.id.rvRecentSearch);

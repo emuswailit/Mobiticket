@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/app_background">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/img_height"
-        android:background="@drawable/bg_toolbar" />
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/img_height"-->
+<!--        android:background="@drawable/bg_toolbar" />-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -18,6 +18,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -32,78 +33,83 @@
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:background="@color/white"
                 app:cardCornerRadius="@dimen/spacing_small"
+                android:elevation="@dimen/card_shadow"
                 app:cardElevation="@dimen/card_shadow">
 
                 <LinearLayout
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:weightSum="5"
+
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center"
+               android:layout_margin="@dimen/spacing_medium"
+                    android:fontFamily="@font/googlesansextrabold"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/where_to"
+                    android:textColor="@color/textchild"
+                    android:textSize="@dimen/font_large" />
 
                     <LinearLayout
-                        android:layout_weight="4"
-                        android:id="@+id/llSearchDestination"
-                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:weightSum="7"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:orientation="vertical">
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginTop="@dimen/spacing_xsmall"
-                            android:fontFamily="@font/googlesansregular"
-                            android:padding="@dimen/spacing_small"
-                            android:text="@string/where_to"
-                            android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
 
                         <EditText
+                            android:layout_weight="6"
                             android:id="@+id/etWhereTo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/spacing_small"
-                            android:layout_marginEnd="@dimen/spacing_small"
-                            android:layout_weight="4"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/googlesansregular"
-                            android:hint="e.g. Dagoretti"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/spacing_medium"
 
-                            android:inputType="textEmailAddress"
+                            android:background="@android:color/transparent"
+                            android:fontFamily="@font/googlesansbold"
+                            android:gravity="center"
+
+                            android:hint="e.g. Muthaiga"
+                            android:inputType="text"
                             android:textColor="@color/textchild"
                             android:textSize="@dimen/font_large" />
 
-                    </LinearLayout>
 
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end">
 
                         <ImageView
-                            android:layout_marginEnd="@dimen/spacing_medium"
                             android:id="@+id/btnSearchWhereTo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="75dp"
+                            android:layout_margin="@dimen/spacing_small"
+                            android:src="@drawable/baseline_search_white_24"
                             android:background="@drawable/bg_btn_shape"
-                            android:clickable="true"
-                            android:contentDescription="@string/contentdescription"
-                            android:fontFamily="@font/googlesansbold"
-                            android:padding="@dimen/spacing_25sdp"
-                            android:scaleType="center"
-                            android:src="@drawable/baseline_search_white_24" />
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+
 
                     </LinearLayout>
-                </LinearLayout>
 
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+
+
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@color/white"
+                app:cardCornerRadius="@dimen/spacing_small"
+                android:elevation="@dimen/card_shadow"
+                app:cardElevation="@dimen/card_shadow">
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/llSearchedRoutes"
@@ -111,17 +117,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_large"
-                android:background="@color/grey_10" />
+
             <TextView
+                android:layout_gravity="center"
                 android:id="@+id/labelSearchRoutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
-                android:fontFamily="@font/googlesansbold"
+                android:fontFamily="@font/googlesansextrabold"
                 android:padding="@dimen/spacing_medium"
+                android:gravity="center"
                 android:text="@string/text_searched"
                 android:textColor="@color/textheader"
                 android:textSize="@dimen/font_large" />
@@ -134,6 +139,7 @@
                 android:paddingStart="@dimen/spacing_medium"
                 android:paddingEnd="0dp" />
             </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/llRecentRoutes"

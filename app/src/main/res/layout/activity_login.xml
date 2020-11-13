@@ -32,9 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_left_arrow_white"
-                android:contentDescription="@string/contentdescription"/>
+                android:src="@drawable/ic_left_arrow_white" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -52,6 +52,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
@@ -66,6 +67,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
@@ -83,19 +86,21 @@
                         android:orientation="vertical">
 
                         <TextView
-
-                            android:paddingLeft="@dimen/spacing_small"
+                            android:layout_gravity="center"
                             android:id="@+id/lblContact"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/spacing_medium"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginEnd="@dimen/spacing_medium"
+                            android:layout_marginBottom="@dimen/spacing_medium"
                             android:fontFamily="@font/googlesansextrabold"
+                            android:gravity="center"
                             android:paddingStart="@dimen/spacing_small"
-                            android:textColor="@color/textheader"
+                            android:paddingLeft="@dimen/spacing_small"
                             android:paddingEnd="@dimen/spacing_small"
                             android:text="@string/text_login_credentials"
+                            android:textColor="@color/textheader"
                             android:textSize="@dimen/font_large" />
 
                         <LinearLayout
@@ -103,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_xsmall"
+                            android:layout_marginBottom="@dimen/spacing_medium"
                             android:padding="@dimen/spacing_small">
 
                             <TextView
@@ -112,7 +117,7 @@
                                 android:layout_marginStart="@dimen/spacing_medium"
                                 android:layout_weight="2"
                                 android:fontFamily="@font/googlesansbold"
-                                android:text="@string/lbl_phone_number"
+                                android:text="@string/lbl_username"
                                 android:textColor="@color/textchild"
                                 android:textSize="@dimen/font_large" />
 
@@ -145,7 +150,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xsmall"
+                            android:layout_marginTop="@dimen/spacing_medium"
                             android:layout_marginBottom="@dimen/spacing_medium"
                             android:gravity="center_vertical"
                             android:padding="@dimen/spacing_small">
@@ -163,10 +168,10 @@
                                 android:textSize="@dimen/font_large" />
 
                             <EditText
-                                android:layout_gravity="center"
                                 android:id="@+id/etPassword"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="@dimen/spacing_small"
                                 android:layout_marginEnd="@dimen/spacing_small"
                                 android:layout_weight="4"

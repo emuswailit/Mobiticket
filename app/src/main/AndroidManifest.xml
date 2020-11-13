@@ -14,7 +14,10 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MarketPlaceActivity"  android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.DestinationsActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".activities.MarketPlaceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DriverActivity"
             android:theme="@style/AppTheme.NoActionBar" />

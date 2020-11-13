@@ -10,7 +10,7 @@
     <string name="text_contact_information">Contact Information</string>
     <string name="lbl_email">Email:</string>
     <string name="text_login">Log In</string>
-    <string name="text_login_credentials">Log in credentials</string>
+    <string name="text_login_credentials">Enter your password to log in</string>
     <string name="hint_password">Password</string>
     <string name="text_password">Password:</string>
     <string name="text_register">Register</string>
@@ -150,8 +150,8 @@
     <string name="lbl_railway">Railways</string>
     <string name="lbl_ferry">Ferry</string>
     <string name="text_select_number_of_seats">Number of seats required</string>
-    <string name="where_to">Where are you travelling to?</string>
-    <string name="payment_methods">Payment Methods</string>
+    <string name="where_to">Search your matatu or bus by typing name of your destination below:</string>
+    <string name="payment_methods">Payment Metods</string>
     <string name="payment">Make payment</string>
     <string name="lbl_submit">Submit</string>
     <string name="RETRY">Retry</string>
@@ -211,5 +211,6 @@
     <string name="no_tickets">No tickets to display for this vehicle</string>
     <string name="no_charges">No charges to display for this vehicle</string>
     <string name="txt_please_wait">\n\nPlease wait.....\n\n</string>
+    <string name="hint__seven_phone_number">e.g. 7XX XXX XXX</string>
 
 </resources>

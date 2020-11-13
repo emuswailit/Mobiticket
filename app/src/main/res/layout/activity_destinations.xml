@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height"
+        android:background="@drawable/bg_toolbar" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/Toolbar"
+        app:contentInsetStart="0dp"
+        app:titleTextColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_left_arrow_white" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_toStartOf="@id/ivFilter"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/googlesansextrabold"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_mlarge"
+                tools:text="@string/text_bus_list" />
+
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_filter_fill" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/bg_card">
+
+        <androidx.core.widget.NestedScrollView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="always">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.card.MaterialCardView
+
+                android:id="@+id/cardSearchDestination"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@color/white"
+                app:cardCornerRadius="@dimen/spacing_small"
+                android:elevation="@dimen/card_shadow"
+                app:cardElevation="@dimen/card_shadow">
+
+                <LinearLayout
+
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:fontFamily="@font/googlesansextrabold"
+                        android:padding="@dimen/spacing_small"
+                        android:text="@string/where_to"
+                        android:textColor="@color/textchild"
+                        android:textSize="@dimen/font_large" />
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:weightSum="7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+
+
+                        <EditText
+                            android:layout_weight="6"
+                            android:id="@+id/etWhereTo"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/spacing_medium"
+
+                            android:background="@android:color/transparent"
+                            android:fontFamily="@font/googlesansbold"
+                            android:gravity="center"
+
+                            android:hint="e.g. Muthaiga"
+                            android:inputType="text"
+                            android:textColor="@color/textchild"
+                            android:textSize="@dimen/font_large" />
+
+
+
+                        <ImageView
+                            android:id="@+id/btnSearchWhereTo"
+                            android:layout_margin="@dimen/spacing_small"
+                            android:src="@drawable/baseline_search_white_24"
+                            android:background="@drawable/bg_btn_shape"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+
+
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@color/white"
+                app:cardCornerRadius="@dimen/spacing_small"
+                android:elevation="@dimen/card_shadow"
+                app:cardElevation="@dimen/card_shadow">
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/llSearchedRoutes"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/labelSearchRoutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:fontFamily="@font/googlesansextrabold"
+                        android:padding="@dimen/spacing_medium"
+                        android:gravity="center"
+                        android:text="@string/text_searched"
+                        android:textColor="@color/textheader"
+                        android:textSize="@dimen/font_large" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:nestedScrollingEnabled="true"
+                        android:id="@+id/rvSearchRoutes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingStart="@dimen/spacing_medium"
+                        android:paddingEnd="0dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/llRecentRoutes"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large"
+                    android:background="@color/grey_10" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="@font/googlesansbold"
+                    android:padding="@dimen/spacing_medium"
+                    android:text="@string/text_recent_search"
+                    android:textColor="@color/textheader"
+                    android:textSize="@dimen/font_large" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecentSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/spacing_medium"
+                    android:paddingEnd="0dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
+    <include
+        android:id="@+id/bottom"
+        layout="@layout/layout_bottom_bar"/>
+</RelativeLayout>

@@ -32,13 +32,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button btnLogin;
     private EditText etUsername, etPassword;
     private ProgressBar progressBar;
+    private String phone_number="";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            phone_number = extras.getString("phone_number");
+            //The key argument here must match that used in the other activity
+            Log.e("retrieved phone", phone_number);
 
+
+        }
 
 
         initLayouts();
@@ -56,6 +64,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvTitle = findViewById(R.id.tvTitle);
         btnLogin = findViewById(R.id.btnLogin);
         etUsername = findViewById(R.id.etPhoneNumber);
+        etUsername.setText(phone_number);
+        etUsername.setFocusable(false);
+
+
         etPassword = findViewById(R.id.etPassword);
         progressBar = findViewById(R.id.progressBar);
     }
@@ -77,9 +89,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (AppController.getInstance().isNetworkConnected()){
                     processLogin(username, password);
                 }else{
-                    String title="No internet connection!";
-                    String message="Internet connection is required for this function!";
-                    showCustomDialog(title,message);
+                 startActivity(NoInternetActivity.class);
                 }
 
             }
@@ -92,7 +102,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         request.setAction(Constants.LOGIN_ACTION);
         request.setUsername(username);
         request.setPassword(password);
-        showProgressDialog(dialog,"Logging in\nPlease wait....");
+        showProgressDialog(dialog,"Logging in"+getResources().getString(R.string.txt_please_wait));
 
         try {
             LoginInterface api = AppController.getInstance().getRetrofit().create(LoginInterface.class);
@@ -104,7 +114,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     dialog.dismiss();
 
                     if (response.body() == null) {
-                        Toast.makeText(LoginActivity.this, "Error occured while loging in!", Toast.LENGTH_SHORT).show();
+                        showCustomDialog("Log in", "A system error occurred. Please try again!");
                     } else {
                         ServerLoginResponse serverLoginResponse = response.body();
                         Toast.makeText(LoginActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
@@ -126,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                             else
                          {
-                            String title = "Login Failed!";
+                            String title = "Log In!";
                             String message = response.body().getResponse_message();
                             showCustomDialog(title, message);
                         }

@@ -73,7 +73,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof OriginalViewHolder) {
@@ -102,6 +102,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
                     View view1 = LayoutInflater.from(ctx).inflate(R.layout.item_bus_stop_layout, view.llDynamicContent, false);
+
                     final TextView tvBusStopName = view1.findViewById(R.id.tvBusStopName);
                     final TextView tvBusStopDetail = view1.findViewById(R.id.tvBusStopDetail);
                     final TextView tvBusStopDistance = view1.findViewById(R.id.tvBusStopDistance);
