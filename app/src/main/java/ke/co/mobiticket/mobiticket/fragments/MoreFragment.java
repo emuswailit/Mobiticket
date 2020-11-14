@@ -15,19 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Objects;
-
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.CardsActivity;
 import ke.co.mobiticket.mobiticket.activities.HelpActivity;
+import ke.co.mobiticket.mobiticket.activities.MyVehiclesActivity;
 import ke.co.mobiticket.mobiticket.activities.NFCActivity;
-import ke.co.mobiticket.mobiticket.activities.OperatorsActivity;
 import ke.co.mobiticket.mobiticket.activities.ProfileSettingsActivity;
 import ke.co.mobiticket.mobiticket.activities.SelectionActivity;
 
 import ke.co.mobiticket.mobiticket.activities.SettingsActivity;
-import ke.co.mobiticket.mobiticket.activities.StakeholderMenuActivity;
 import ke.co.mobiticket.mobiticket.activities.WalletActivity;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
@@ -71,7 +68,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         mTvProfileSettings = view.findViewById(R.id.tvProfileSettings);
         mTvWallet = view.findViewById(R.id.tvWallet);
         mTvCards = view.findViewById(R.id.tvCards);
-        mTvOperators = view.findViewById(R.id.tvOperators);
+        mTvOperators = view.findViewById(R.id.tvMyVehicles);
         mTvHelp = view.findViewById(R.id.tvHelp);
         mTvLogout = view.findViewById(R.id.tvLogout);
         mTvSetting = view.findViewById(R.id.tvSetting);
@@ -90,7 +87,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             intent.putExtra(Constants.intentdata.CARDFLAG, mFlag);
             startActivity(intent);
         } else if (v == mTvOperators)
-            ((BaseActivity) requireActivity()).startActivity(StakeholderMenuActivity.class);
+            ((BaseActivity) requireActivity()).startActivity(MyVehiclesActivity.class);
         else if (v == mTvHelp)
             ((BaseActivity) requireActivity()).startActivity(HelpActivity.class);
         else if (v == mTvSetting)

@@ -17,6 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ProgressBar
+        android:layout_marginTop="@dimen/spacing_large"
         android:background="@color/transparent"
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
@@ -31,9 +32,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_below="@+id/progressBar"
-        android:text="Please wait....."
+        android:text="Please wait"
+        android:textColor="@color/textheader"
         android:layout_width="wrap_content"
-
+android:layout_marginBottom="@dimen/spacing_large"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

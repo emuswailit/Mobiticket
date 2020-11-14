@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.DestinationsActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".activities.MyVehiclesActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.MarketPlaceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -60,7 +60,9 @@
             android:name=".activities.PassengerDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.SelectionActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activities.SelectionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.BusListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

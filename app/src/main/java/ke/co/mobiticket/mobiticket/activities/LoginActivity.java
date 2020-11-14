@@ -195,7 +195,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public void showCustomDialog(String title, String message) {
+    public void showCustomDialog(String title, String message, PaymentActivity paymentActivity) {
         try {
 
 

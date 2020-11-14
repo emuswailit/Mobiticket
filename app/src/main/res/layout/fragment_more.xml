@@ -93,7 +93,7 @@
 
 
                 <TextView
-                    android:id="@+id/tvOperators"
+                    android:id="@+id/tvMyVehicles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_medium"
@@ -110,7 +110,7 @@
                     android:paddingTop="@dimen/spacing_large"
                     android:paddingEnd="@dimen/spacing_medium"
                     android:paddingBottom="@dimen/spacing_large"
-                    android:text="@string/lbl_operators"
+                    android:text="@string/lbl_my_vehicles"
                     android:textColor="@color/textheader"
                     android:textSize="@dimen/font_large" />
 

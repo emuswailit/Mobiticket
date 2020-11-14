@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -114,9 +115,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initView(view);
         setListener();
         getData();
+        resetData();
 
 
         return view;
+    }
+
+    private void resetData() {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
+        editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
+        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
+        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+        editor.apply();
     }
 
     private void getData() {
@@ -281,7 +293,7 @@ prepareSearchDestination();
         Log.e("clicked", gson.toJson(request));
 //        progressBar.setVisibility(View.VISIBLE);
         dialog = new Dialog(getActivity());
-        String message = "Retrieving destinations\n\nPlease wait...";
+        String message = "Retrieving destinations"+ getResources().getString(R.string.txt_please_wait);
         showProgressDialog(dialog, message);
         Call<SearchRoutesResponse> call = api.retrieveRoutes(request);
         call.enqueue(new Callback<SearchRoutesResponse>() {
@@ -506,7 +518,13 @@ prepareSearchDestination();
                     dialog.dismiss();
                 }
             });
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    dialog.dismiss();
+                }
+            });
             dialog.show();
             dialog.getWindow().setAttributes(lp);
         } catch (Exception e) {
@@ -559,10 +577,15 @@ prepareSearchDestination();
                 ServerReadOneResponse readOneResponse=response.body();
                 dialog.dismiss();
                 String registration_number=readOneResponse.getRegistration_number();
-                if (registration_number.isEmpty()||registration_number.equals("")){
-                    return;
+                if (response.body().getResponse_code().equals("0")) {
+                    if (registration_number.isEmpty() || registration_number.equals("")) {
+                        showCustomDialog(vehicle_registration, "This vehicle was not retrieved. Please try again!");
+                        return;
+                    } else {
+                        showCustomYesNoDialog(registration_number, "Would you like proceeding to pay fare for this vehicle?", readOneResponse);
+                    }
                 }else {
-                    showCustomYesNoDialog(vehicle_registration, "Do you confirm that you are proceeding to pay fare for this vehicle?", readOneResponse);
+                    showCustomDialog(vehicle_registration, response.body().getResponse_message());
                 }
             }
 
@@ -580,7 +603,7 @@ prepareSearchDestination();
 
             final Dialog dialog = new Dialog(getActivity());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-            dialog.setContentView(R.layout.dialog_view_ticket_details);
+            dialog.setContentView(R.layout.dialog_custom_yes_or_no);
             dialog.setCancelable(false);
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -593,7 +616,13 @@ prepareSearchDestination();
             TextView tvContent = dialog.findViewById(R.id.content);
             tvContent.setText(message);
             tvTitle.setText(title);
-
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    finish();
+                    dialog.dismiss();
+                }
+            });
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

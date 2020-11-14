@@ -20,6 +20,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,7 +84,6 @@ public class PaymentActivity extends BaseActivity {
     private PendingIntent mPendingIntent;
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
-    private ProgressBar progressBar;
     private RecyclerView rvTickets;
     Timer timer;
     Tag myTag;
@@ -103,6 +104,7 @@ public class PaymentActivity extends BaseActivity {
     private String encryptedText = null;
     private int search_runs=3;
     SecretKey secretKey=null;
+    private ImageView ivBack;
 
 
     @Override
@@ -298,7 +300,7 @@ public class PaymentActivity extends BaseActivity {
         request.setPayment_method(payment_method_id);
         request.setVoucher_number(voucher_number);
         request.setSecurity_pin(security_pin);
-        showProgressDialog(dialog, "Processing voucher payment\nPlease wait....");
+        showProgressDialog(dialog, "Processing voucher payment"+getResources().getString(R.string.txt_please_wait));
         Call<RedeemVoucherResponse> call=api.redeemVoucher(request);
         call.enqueue(new Callback<RedeemVoucherResponse>() {
             @Override
@@ -315,7 +317,7 @@ public class PaymentActivity extends BaseActivity {
                     callAsynchronousTask(reference_number);
 
                     }else {
-                        showCustomDialog("Reddem Voucher", response.body().getResponse_message());
+                        showPaymentErrorDialog("Reddem Voucher", response.body().getResponse_message());
                     }
                 }
             }
@@ -341,7 +343,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<MpesaPaybillResponse> call = api.mpesaPaybillPayment(request);
 
-       showProgressDialog(dialog,"Processing Mpesa Paybill payment\nPlease wait.....");
+       showProgressDialog(dialog,"Processing Mpesa Paybill payment"+getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<MpesaPaybillResponse>() {
             @Override
             public void onResponse(Call<MpesaPaybillResponse> call, Response<MpesaPaybillResponse> response) {
@@ -351,20 +353,19 @@ public class PaymentActivity extends BaseActivity {
                         if (response.body().getResponse_code().equals("0")) {
 
                             cardMpesaPaybill.setVisibility(View.VISIBLE);
-                            progressBar.setVisibility(View.GONE);
+
                             for (int i = 0; i < response.body().getCustomer_message().length; i++) {
                                 customer_message += response.body().getCustomer_message()[i] + "\n";
                             }
 
                             tvMpesaPaybillPrompt.setText(customer_message);
-                            Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
-//                            showCustomDialog("Mpesa Express Payment",customer_message );
+
 
                             runCheck(reference_number);
 
 
                         } else {
-                            showCustomDialog("Mpesa Express Payment", response.body().getResponse_message());
+                            showPaymentErrorDialog("Mpesa Express Payment", response.body().getResponse_message());
                         }
                     } catch (Exception e) {
                         Log.e("Exception", e.toString());
@@ -372,7 +373,7 @@ public class PaymentActivity extends BaseActivity {
 
 
                 } else {
-                    showCustomDialog("Mpesa Express Payment", "An error occured");
+                    showPaymentErrorDialog("Mpesa Express Payment", "An error occured");
                 }
             }
 
@@ -401,7 +402,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<JambopayAgencyResponse> call = api.jambopayAgencyPayment(request);
 
-       showProgressDialog(dialog,"Processing Jambopay Agent payment\nPlease wait...");
+       showProgressDialog(dialog,"Processing Jambopay Agent payment"+getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<JambopayAgencyResponse>() {
             @Override
             public void onResponse(Call<JambopayAgencyResponse> call, Response<JambopayAgencyResponse> response) {
@@ -411,7 +412,7 @@ public class PaymentActivity extends BaseActivity {
                         if (response.body().getResponse_code().equals("0")) {
 
                             cardJambopayAgency.setVisibility(View.GONE);
-                            progressBar.setVisibility(View.GONE);
+
                             for (int i = 0; i < response.body().getCustomer_message().length; i++) {
                                 customer_message += response.body().getCustomer_message()[i] + "\n";
                             }
@@ -422,7 +423,7 @@ public class PaymentActivity extends BaseActivity {
                            callAsynchronousTask(reference_number);
 
                         } else {
-                            showCustomDialog("Jambopay Agency Payment", response.body().getResponse_message());
+                            showPaymentErrorDialog("Jambopay Agency Payment", response.body().getResponse_message());
                         }
                     } catch (Exception e) {
                         Log.e("Exception", e.toString());
@@ -430,7 +431,7 @@ public class PaymentActivity extends BaseActivity {
 
 
                 } else {
-                    showCustomDialog("Jambopay Agency Payment", "An error occured");
+                    showPaymentErrorDialog("Jambopay Agency Payment", "An error occured");
                 }
             }
 
@@ -459,7 +460,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<JambopayWalletResponse> call = api.jambopayWalletPayment(request);
 
-       showProgressDialog(dialog, "Processing payment\n\nPlease wait...");
+       showProgressDialog(dialog, "Processing payment"+getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<JambopayWalletResponse>() {
             @Override
             public void onResponse(Call<JambopayWalletResponse> call, Response<JambopayWalletResponse> response) {
@@ -470,7 +471,7 @@ public class PaymentActivity extends BaseActivity {
                         if (response.body().getResponse_code().equals("0")) {
 
                             cardJambopayWallet.setVisibility(View.GONE);
-                            progressBar.setVisibility(View.GONE);
+
                             for (int i = 0; i < response.body().getCustomer_message().length; i++) {
                                 customer_message += response.body().getCustomer_message()[i] + "\n";
                             }
@@ -482,7 +483,12 @@ public class PaymentActivity extends BaseActivity {
 
 
                         } else {
-                            showCustomDialog("Jambopay Wallet Payment", response.body().getResponse_message());
+                            try {
+                                showPaymentErrorDialog("Jambopay Wallet Payment", response.body().getResponse_message());
+                            }catch (Exception e){
+                              Log.e("eegege", e.toString());
+                            }
+
                         }
                     } catch (Exception e) {
                         Log.e("Exception", e.toString());
@@ -490,7 +496,7 @@ public class PaymentActivity extends BaseActivity {
 
 
                 } else {
-                    showCustomDialog("Jambopay Wallet Payment", "An error occured");
+                    showPaymentErrorDialog("Jambopay Wallet Payment", "An error occured");
                 }
             }
 
@@ -505,7 +511,8 @@ public class PaymentActivity extends BaseActivity {
     }
 
     private void initLayouts() {
-        progressBar = findViewById(R.id.progressBar);
+
+        ivBack = findViewById(R.id.ivBack);
         tvMessage = findViewById(R.id.tvMessage);
 //        tvPaymentMethodName = findViewById(R.id.tvPaymentMethodName);
 //        tvTitle = findViewById(R.id.tvTitle);
@@ -562,7 +569,7 @@ public class PaymentActivity extends BaseActivity {
 
         Call<MpesaExpressResponse> call = api.mpesaExpressPayment(request);
 
-       showProgressDialog(dialog,"Proccessing Mpesa payment.\n\nPlease wait....");
+       showProgressDialog(dialog,"Proccessing Mpesa payment"+getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<MpesaExpressResponse>() {
             @Override
             public void onResponse(Call<MpesaExpressResponse> call, Response<MpesaExpressResponse> response) {
@@ -577,14 +584,13 @@ public class PaymentActivity extends BaseActivity {
                             }
 
                             tvMessage.setText(customer_message);
-                            Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
-//                            showCustomDialog("Mpesa Express Payment",customer_message );
+
 
 callAsynchronousTask(reference_number);
 
 
                         } else {
-                            showCustomDialog("Mpesa Express Payment", response.body().getResponse_message());
+                            showPaymentErrorDialog("Mpesa Express Payment", response.body().getResponse_message());
                         }
                     } catch (Exception e) {
                         Log.e("Exception", e.toString());
@@ -592,7 +598,7 @@ callAsynchronousTask(reference_number);
 
 
                 } else {
-                    showCustomDialog("Mpesa Express Payment", "An error occured");
+                    showPaymentErrorDialog("Mpesa Express Payment", "An error occured");
                 }
             }
 
@@ -625,7 +631,7 @@ callAsynchronousTask(reference_number);
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.SEARCH_ACTION);
         request.setKeywords(reference_number);
-       showProgressDialog(dialog, "Checking payment status\n\nPlease wait....");
+       showProgressDialog(dialog, "Checking payment status"+getResources().getString(R.string.txt_please_wait));
 
         Call<SearchTicketResponse> call = api.searchTicket(request);
         call.enqueue(new Callback<SearchTicketResponse>() {
@@ -635,6 +641,18 @@ callAsynchronousTask(reference_number);
                dialog.dismiss();
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
+                        try {
+                            Gson gson = new Gson();
+                            SharedPreferences.Editor editor = prefs.edit();
+
+                            editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
+                            editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
+                            editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
+                            editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+                            editor.apply();
+                        } catch (Exception e) {
+                            Log.e("Write prefs", "Error editing prefs");
+                        }
 
                         Log.e("search Success", gson.toJson(response.body()));
                         lblPurchasedTickets.setVisibility(View.VISIBLE);
@@ -684,20 +702,11 @@ callAsynchronousTask(reference_number);
                                 Log.e("ticketList Before", String.valueOf(recentTicketsList.size()));
 
                                 recentTicketsList.addAll(ticketList);
-
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString(Constants.RECENT_TICKETS, gson.toJson(recentTicketsList));
+                                editor.apply();
                                 Log.e("ticketList After", String.valueOf(recentTicketsList.size()));
-                                try {
-                                    Gson gson = new Gson();
-                                    SharedPreferences.Editor editor = prefs.edit();
 
-                                    editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
-                                    editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
-                                    editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, null);
-                                    editor.putString(Constants.RECENT_TICKETS, gson.toJson(recentTicketsList));
-                                    editor.apply();
-                                } catch (Exception e) {
-                                    Log.e("Write prefs", "Error editing prefs");
-                                }
                             }
 
 
@@ -706,11 +715,11 @@ callAsynchronousTask(reference_number);
                         }
 
                     } else {
-                       showCustomDialog("Ticket Payment Status", response.body().getResponse_message());
+                       showPaymentErrorDialog("Ticket Payment Status", response.body().getResponse_message());
                     }
 
                 } else {
-                    showCustomDialog("Search Ticket", "Error occurred while searching for tickets");
+                    showPaymentErrorDialog("Search Ticket", "Error occurred while searching for tickets");
                 }
             }
 
@@ -767,7 +776,14 @@ callAsynchronousTask(reference_number);
                     dialog.dismiss();
                 }
             });
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+
+                    dialog.dismiss();
+                }
+            });
             dialog.show();
             dialog.getWindow().setAttributes(lp);
         } catch (Exception e) {
@@ -914,7 +930,7 @@ try {
         request.setPayment_method(payment_method_id);
 
         Log.e("card request", gson.toJson(request));
-      showProgressDialog(dialog, "Processing Commuter Card payment\n\nPlease wait....");
+      showProgressDialog(dialog, "Processing Commuter Card payment"+getResources().getString(R.string.txt_please_wait));
         Call<CommuterNFCResponse> call = api.verifyCommuterCard(request);
         call.enqueue(new Callback<CommuterNFCResponse>() {
             @Override
@@ -929,11 +945,11 @@ try {
                         callAsynchronousTask(reference_number);
 
                     } else {
-                        showCustomDialog("Commuter Card Payment", response.body().getResponse_message());
+                        showPaymentErrorDialog("Commuter Card Payment", response.body().getResponse_message());
                     }
 
                 } else {
-                    showCustomDialog("Commuter Card Payment", "An error occured. Please try again!");
+                    showPaymentErrorDialog("Commuter Card Payment", "An error occured. Please try again!");
                 }
             }
 
@@ -941,7 +957,7 @@ try {
             public void onFailure(Call<CommuterNFCResponse> call, Throwable t) {
                 dialog.dismiss();
                 Log.e("commuter card error", t.getLocalizedMessage());
-                showCustomDialog("Commuter Card Patment", "System error occurred. Please tap card to try again!");
+                showPaymentErrorDialog("Commuter Card Patment", "System error occurred. Please tap card to try again!");
             }
         });
 
@@ -960,5 +976,44 @@ try {
         super.onPause();
         mNfcAdapter.disableForegroundDispatch(this);
     }
+    public void showPaymentErrorDialog(String title, String message) {
+        try {
 
+
+            final Dialog dialog = new Dialog(PaymentActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_warning);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+            ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    finish();
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
 }

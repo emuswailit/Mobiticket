@@ -1,7 +1,5 @@
 package ke.co.mobiticket.mobiticket.activities;
 
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,14 +20,11 @@ import com.google.gson.Gson;
 
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.RegisterInterface;
-import ke.co.mobiticket.mobiticket.retrofit.interfaces.UserAvailabilityInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.VerifyIPRSInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ServerIPRSRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ServerRegisterRequest;
-import ke.co.mobiticket.mobiticket.retrofit.requests.UserAvailabilityRequest;
 import ke.co.mobiticket.mobiticket.retrofit.responses.ServerIPRSResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.ServerRegisterResponse;
-import ke.co.mobiticket.mobiticket.retrofit.responses.UserAvailabilityResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.Constants;
 import retrofit2.Call;

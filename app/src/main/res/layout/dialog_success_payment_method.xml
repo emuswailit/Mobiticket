@@ -1,206 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/bt_exit"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/grey_20"
+            app:srcCompat="@drawable/ic_close" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:gravity="center"
+        android:minHeight="120dp"
         android:orientation="vertical"
-        android:paddingTop="@dimen/spacing_large">
+        android:padding="@dimen/spacing_mlarge">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="320dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/spacing_large"
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:civ_background_color="@color/colorPrimary"
+            android:src="@drawable/baseline_done_white_24"
+            app:civ_border_color="@color/grey_5"
+            app:civ_border_width="1dp" />
+
+        <TextView
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:fontFamily="@font/googlesansextrabold"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/textheader"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="visible"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="6dp">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/googlesansbold"
+                android:gravity="center_vertical"
+                android:text="AMOUNT TO PAY"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textColor="@color/textchild" />
 
+            <TextView
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:id="@+id/tvTotalCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/googlesansextrabold"
+                android:gravity="center_vertical"
+                android:text="KES 0.00"
+                android:textColor="@color/textheader"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="6dp"
-                        app:cardElevation="0dp">
+        </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/spacing_large"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle"
-                            android:paddingTop="@dimen/spacing_large">
+        <TextView
+            android:fontFamily="@font/googlesansbold"
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_middle"
+            android:layout_marginRight="@dimen/spacing_middle"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/short_lorem_ipsum"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/grey_40" />
 
+        <LinearLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:weightSum="2">
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_close"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@drawable/btn_rounded_red"
+                android:paddingLeft="@dimen/spacing_mlarge"
+                android:paddingRight="@dimen/spacing_mlarge"
+                android:text="No"
+                android:textColor="@android:color/white" />
 
-                                <TextView
-                                    android:fontFamily="@font/googlesansbold"
-                                    android:layout_gravity="center"
-                                    android:id="@+id/title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="Payment outcome message"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:text=""
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                                    android:textColor="@color/grey_40" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:background="@drawable/line_dash_grey_20" />
-
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/spacing_middle">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:text="AMOUNT"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/grey_40" />
-
-                            <TextView
-                                android:id="@+id/tvTotalCost"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:text="KES 0.00"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                                android:textColor="@color/grey_80"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tvTickets"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="Tickets: 0"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/grey_40" />
-
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="@dimen/spacing_middle"
-                        android:background="@drawable/line_dash_grey_20" />
-
-                    <TextView
-                        style="@style/TextAppearance.AppCompat.Small"
-                        android:id="@+id/content"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_middle"
-                        android:gravity="center_vertical"
-                        android:text="Do you want to view your tickets?"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/grey_40" />
-
-
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/spacing_medium"
-                        android:weightSum="2">
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/bt_close"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/btn_rounded_red"
-                            android:paddingLeft="@dimen/spacing_mlarge"
-                            android:paddingRight="@dimen/spacing_mlarge"
-                            android:text="NO"
-                            android:textColor="@android:color/white" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/bt_yes"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/btn_rounded_green"
-                            android:paddingLeft="@dimen/spacing_mlarge"
-                            android:paddingRight="@dimen/spacing_mlarge"
-                            android:text="Yes"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.cardview.widget.CardView>
-
-
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_yes"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@drawable/btn_rounded_green"
+                android:paddingLeft="@dimen/spacing_mlarge"
+                android:paddingRight="@dimen/spacing_mlarge"
+                android:text="Yes"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+
+
+</LinearLayout>

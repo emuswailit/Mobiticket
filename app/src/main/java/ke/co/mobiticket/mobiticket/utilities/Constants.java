@@ -61,6 +61,8 @@ public class Constants {
     public static final String SECRET_KEY = "secret_key";
     public static final String RECENT_ROUTES ="recent_routes" ;
     public static final String CHECK_USER_AVAILABILITY ="validate-user-availability" ;
+    public static final String TICKET_IS_RESERVED ="ticket_is_reserved" ;
+    public static final String ACTION_PINLESS_LOGIN ="pinless-login" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

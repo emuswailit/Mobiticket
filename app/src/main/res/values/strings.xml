@@ -213,5 +213,7 @@
     <string name="txt_please_wait">\n\nPlease wait.....\n\n</string>
     <string name="hint__seven_phone_number">e.g. 7XX XXX XXX</string>
     <string name="txt_search_bus">Already inside a bus? Enter its registration number below to pay fare</string>
+    <string name="lbl_my_vehicles">My Vehicles</string>
+    <string name="text_my_vehicles">My Vehicles</string>
 
 </resources>

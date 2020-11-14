@@ -1,7 +1,5 @@
 package ke.co.mobiticket.mobiticket.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,6 +106,18 @@ switch (v.getId()){
 
         if (!code.isEmpty()||!code.equals("")){
             phone_number=code+phone_number;
+        }
+
+        //Number formatting for Kenya numbers
+        if (code.equals("254")&& phone_number.length()!=12){
+
+            if (phone_number.length()>12){
+                Toast.makeText(this, "Number you entered is more than 12 digits", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Number you entered is less than 12 digits", Toast.LENGTH_SHORT).show();
+            }
+
+            return;
         }
         Toast.makeText(this, phone_number, Toast.LENGTH_SHORT).show();
         if (AppController.getInstance().isNetworkConnected()) {

@@ -1,6 +1,5 @@
 package ke.co.mobiticket.mobiticket.activities;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,10 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,8 +59,7 @@ public class PaymentMethodsActivity extends BaseActivity {
     List<Passenger> passengerList = new ArrayList<>();
     Gson gson = new Gson();
     Dialog dialog;
-
-
+    private String reference_number="";
 
 
     @Override
@@ -69,7 +67,31 @@ public class PaymentMethodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_methods);
         initLayouts();
+
+
+
         prefs = AppController.getInstance().getMobiPrefs();
+        //Reset selected payment method
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+        editor.apply();
+
+        //Check if reference number is set, if not generate new
+        if (AppController.getInstance().isNetworkConnected()) {
+
+
+
+
+                if (prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")==""||prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"").isEmpty()) {
+                    generateReferenceNumber();
+                }else {
+                    Toast.makeText(this, "Reference number "+ prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")+" is set. No need to regenerate", Toast.LENGTH_SHORT).show();
+                }
+
+
+        } else {
+            startActivity(NoInternetActivity.class);
+        }
 
 //        String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
 //        Log.e("retrievePassengers", passengerListString);
@@ -94,7 +116,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(BusListActivity.class);
+
                 finish();
             }
         });
@@ -154,7 +176,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                     }
 
                 } else {
-                    showCustomDialog("Retrieve Payment Methods", "An error occured while retrieveing payment methods. Please try again");
+                    showCustomDialog("Retrieve Payment Methods", "An error occurred while retrieving payment methods. Please try again");
                 }
             }
 
@@ -192,7 +214,7 @@ public class PaymentMethodsActivity extends BaseActivity {
             lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            ImageView card_logo = dialog.findViewById(R.id.card_logo);
+            CircularImageView card_logo = dialog.findViewById(R.id.image);
             if (payment_method_id.equals("8")) {
                 card_logo.setImageResource(R.drawable.ic_visa_new);
             } else if (payment_method_id.equals("9")) {
@@ -211,6 +233,8 @@ public class PaymentMethodsActivity extends BaseActivity {
                 card_logo.setImageResource(R.drawable.mticket_green);
             } else if (payment_method_id.equals("5")) {
                 card_logo.setImageResource(R.drawable.mticket_green);
+            } else if (payment_method_id.equals("10")) {
+                card_logo.setImageResource(R.drawable.mticket_green);
             }
 
             TextView tvTitle = dialog.findViewById(R.id.title);
@@ -222,10 +246,18 @@ public class PaymentMethodsActivity extends BaseActivity {
             total_cost = Double.valueOf(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, ""));
 //            tvTickets.setText("Tickets: "+ passengerList.size());
             tvTotalCost.setText("KES " + String.format("%.2f", total_cost));
+
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PaymentMethodsActivity.this, ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+
                     dialog.dismiss();
                 }
             });
@@ -251,17 +283,26 @@ public class PaymentMethodsActivity extends BaseActivity {
                     passenger.setFirst_name(prefs.getString(Constants.FIRST_NAME, ""));
                     passenger.setMiddle_name(prefs.getString(Constants.MIDDLE_NAME, ""));
                     passenger.setLast_name(prefs.getString(Constants.LAST_NAME, ""));
+
+                    passenger.setReference_number(prefs.getString(Constants.TICKET_REFERENCE_NUMBER, ""));
                     passengerList.add(passenger);
 
+                    if (prefs.getBoolean(Constants.TICKET_IS_RESERVED, false)){
+                        Toast.makeText(PaymentMethodsActivity.this, "Ticket is already reserved", Toast.LENGTH_SHORT).show();
 
-                    if (AppController.getInstance().isNetworkConnected()) {
-
-                        if (passengerList.size()>0){
-                            generateReferenceNumber(payment_method_id);
+                        //Ensure payment method is set
+                        if (prefs.getString(Constants.TICKET_PAYMENT_METHOD_ID,"").equals("")||prefs.getString(Constants.TICKET_PAYMENT_METHOD_ID,"").isEmpty()){
+                            Toast.makeText(PaymentMethodsActivity.this, "Please select payment method", Toast.LENGTH_SHORT).show();
+                        }else {
+                            passenger.setPayment_method_id(prefs.getString(Constants.TICKET_PAYMENT_METHOD_ID, ""));
+                            startActivity(PaymentActivity.class);
                         }
 
-                    } else {
-                        startActivity(NoInternetActivity.class);
+                    }else {
+                        if (passengerList.size()>0){
+                            reserveTickets(passengerList);
+                        }
+                        Toast.makeText(PaymentMethodsActivity.this, "Ticket will be reserved", Toast.LENGTH_SHORT).show();
                     }
 
                     dialog.dismiss();
@@ -275,7 +316,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         }
     }
 
-    private void reserveTickets(final List<Passenger> passengerList, final String payment_method_id, final String reference_number) {
+    private void reserveTickets(final List<Passenger> passengerList) {
         ReserveTicketsInterface api = AppController.getInstance().getRetrofit().create(ReserveTicketsInterface.class);
         ReserveTicketsRequest request = new ReserveTicketsRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -285,7 +326,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         Log.e("request", gson.toJson(request));
         Call<ReserveTicketResponse> call = api.reserveTickets(request);
         dialog = new Dialog(PaymentMethodsActivity.this);
-        String message = "Making reservation\n\nPlease wait.....";
+        String message = "Making reservation"+ getResources().getString(R.string.txt_please_wait);
         showProgressDialog(dialog, message);
 //        progressBar.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ReserveTicketResponse>() {
@@ -298,6 +339,13 @@ public class PaymentMethodsActivity extends BaseActivity {
                         String reference_number = response.body().getReference_number();
                         confirmReservation(reference_number, passengerList);
 
+
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean(Constants.TICKET_IS_RESERVED, true);
+                        editor.apply();
+
+
+                        startActivity(PaymentActivity.class);
 
                     } else {
 //                        SharedPreferences.Editor editor = prefs.edit();
@@ -364,7 +412,7 @@ public class PaymentMethodsActivity extends BaseActivity {
     }
 
 
-    private void generateReferenceNumber(final String payment_method_id) {
+    private void generateReferenceNumber() {
         final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
         //Generate reference number for the tickets
         GenerateReferenceNumberInterface api = AppController.getInstance().getRetrofit().create(GenerateReferenceNumberInterface.class);
@@ -381,22 +429,12 @@ public class PaymentMethodsActivity extends BaseActivity {
                     GenerateReferenceNumberResponse referenceNumberResponse = response.body();
 
                     if (referenceNumberResponse.getResponse_code().equals("0")) {
-                        if (!referenceNumberResponse.getReference_number().isEmpty() || !referenceNumberResponse.getReference_number().equals("")) {
-                            if (passengerList.size() > 0) {
-                               String  reference_number = referenceNumberResponse.getReference_number();
-                                SharedPreferences.Editor editor = prefs.edit();
+                         String new_reference_number = referenceNumberResponse.getReference_number();
+                                                SharedPreferences.Editor editor = prefs.edit();
 
-                                editor.putString(Constants.TICKET_REFERENCE_NUMBER, reference_number);
-                                editor.apply();
-                                Log.e("new ref", reference_number);
-                                for (Passenger passenger : passengerList) {
-                                    passenger.setReference_number(reference_number);
-                                }
-
-                                reserveTickets(passengerList, payment_method_id, reference_number);
-
-                            }
-                        }
+                        editor.putString(Constants.TICKET_REFERENCE_NUMBER, new_reference_number);
+                        editor.apply();
+                        startActivity(PaymentActivity.class);
                     } else {
                         showCustomDialog("Generating reference number", referenceNumberResponse.getResponse_message());
                     }

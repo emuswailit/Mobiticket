@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -128,7 +127,7 @@ dialog.dismiss();
                     }
 
                 }else {
-                    showCustomDialog(vehicle_reg+ " details", response.body().getResponse_message() );
+                    showCustomDialog(vehicle_reg+ " details", response.body().getResponse_message());
                 }
             }
 
