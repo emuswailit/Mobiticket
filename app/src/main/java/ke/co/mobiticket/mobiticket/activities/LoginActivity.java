@@ -293,6 +293,8 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
 
                 @Override
                 public void onFailure(Call<ServerLoginResponse> call, Throwable t) {
+
+                    showCustomDialog("Log In", "System error occurred!. Please try again!");
                     dialog.dismiss();
                 }
             });

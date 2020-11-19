@@ -146,6 +146,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_small"/>
                         <TextView
+
+                            android:id="@+id/tvRecentTickets"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -155,6 +157,7 @@
 
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:visibility="gone"
                             android:id="@+id/rvRecentTickets"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

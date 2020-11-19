@@ -91,7 +91,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/font_xxlarge" />
 <Button
-    android:layout_width="wrap_content"
+
     android:id="@+id/btnRetrieveBalance"
     style="@style/App_ButtonStyle"
     android:text="Click to view balance"/>
@@ -109,7 +109,7 @@
                 android:gravity="center"
                 android:paddingTop="@dimen/spacing_medium"
                 android:paddingBottom="@dimen/spacing_medium"
-                android:text="@string/lbl_wallet"
+                android:text="@string/tell_your_friends"
                 android:textColor="@color/textheader"
                 android:textSize="@dimen/font_large" />
 

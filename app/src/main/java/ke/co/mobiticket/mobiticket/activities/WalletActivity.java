@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ Gson gson=new Gson();
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ivBack:
+                startActivity(MoreActivity.class);
                 finish();
                 break;
 
@@ -109,6 +111,14 @@ processLogin(phone_number,password);
                 }
             });
 
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+
             dialog.show();
             dialog.getWindow().setAttributes(lp);
         } catch (Exception e) {
@@ -144,6 +154,10 @@ processLogin(phone_number,password);
                         if (response.body().getResponse_code().equals("0")) {
                             tvBalance.setVisibility(View.VISIBLE);
                             tvBalance.setText("KES "+ serverLoginResponse.getWallet_balance());
+                            ServerLoginResponse resp=response.body();
+
+                            //Update shared preferences
+                            AppController.getInstance().logInUser(serverLoginResponse,gson.toJson(resp));
 
                         }  else {
                             String title = "Log In!";

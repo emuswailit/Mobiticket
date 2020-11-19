@@ -63,15 +63,15 @@ public class ProfileSettingsActivity extends BaseActivity implements View.OnClic
         mIvBack = findViewById(R.id.ivBack);
         mBtnSave = findViewById(R.id.btnSave);
         etFirstName = findViewById(R.id.edFirstName);
-        etFirstName.setText(AppController.getInstance().camelCase(prefs.getString(Constants.FIRST_NAME,"")));
+        etFirstName.setText(AppController.camelCase(prefs.getString(Constants.FIRST_NAME,"")));
 
         etMiddleName = findViewById(R.id.etMiddleName);
-        etMiddleName.setText(AppController.getInstance().camelCase(prefs.getString(Constants.MIDDLE_NAME,"")));
+        etMiddleName.setText(AppController.camelCase(prefs.getString(Constants.MIDDLE_NAME,"")));
 
 
 
         etLastName = findViewById(R.id.etLastName);
-        etLastName.setText(AppController.getInstance().camelCase(prefs.getString(Constants.LAST_NAME,"")));
+        etLastName.setText(AppController.camelCase(prefs.getString(Constants.LAST_NAME,"")));
 
 
         etEmail = findViewById(R.id.etEmail);

@@ -45,11 +45,11 @@ import retrofit2.Response;
 public class TicketsActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView rvRecentTickets,rvSearchedTickets;
     private ImageView ivBack;
-    private TextView tvTitle;
+    private TextView tvTitle, tvRecentTickets;
     SharedPreferences prefs;
     private EditText etKeywords;
     private ImageButton btnSearchTicket;
-    List<Ticket> recentTicketsList = null;
+    List<Ticket> recentTicketsList = new ArrayList<>();
     MaterialCardView cardSearchedTickets;
     TicketsAdapter adapter = null;
     ProgressBar progressBar;
@@ -91,14 +91,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         } catch (Exception e) {
             Log.e("fdgh", e.toString());
         }
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -127,13 +120,21 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
     private void initListeners() {
 
 
-//        rvRecentTickets.setLayoutManager(new LinearLayoutManager(this));
-        rvRecentTickets.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        rvRecentTickets.setHasFixedSize(true);
+        if (recentTicketsList.size()>0){
+            tvRecentTickets.setText("Recent tickets : "+ recentTicketsList.size());
 
-        adapter = new TicketsAdapter(TicketsActivity.this, recentTicketsList);
-        rvRecentTickets.setAdapter(adapter);
-        RunLayoutAnimation(rvRecentTickets);
+            rvRecentTickets.setVisibility(View.VISIBLE);
+            rvRecentTickets.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            rvRecentTickets.setHasFixedSize(true);
+
+            adapter = new TicketsAdapter(TicketsActivity.this, recentTicketsList);
+            rvRecentTickets.setAdapter(adapter);
+            RunLayoutAnimation(rvRecentTickets);
+
+        }else {
+            tvRecentTickets.setText("No tickets to display");
+        }
+
 
         btnSearchTicket.setOnClickListener(this);
     }
@@ -141,6 +142,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
     private void initLayouts() {
         //Tickets
 
+        tvRecentTickets = findViewById(R.id.tvRecentTickets);
         etKeywords = findViewById(R.id.etKeywords);
 //        tvSearchResult = findViewById(R.id.tvSearchResult);
         progressBar = findViewById(R.id.progressBar);
@@ -215,6 +217,9 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
                     Log.e("keyword", keyword);
                     searchTicket(keyword);
                 }
+                break;
+            case R.id.ivBack:
+                finish();
                 break;
         }
     }
