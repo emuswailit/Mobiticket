@@ -55,7 +55,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private void initializeListeners() {
         mTvProfileSettings.setOnClickListener(this);
         mTvWallet.setOnClickListener(this);
-        mTvCards.setOnClickListener(this);
+//        mTvCards.setOnClickListener(this);
         mTvOperators.setOnClickListener(this);
         mTvHelp.setOnClickListener(this);
         mTvLogout.setOnClickListener(this);
@@ -67,7 +67,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private void initLayouts(View view) {
         mTvProfileSettings = view.findViewById(R.id.tvProfileSettings);
         mTvWallet = view.findViewById(R.id.tvWallet);
-        mTvCards = view.findViewById(R.id.tvCards);
+//        mTvCards = view.findViewById(R.id.tvCards);
         mTvOperators = view.findViewById(R.id.tvMyVehicles);
         mTvHelp = view.findViewById(R.id.tvHelp);
         mTvLogout = view.findViewById(R.id.tvLogout);
@@ -82,45 +82,30 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             ((BaseActivity) requireActivity()).startActivity(ProfileSettingsActivity.class);
         else if (v == mTvWallet)
             ((BaseActivity) requireActivity()).startActivity(WalletActivity.class);
-        else if (v == mTvCards) {
-            Intent intent = new Intent(getActivity(), CardsActivity.class);
-            intent.putExtra(Constants.intentdata.CARDFLAG, mFlag);
-            startActivity(intent);
-        } else if (v == mTvOperators)
+        else if (v == mTvOperators)
             ((BaseActivity) requireActivity()).startActivity(MyVehiclesActivity.class);
         else if (v == mTvHelp)
             ((BaseActivity) requireActivity()).startActivity(HelpActivity.class);
         else if (v == mTvSetting)
             ((BaseActivity) requireActivity()).startActivity(SettingsActivity.class);
         else if (v == mTvLogout) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getString(R.string.text_confirmation)).setMessage(getString(R.string.msg_logout));
-            builder.setPositiveButton(getString(R.string.text_yes),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            AppController.getInstance().logOutUser();
-                            getActivity().finish();
-                            Toast.makeText(getActivity(), "Looged out", Toast.LENGTH_SHORT).show();
-
-                            SharedPreferences.Editor editor = prefs.edit();
-
-                            editor.putString(Constants.RECENT_ROUTES, "");
-                            editor.apply();
-
-
-                            startActivity(new Intent(getActivity(), SelectionActivity.class));
-                        }
-                    });
-            builder.setNegativeButton(getString(R.string.text_no),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
+           logoutUser();
         }else if (v==tvTapCard){
             startActivity(new Intent(getActivity(), NFCActivity.class));
         }
+    }
+
+    private void logoutUser() {
+        AppController.getInstance().logOutUser();
+        getActivity().finish();
+        Toast.makeText(getActivity(), "Looged out", Toast.LENGTH_SHORT).show();
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Constants.RECENT_ROUTES, "");
+        editor.apply();
+
+
+        startActivity(new Intent(getActivity(), SelectionActivity.class));
     }
 }

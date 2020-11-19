@@ -79,135 +79,105 @@
                     app:cardCornerRadius="@dimen/spacing_small"
                     app:cardElevation="@dimen/card_shadow">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_small"
-                        android:orientation="vertical">
+<LinearLayout
+    android:layout_margin="@dimen/spacing_xsmall"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_gravity="center"
-                            android:id="@+id/lblContact"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_medium"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:fontFamily="@font/googlesansextrabold"
-                            android:gravity="center"
-                            android:paddingStart="@dimen/spacing_small"
-                            android:paddingLeft="@dimen/spacing_small"
-                            android:paddingEnd="@dimen/spacing_small"
-                            android:text="@string/text_login_credentials"
-                            android:textColor="@color/textheader"
-                            android:textSize="@dimen/font_large" />
+    <TextView
+        android:id="@+id/lblContact"
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:padding="@dimen/spacing_small">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_medium"
-                                android:layout_weight="2"
-                                android:fontFamily="@font/googlesansbold"
-                                android:text="@string/lbl_username"
-                                android:textColor="@color/textchild"
-                                android:textSize="@dimen/font_large" />
-
-                            <EditText
-                                android:id="@+id/etPhoneNumber"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/spacing_small"
-                                android:layout_marginEnd="@dimen/spacing_small"
-                                android:layout_weight="4"
-                                android:background="@android:color/transparent"
-                                android:fontFamily="@font/googlesansregular"
-                                android:hint="@string/hint_phone_number"
-                                android:inputType="phone"
-                                android:textColor="@color/textchild"
-                                android:textSize="@dimen/font_large" />
+        style="@style/App_TextViewMedium"
 
 
-                        </LinearLayout>
+        android:gravity="center"
+        android:text="@string/text_login_credentials"
+        android:textColor="@color/textheader"
+        android:textSize="18sp" />
 
-                        <View
-                            android:id="@+id/view"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/viewheight"
-                            android:layout_marginStart="@dimen/spacing_large"
-                            android:background="@color/light_grey"
-                            android:padding="@dimen/spacing_small" />
+    <LinearLayout
+        android:layout_margin="@dimen/spacing_xsmall"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:layout_marginBottom="@dimen/spacing_medium"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/spacing_small">
+        <TextView
+            android:textSize="16sp"
+            style="@style/App_TextViewMedium"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal|start"
+            android:text="Username: " />
 
-                            <TextView
+        <EditText
+            android:textSize="16sp"
+            android:inputType="phone"
+            android:gravity="center"
+            android:hint="Enter your phone number"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:id="@+id/etPhoneNumber"
+            style="@style/App_EditTextStyle"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="@dimen/spacing_xsmall"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            style="@style/App_TextViewMedium"
+            android:gravity="center_vertical"
+            android:text="Password: "
+            android:layout_weight="2"
+            android:layout_width="0dp"
+           />
+        <EditText
+android:textSize="16sp"
+            android:inputType="textPassword"
+            android:gravity="center"
+            android:hint="Enter password"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:id="@+id/etPassword"
+            style="@style/App_EditTextStyle"/>
+    </LinearLayout>
 
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_medium"
-                                android:layout_weight="2"
-                                android:fontFamily="@font/googlesansbold"
 
-                                android:text="@string/text_password"
-                                android:textColor="@color/textchild"
-                                android:textSize="@dimen/font_large" />
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/spacing_small"
+        android:background="@drawable/bg_btn_shape"
+        android:fontFamily="@font/googlesansbold"
+        android:text="@string/text_login"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_large" />
 
-                            <EditText
-                                android:id="@+id/etPassword"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/spacing_small"
-                                android:layout_marginEnd="@dimen/spacing_small"
-                                android:layout_weight="4"
-                                android:background="@android:color/transparent"
-                                android:fontFamily="@font/googlesansregular"
-                                android:hint="@string/hint_password"
-                                android:inputType="textPassword"
-                                android:textColor="@color/textchild"
-                                android:textSize="@dimen/font_large" />
-                        </LinearLayout>
+    <TextView
+android:clickable="true"
+        android:id="@+id/tvForgottenPassword"
 
-                    </LinearLayout>
+        style="@style/App_TextViewMedium"
 
+        android:layout_margin="@dimen/spacing_large"
+        android:gravity="center"
+        android:text="@string/text_forgotten_password"
+        android:textColor="@color/orange_500"
+        android:textSize="@dimen/font_large" />
+
+
+</LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
-                    android:id="@+id/llDynamicContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
 
 
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:background="@drawable/bg_btn_shape"
-                    android:fontFamily="@font/googlesansbold"
-                    android:text="@string/text_login"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_large" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

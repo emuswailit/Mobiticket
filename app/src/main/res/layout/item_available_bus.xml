@@ -3,64 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlMain"
+    android:background="@color/green_50"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
+        android:layout_margin="@dimen/spacing_medium"
+        android:layout_marginStart="@dimen/spacing_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginEnd="@dimen/spacing_medium"
-        android:layout_marginBottom="@dimen/spacing_medium"
         app:cardCornerRadius="@dimen/spacing_small"
         app:cardElevation="@dimen/card_shadow">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
-                android:id="@+id/tvRouteName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:background="@drawable/bg_square_text"
-                android:fontFamily="@font/googlesansbold"
-                android:paddingStart="@dimen/spacing_medium"
-                android:paddingTop="@dimen/spacing_small"
-                android:paddingEnd="@dimen/spacing_medium"
-                android:paddingBottom="@dimen/spacing_small"
-                android:text="dfghj"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_medium" />
-
-
-            <TextView
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:id="@+id/tvVehicleType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+                android:background="@drawable/btn_rounded_green_outline"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_below="@id/tvRouteName"
-                android:fontFamily="@font/googlesansbold"
-                android:gravity="start"
-                android:text="@string/volvo_bus"
-                android:textColor="@color/textchild"
-                android:textSize="@dimen/font_medium" />
+                android:layout_marginStart="@dimen/spacing_medium"
+                style="@style/App_TextViewMedium"
+                android:id="@+id/tvRouteName" />
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvVehicleType"
+                    style="@style/App_TextViewMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Matatu" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvRegistrationNumber"
+                    android:layout_weight="1"
+android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                  style="@style/App_TextViewMedium" />
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvCurrentFare"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                   style="@style/App_TextViewMedium"
+                    android:text="KES 0.00"
+                    android:textColor="@color/colorPrimary"
+                    />
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/llTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvVehicleType"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_large">
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -74,7 +86,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/spacing_medium"
                         android:fontFamily="@font/googlesansbold"
                         android:paddingStart="@dimen/spacing_medium"
                         android:paddingEnd="@dimen/spacing_medium"
@@ -99,7 +110,7 @@
                 <ImageView
                     android:layout_width="@dimen/map_width"
                     android:layout_height="@dimen/map_height"
-                    android:layout_marginTop="@dimen/spacing_xsmall"
+
                     android:layout_toEndOf="@+id/llStart"
                     android:alpha="0.2"
                     android:contentDescription="@string/contentdescription"
@@ -133,18 +144,10 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvRegistrationNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="@font/googlesansregular"
-                        android:paddingBottom="@dimen/spacing_xsmall"
-                        android:text="@string/text_duration"
-                        android:textColor="@color/textchild"
-                        android:textSize="@dimen/font_small" />
+
 
                     <TextView
+                        android:layout_gravity="center"
                         android:id="@+id/tvTotalDuration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -234,42 +237,9 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/llTime"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvRatingbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:drawableStart="@drawable/ic_star_black_24dp"
-                    android:drawablePadding="@dimen/spacing_small"
-                    android:fontFamily="@font/googlesansregular"
-                    android:textColor="@color/textchild"
-                    android:layout_toStartOf="@id/tvCurrentFare"
-                    android:textSize="@dimen/font_medium"
-                    tools:text="@string/text__2" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvCurrentFare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/googlesansbold"
-                    android:text="KES 0.00"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_mlarge" />
-
-
-            </RelativeLayout>
-        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

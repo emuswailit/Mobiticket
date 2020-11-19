@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -31,7 +33,7 @@ public class SelectionActivity extends BaseActivity implements View.OnClickListe
     private Button btnGo;
     Spinner spCountryCode;
     EditText etUserPhone;
-    ImageView btnNext;
+    ImageButton btnNext;
     SharedPreferences prefs;
     List<Country> countryList=new ArrayList<>();
     private String code="";
@@ -50,7 +52,7 @@ public class SelectionActivity extends BaseActivity implements View.OnClickListe
         prefs= AppController.getInstance().getMobiPrefs();
 
         if (prefs.getString(Constants.PHONE_NUMBER,"").isEmpty() && prefs.getString(Constants.EMAIL_ADDRESS,"").isEmpty() ){
-
+            Toast.makeText(this, "You are logged in not", Toast.LENGTH_SHORT).show();
         }else {
 
             startActivity(DashboardActivity.class);
@@ -121,7 +123,13 @@ switch (v.getId()){
         }
         Toast.makeText(this, phone_number, Toast.LENGTH_SHORT).show();
         if (AppController.getInstance().isNetworkConnected()) {
-            checkIfUserExists(phone_number);
+
+            try {
+                checkIfUserExists(phone_number);
+            }catch (Exception e){
+                Log.e("catch", e.toString());
+            }
+
         }else {
             startActivity(NoInternetActivity.class);
         }
@@ -165,6 +173,7 @@ switch (v.getId()){
                         }
 
                     } else {
+                        Log.e("error", response.body().getResponse_message());
                         //Use does not exist, go to register
                         Intent intent=new Intent(SelectionActivity.this, RegisterActivity.class);
                         intent.putExtra("phone_number", entered_phone_number);

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    tools:context=".activities.LoginActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height"
+        android:background="@drawable/bg_toolbar" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/Toolbar"
+        android:visibility="visible"
+        app:contentInsetStart="0dp"
+        app:titleTextColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_left_arrow_white" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/googlesansextrabold"
+                android:text="@string/text_register"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_mlarge" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/bg_card">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRegistrationDetails"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_small"
+                    app:cardElevation="@dimen/card_shadow">
+<LinearLayout
+    android:layout_margin="@dimen/spacing_medium"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+
+        style="@style/App_TextViewMedium"
+        android:id="@+id/tvHeader"
+        android:layout_margin="@dimen/spacing_medium"
+        android:text="Enter the following details to register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:inputType="phone"
+        android:enabled="false"
+        android:focusable="false"
+        android:id="@+id/etUserPhoneNumber"
+        android:hint="@string/hint_phone_number"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="textEmailAddress"
+        android:hint="Enter email address:"
+        android:id="@+id/etUserEmail"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="textPersonName"
+        android:hint="Enter first name"
+        android:id="@+id/etUserFirstname"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="textPersonName"
+        android:id="@+id/etUserMiddleName"
+        style="@style/App_EditTextStyle"
+        android:hint="Enter middle name (optional)" />
+
+    <EditText
+        android:inputType="textPersonName"
+        android:hint="Enter last name"
+        android:id="@+id/etUserLastName"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="text"
+        android:hint="Enter National ID number"
+        android:id="@+id/etUserNationalID"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="textPassword"
+        android:hint="Enter your password"
+        android:id="@+id/etUserPassword"
+        style="@style/App_EditTextStyle"/>
+    <EditText
+        android:inputType="textPassword"
+        android:hint="Confirm password"
+        android:id="@+id/etUserConfirmPassword"
+        style="@style/App_EditTextStyle"/>
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/spacing_small"
+        android:background="@drawable/bg_btn_shape"
+        android:fontFamily="@font/googlesansbold"
+        android:text="@string/text_register"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_large" />
+
+</LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

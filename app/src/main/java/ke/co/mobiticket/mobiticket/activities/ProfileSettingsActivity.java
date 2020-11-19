@@ -117,7 +117,9 @@ public class ProfileSettingsActivity extends BaseActivity implements View.OnClic
     /* onClick listener */
     @Override
     public void onClick(View v) {
-        if (v == mIvBack) onBackPressed();
+        if (v == mIvBack){
+            finish();
+        }
         else if (v == mIvNotification) startActivity(NotificationActivity.class);
         else if (v == mBtnSave) {
             //  if (validate()) {

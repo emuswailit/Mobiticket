@@ -14,6 +14,7 @@ public class ServerLoginResponse {
     private String first_name;
     private String middle_name;
     private String last_name;
+    private String wallet_balance;
     private String date_of_birth;
     private String id_number;
     private String phone_number;
@@ -27,6 +28,10 @@ public class ServerLoginResponse {
     private List<OwnedVehicle> owned;
     private List<DriveVehicle> drive;
     private List<ConductVehicle> conduct;
+
+    public String getWallet_balance() {
+        return wallet_balance;
+    }
 
     public String getCreated() {
         return created;

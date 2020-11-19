@@ -140,7 +140,7 @@
                         android:gravity="center"
                         android:text="Standing Charges"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/blue_grey_800" />
+                        android:textColor="@color/textheader" />
                     <TextView
                         android:id="@+id/tvChargesCount"
                         android:layout_width="match_parent"

@@ -34,19 +34,12 @@ import retrofit2.Response;
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText etYearOfBirth, etIdNumber;
     private ImageView ivBack;
-    private Button btnSubmit1, btnSubmit2,btnRegister;
-    private LinearLayout llFirstname, llMiddlename, llLastname, llGender, llPhoneNumber, llEmail, llPassword, llConfirmPassword;
-    private EditText etFirstname, etMiddlename, etLastname, etGender, etPhoneNumber, etEmail, etPassword, etConfirmPassword, etUserPhone;
+    private Button btnRegister;
+    private TextView tvHeader;
+
     private EditText etUserPhoneNumber,etUserMiddleName,etUserLastName,etUserNationalID,etUserEmail,etUserFirstname,etUserPassword,etUserConfirmPassword;
-    private ProgressBar progressBar;
-    private MaterialCardView  cardRegistrationDetails;
-    String year_of_birth = null;
-    String id_number = null;
+
 String phone_number="";
-    String email_address = null;
-    String password = null;
-    String confirm_password = null;
-    ServerIPRSResponse serverIPRSResponse = null;
     final Gson gson = new Gson();
     private Boolean retry = false;
 
@@ -55,7 +48,7 @@ String phone_number="";
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register1);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             phone_number = extras.getString("phone_number");
@@ -71,44 +64,21 @@ String phone_number="";
 
     private void initializeListeners() {
         ivBack.setOnClickListener(this);
-        btnSubmit1.setOnClickListener(this);
-        btnSubmit2.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
     }
 
     private void initLayouts() {
 
-        cardRegistrationDetails = findViewById(R.id.cardRegistrationDetails);
-        etYearOfBirth = findViewById(R.id.etYearOfBirth);
-        etUserPhone = findViewById(R.id.etUserPhone);
-        etIdNumber = findViewById(R.id.etIdNumber);
+        tvHeader = findViewById(R.id.tvHeader);
+        tvHeader.setText(phone_number+"\n\nNo details were retrieved for this  username. You can proceed to register by entering details below");
         ivBack = findViewById(R.id.ivBack);
-        btnSubmit1 = findViewById(R.id.btnSubmit1);
-        btnSubmit2 = findViewById(R.id.btnSubmit2);
         btnRegister = findViewById(R.id.btnRegister);
 
-        llFirstname = findViewById(R.id.llFirstname);
-        llMiddlename = findViewById(R.id.llMiddlename);
-        llLastname = findViewById(R.id.llLastname);
-        llGender = findViewById(R.id.llGender);
-        llPhoneNumber = findViewById(R.id.llPhoneNumber);
-        llEmail = findViewById(R.id.llEmail);
-        llPassword = findViewById(R.id.llPassword);
-        llConfirmPassword = findViewById(R.id.llConfirmPassword);
 
-        etMiddlename = findViewById(R.id.etMiddleName);
-        etFirstname = findViewById(R.id.etFirstname);
-        etLastname = findViewById(R.id.etLastname);
-        etGender = findViewById(R.id.etGender);
-
-
-        etPhoneNumber = findViewById(R.id.etPhoneNumber);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
         etUserPhoneNumber = findViewById(R.id.etUserPhoneNumber);
 etUserPhoneNumber.setText(phone_number);
 etUserPhoneNumber.setFocusable(false);
+
         etUserEmail = findViewById(R.id.etUserEmail);
         etUserFirstname = findViewById(R.id.etUserFirstname);
         etUserMiddleName = findViewById(R.id.etUserMiddleName);
@@ -116,36 +86,56 @@ etUserPhoneNumber.setFocusable(false);
         etUserNationalID = findViewById(R.id.etUserNationalID);
         etUserPassword = findViewById(R.id.etUserPassword);
         etUserConfirmPassword = findViewById(R.id.etUserConfirmPassword);
-
-
-        progressBar = findViewById(R.id.progressbar
-        );
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ivBack:
+                finish();
+                startActivity(SelectionActivity.class);
+                finish();
+                break;
 
             case R.id.btnRegister:
                 Log.e("dgfv","fbwDVXC");
 etUserPhoneNumber.setText(phone_number);
-etUserPhoneNumber.setFocusable(false);
-      registerUser(phone_number);
+
+try {
+    registerUser(phone_number);
+}catch (Exception e){
+    Log.e("register",e.toString());
+}
+
                 break;
         }
     }
 
     private void registerUser(final String phone_number) {
-        String phone=      etUserPhoneNumber.getText().toString();
+
         String email=      etUserEmail.getText().toString();
+        Log.e("email",email);
         String first_name=      etUserFirstname.getText().toString();
+        Log.e("first_name",first_name);
         String middle_name=      etUserMiddleName.getText().toString();
+        Log.e("middle_name",middle_name);
         String last_name=      etUserLastName.getText().toString();
+        Log.e("last_name",last_name);
         String national_id=      etUserNationalID.getText().toString();
+        Log.e("national_id",national_id);
         String password=      etUserPassword.getText().toString();
+        Log.e("password",password);
         String confirm_password=      etUserConfirmPassword.getText().toString();
 
-        if (phone.isEmpty()||phone.equals("")){
+
+
+
+
+
+
+        Log.e("confirm_password",confirm_password);
+
+        if (phone_number.isEmpty()||phone_number.equals("")){
             etUserPhoneNumber.setError("Phone number is required");
             return;
         } else if (email.isEmpty()||email.equals("")){
@@ -170,7 +160,7 @@ etUserPhoneNumber.setFocusable(false);
         }else{
 
             if (!password.equals(confirm_password)){
-                etPassword.setError("Passwords do not match");
+                etUserPassword.setError("Passwords do not match");
                 etUserConfirmPassword.setError("Passwords do not match");
                 return;
             }
@@ -273,7 +263,7 @@ dialog.dismiss();
 
                 @Override
                 public void onFailure(Call<ServerRegisterResponse> call, Throwable t) {
-                    progressBar.setVisibility(View.GONE);
+
                     Log.e("register error", t.toString());
                 }
             });
@@ -286,80 +276,7 @@ dialog.dismiss();
     }
 
 
-    private void processIPRSRequest(String id_number, String year_of_birth) {
-        final Dialog dialog = new Dialog(RegisterActivity.this);
-        ServerIPRSRequest request = new ServerIPRSRequest();
-        request.setAction(Constants.IPRS_ACTION);
-        request.setYear_of_birth(year_of_birth);
-        request.setId_number(id_number);
 
-        try {
-            VerifyIPRSInterface api = AppController.getInstance().getRetrofit().create(VerifyIPRSInterface.class);
-            Call<ServerIPRSResponse> call = api.verifyIPRS(request);
-            showProgressDialog(dialog, "Processing\n\nPlease wait....");
-            call.enqueue(new Callback<ServerIPRSResponse>() {
-                @Override
-                public void onResponse(Call<ServerIPRSResponse> call, Response<ServerIPRSResponse> response) {
-                    dialog.dismiss();
-                    if (response.body() == null) {
-                        Toast.makeText(RegisterActivity.this, "Null response", Toast.LENGTH_SHORT).show();
-                    } else {
-                        serverIPRSResponse = response.body();
-                        if (serverIPRSResponse.getResponse_code().equals("0")) {
-//                        Toast.makeText(RegisterActivity.this, "All is well, " + serverIPRSResponse.getFirst_name() + "! That's how government knows you!", Toast.LENGTH_SHORT).show();
-                            llFirstname.setVisibility(View.VISIBLE);
-                            llLastname.setVisibility(View.VISIBLE);
-                            llGender.setVisibility(View.VISIBLE);
-                            llPhoneNumber.setVisibility(View.VISIBLE);
-                            llEmail.setVisibility(View.VISIBLE);
-                            llPassword.setVisibility(View.VISIBLE);
-                            llConfirmPassword.setVisibility(View.VISIBLE);
-
-
-                            btnSubmit2.setVisibility(View.VISIBLE);
-                            btnSubmit1.setVisibility(View.GONE);
-                            etFirstname.setText(serverIPRSResponse.getFirst_name());
-                            etLastname.setText(serverIPRSResponse.getLast_name());
-                            etGender.setText(serverIPRSResponse.getGender());
-
-                            //Make phone and email edit texts outstanding
-                            etPhoneNumber.setError("Enter phone number");
-                            etEmail.setError("Enter your email address");
-                            etPassword.setError("Enter your password");
-                            etConfirmPassword.setError("Confirm your password");
-
-
-                            //Prevent editing ID Number and Year of Birth Fields
-                            etYearOfBirth.setFocusable(false);
-                            etIdNumber.setFocusable(false);
-
-                            if (!serverIPRSResponse.getMiddle_name().equals("") || !serverIPRSResponse.getMiddle_name().isEmpty()) {
-                                llMiddlename.setVisibility(View.VISIBLE);
-                                etMiddlename.setText(serverIPRSResponse.getMiddle_name());
-                            }
-                        } else {
-                            String message = serverIPRSResponse.getResponse_message();
-                            String title = "Verification!";
-                            showCustomDialog(title, message);
-                            Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                }
-
-
-                @Override
-                public void onFailure(Call<ServerIPRSResponse> call, Throwable t) {
-                    Log.e("Error response", t.toString());
-                    dialog.dismiss();
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     public String replace(String str, int index, char replace) {
@@ -416,4 +333,10 @@ dialog.dismiss();
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(SelectionActivity.class);
+        finish();
+    }
 }

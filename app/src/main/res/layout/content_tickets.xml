@@ -8,130 +8,17 @@
     android:background="@color/grey_300"
     tools:context=".activities.PaymentActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_marginTop="@dimen/spacing_large"
         android:background="@drawable/bg_card">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="always">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_medium">
-
-
-                <LinearLayout
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_weight="4"
-                        android:id="@+id/llSearchDestination"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginTop="@dimen/spacing_xsmall"
-                            android:fontFamily="@font/googlesansregular"
-                            android:padding="@dimen/spacing_small"
-                            android:text="@string/reference_number_or_phone"
-                            android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
-
-                        <EditText
-                            android:id="@+id/etKeywords"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/spacing_small"
-                            android:layout_marginEnd="@dimen/spacing_small"
-                            android:layout_weight="4"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/googlesansregular"
-                            android:hint=""
-
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end">
-
-                        <ImageView
-                            android:layout_marginEnd="@dimen/spacing_medium"
-                            android:id="@+id/btnSearchTicket"
-                            android:layout_width="wrap_content"
-                            android:layout_height="75dp"
-                            android:background="@drawable/bg_btn_shape"
-                            android:clickable="true"
-                            android:contentDescription="@string/contentdescription"
-                            android:fontFamily="@font/googlesansbold"
-                            android:padding="@dimen/spacing_25sdp"
-                            android:scaleType="center"
-                            android:src="@drawable/baseline_search_white_24" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-
-
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvSearchedTickets"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollbars="vertical"
-                            android:scrollingCache="true" />
-
-                    <View
-
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_small"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansbold"
-                        android:gravity="center"
-                        android:text="Recent tickets" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvRecentTickets"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollbars="vertical"
-                            android:scrollingCache="true" />
-
-                </LinearLayout>
-
-
         </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 </RelativeLayout>

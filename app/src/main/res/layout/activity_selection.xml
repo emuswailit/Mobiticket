@@ -13,12 +13,12 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,59 +42,71 @@
                 android:layout_height="@dimen/login_img__height"
                 android:paddingTop="@dimen/spacing_large"
                 android:src="@drawable/ic_travel" />
+
             <com.google.android.material.card.MaterialCardView
-                android:visibility="visible"
                 android:id="@+id/cardCheckUserAvailability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_margin="@dimen/spacing_small"
+                android:visibility="visible"
                 app:cardCornerRadius="@dimen/spacing_small"
                 app:cardElevation="@dimen/card_shadow">
 
                 <LinearLayout
-                    android:gravity="center"
-                    android:weightSum="7"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="11">
 
-<Spinner
-    android:theme="@style/ThemeOverlay.AppCompat.Light"
-    android:spinnerMode="dropdown"
-    android:gravity="center"
-    android:id="@+id/spCountryCode"
-    android:layout_weight="2"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"/>
-
-                        <EditText
-                            android:layout_weight="4"
-                            android:id="@+id/etUserPhone"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_medium"
-
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/googlesansbold"
-                            android:gravity="center|start"
-
-                            android:hint="@string/hint__seven_phone_number"
-                            android:inputType="number"
-                            android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
-
-
-
-                    <ImageView
-                        android:id="@+id/btnNext"
-                        android:layout_margin="@dimen/spacing_medium"
-                        android:src="@drawable/baseline_arrow_forward_ios_white_24"
-                        android:background="@drawable/bg_btn_shape"
-                        android:layout_weight="1"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:layout_weight="3">
+
+                        <Spinner
+                            android:id="@+id/spCountryCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+
+
+                            android:spinnerMode="dropdown"
+                            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/etUserPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:layout_weight="6"
+
+                        android:background="@drawable/edit_text_round_bg_outline"
+                        android:fontFamily="@font/googlesansbold"
+                        android:gravity="center|start"
+
+                        android:hint="@string/hint__seven_phone_number"
+                        android:inputType="number"
+                        android:textColor="@color/textchild"
+                        android:textSize="@dimen/font_large" />
+
+
+                    <ImageButton
+                        android:id="@+id/btnNext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:layout_marginBottom="@dimen/spacing_small"
+                        android:layout_weight="2"
+                        android:background="@drawable/btn_rect_green"
+                        android:scaleType="center"
+                        android:src="@drawable/baseline_arrow_forward_ios_white_24" />
 
 
                 </LinearLayout>
@@ -102,46 +114,46 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-<!--<LinearLayout-->
+            <!--<LinearLayout-->
 
-<!--    android:paddingStart="6dp"-->
-<!--    android:paddingEnd="6dp"-->
-<!--    android:orientation="horizontal"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content">-->
+            <!--    android:paddingStart="6dp"-->
+            <!--    android:paddingEnd="6dp"-->
+            <!--    android:orientation="horizontal"-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="wrap_content">-->
 
 
-<!--            <Button-->
-<!--                android:layout_marginRight="10dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:id="@+id/btnLogin"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/spacing_large"-->
-<!--                android:background="@drawable/bg_btn_shape"-->
-<!--                android:fontFamily="@font/googlesansbold"-->
-<!--                android:shadowColor="@color/blue"-->
-<!--                android:text="Log In"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/font_large" />-->
+            <!--            <Button-->
+            <!--                android:layout_marginRight="10dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:id="@+id/btnLogin"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/spacing_large"-->
+            <!--                android:background="@drawable/bg_btn_shape"-->
+            <!--                android:fontFamily="@font/googlesansbold"-->
+            <!--                android:shadowColor="@color/blue"-->
+            <!--                android:text="Log In"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textSize="@dimen/font_large" />-->
 
-<!--    <Button-->
-<!--        android:id="@+id/btnRegister"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="10dp"-->
-<!--        android:layout_marginTop="@dimen/spacing_large"-->
-<!--        android:layout_weight="1"-->
-<!--        android:background="@drawable/bg_btn_shape"-->
-<!--        android:fontFamily="@font/googlesansbold"-->
-<!--        android:shadowColor="@color/blue"-->
-<!--        android:text="Register"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="@dimen/font_large" />-->
+            <!--    <Button-->
+            <!--        android:id="@+id/btnRegister"-->
+            <!--        android:layout_width="0dp"-->
+            <!--        android:layout_height="wrap_content"-->
+            <!--        android:layout_marginLeft="10dp"-->
+            <!--        android:layout_marginTop="@dimen/spacing_large"-->
+            <!--        android:layout_weight="1"-->
+            <!--        android:background="@drawable/bg_btn_shape"-->
+            <!--        android:fontFamily="@font/googlesansbold"-->
+            <!--        android:shadowColor="@color/blue"-->
+            <!--        android:text="Register"-->
+            <!--        android:textAllCaps="false"-->
+            <!--        android:textColor="@color/white"-->
+            <!--        android:textSize="@dimen/font_large" />-->
 
-<!--</LinearLayout>-->
+            <!--</LinearLayout>-->
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

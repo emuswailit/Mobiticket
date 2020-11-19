@@ -1,5 +1,6 @@
 package ke.co.mobiticket.mobiticket.activities;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,6 +8,7 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -109,6 +112,28 @@ public class PaymentMethodsActivity extends BaseActivity {
         retrievePaymentMethods();
         initListeners();
 
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                    case R.id.action_vehicles:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                    case R.id.action_tickets:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                    case R.id.action_more:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -447,5 +472,79 @@ public class PaymentMethodsActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void showCustomYesNoDialog(String title, String message, final MenuItem item) {
+        try {
+
+
+            final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (item.getItemId()) {
+                        case R.id.action_home:
+                            resetTicketPreferences(prefs);
+                            startActivity(DashboardActivity.class);
+                            finish();
+
+                            break;
+                        case R.id.action_vehicles:
+                            resetTicketPreferences(prefs);
+                            startActivity(MyVehiclesActivity.class);
+                            finish();
+                            break;
+                        case R.id.action_tickets:
+                            resetTicketPreferences(prefs);
+                            startActivity(TicketsActivity.class);
+                            finish();
+                            break;
+                        case R.id.action_more:
+                            resetTicketPreferences(prefs);
+                            startActivity(MoreActivity.class);
+                            finish();
+                            break;
+                    }
+
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+    private void resetTicketPreferences(SharedPreferences prefs) {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
+        editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
+        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
+        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+        editor.apply();
     }
 }

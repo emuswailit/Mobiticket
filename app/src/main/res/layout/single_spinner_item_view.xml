@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_margin="8dp"
     android:layout_height="match_parent">
 
     <TextView
+
         android:fontFamily="@font/googlesansbold"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:background="@color/white"
-        android:layout_margin="@dimen/spacing_medium"
+
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:id="@+id/tvId"
         android:text="254"
         android:layout_width="match_parent"

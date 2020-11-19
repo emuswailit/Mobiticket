@@ -1,5 +1,6 @@
 package ke.co.mobiticket.mobiticket.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,12 +10,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -53,6 +56,29 @@ prefs=AppController.getInstance().getMobiPrefs();
         initListeners();
 
         retrieveData();
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        startActivity(DashboardActivity.class);
+                        break;
+                    case R.id.action_vehicles:
+//                        startActivity(MyVehiclesActivity.class);
+                        break;
+                    case R.id.action_tickets:
+                        startActivity(TicketsActivity.class);
+
+                        break;
+                    case R.id.action_more:
+
+                        startActivity(MoreActivity.class);
+
+                }
+                return true;
+            }
+        });
 
     }
 

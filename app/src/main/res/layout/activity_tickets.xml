@@ -1,36 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.TicketsActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    android:background="@color/grey_300"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_height"
         android:background="@drawable/bg_toolbar" />
-    <include layout="@layout/content_tickets"   />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/Toolbar"
+        app:contentInsetStart="0dp"
+        app:titleTextColor="@color/white">
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="@dimen/fab_margin"-->
-<!--        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_left_arrow_white" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_toStartOf="@id/ivFilter"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/googlesansextrabold"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_mlarge"
+                tools:text="@string/text_bus_list" />
+
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/ivFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:contentDescription="@string/contentdescription"
+                android:padding="@dimen/spacing_medium"
+                android:src="@drawable/ic_filter_fill" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/bg_card">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_medium">
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:weightSum="7"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+
+
+                            <EditText
+                                style="@style/App_EditTextStyle"
+                                android:layout_weight="6"
+                                android:id="@+id/etKeywords"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/spacing_medium"
+
+                                android:fontFamily="@font/googlesansbold"
+                                android:gravity="center"
+
+                                android:hint="Search by reference number"
+                                android:inputType="text"
+                                android:textColor="@color/textchild"
+                                android:textSize="@dimen/font_large" />
+
+
+
+                            <ImageButton
+                                style="@style/App_ButtonStyle"
+                                android:id="@+id/btnSearchTicket"
+                                android:layout_margin="@dimen/spacing_small"
+                                android:src="@drawable/baseline_search_white_24"
+
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"/>
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSearchedTickets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollingCache="true" />
+
+                        <View
+
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_small"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/googlesansbold"
+                            android:gravity="center"
+                            android:text="Recent tickets" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvRecentTickets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollingCache="true" />
+
+                    </LinearLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"/>
+</RelativeLayout>

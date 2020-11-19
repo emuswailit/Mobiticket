@@ -47,7 +47,7 @@ public class LazyAdapterBusStops extends BaseAdapter {
         View vi = convertView;
 
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.single_spinner_item_view, null);
+            vi = inflater.inflate(R.layout.single_spinner_item_large, null);
         }
         try {
 

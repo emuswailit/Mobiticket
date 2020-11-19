@@ -15,15 +15,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.adapters.BusAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Vehicle;
@@ -71,7 +67,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
             startActivity(NoInternetActivity.class);
         }
 
-        Toast.makeText(this, from + " to " + to, Toast.LENGTH_SHORT).show();
+
         String mTitle = getIntent().getStringExtra(Constants.intentdata.TRIP_KEY);
         String mSearchTitle = getIntent().getStringExtra(Constants.intentdata.SEARCH_BUS);
         String mPackageTitle = getIntent().getStringExtra(Constants.intentdata.PACKAGE_NAME);
@@ -94,7 +90,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void searchBuses(String from, String to) {
-        final Dialog dialog=new Dialog(BusListActivity.this);
+        final Dialog dialog = new Dialog(BusListActivity.this);
         try {
             SearchVehiclesInterface api = AppController.getInstance().getRetrofit().create(SearchVehiclesInterface.class);
             ServerSearchVehiclesRequest request = new ServerSearchVehiclesRequest();
@@ -103,8 +99,8 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
             request.setTravel_to(to);
             request.setAction(Constants.SEARCH_VEHICLES);
             Call<ServerSearchVehiclesResponse> call = api.searchVehicles(request);
-            String message ="Retrieving buses\n\nPlease wait.....";
-           showProgressDialog(dialog, message);
+            String message = "Retrieving buses" + getResources().getString(R.string.txt_please_wait);
+            showProgressDialog(dialog, message);
             call.enqueue(new Callback<ServerSearchVehiclesResponse>() {
 
                 @Override
@@ -126,8 +122,8 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
                                     adapter.setOnItemClickListener(new BusAdapter.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(View view, Vehicle obj, int position) {
-                                            Toast.makeText(BusListActivity.this, obj.getRegistration_number(), Toast.LENGTH_SHORT).show();
-                                            Gson gson=new Gson();
+
+                                            Gson gson = new Gson();
                                             Log.e("vehicle", gson.toJson(obj));
                                             SharedPreferences.Editor editor = prefs.edit();
 
@@ -198,7 +194,7 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         if (v == mIvBack) {
             onBackPressed();
-        }  else if (v == mIvFilter) {
+        } else if (v == mIvFilter) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_filter);
             dialog.setCancelable(true);

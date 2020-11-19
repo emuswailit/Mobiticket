@@ -63,6 +63,10 @@ public class Constants {
     public static final String CHECK_USER_AVAILABILITY ="validate-user-availability" ;
     public static final String TICKET_IS_RESERVED ="ticket_is_reserved" ;
     public static final String ACTION_PINLESS_LOGIN ="pinless-login" ;
+    public static final String ACTION_PASSWORD_RESET ="initiate-user-password-reset" ;
+    public static final String EMAIL_SUFFIX_JAMBOPAY ="@jambopay.com" ;
+    public static final String EMAIL_SUFFIX_MOBITICKET ="@mobiticket.co.ke" ;
+    public static final String ACTION_FINALIZE_PASSWORD_RESET ="complete-user-password-reset" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rlMain"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:overScrollMode="always"
-    android:scrollbarAlwaysDrawVerticalTrack="true">
-
+    android:background="@color/grey_300"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/view_height"
+      android:background="@drawable/bg_toolbar" />
   <androidx.appcompat.widget.Toolbar
-
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@drawable/bg_toolbar"
       android:theme="@style/Toolbar"
       app:contentInsetStart="0dp"
-      app:title="@string/app_name"
       app:titleTextColor="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+      <ImageView
+          android:visibility="invisible"
+          android:id="@+id/ivBack"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:contentDescription="@string/contentdescription"
+          android:padding="@dimen/spacing_medium"
+          android:src="@drawable/ic_left_arrow_white" />
 
       <TextView
           android:id="@+id/tvTitle"
@@ -29,27 +40,67 @@
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_marginStart="@dimen/spacing_medium"
+          android:layout_marginEnd="@dimen/spacing_medium"
+          android:layout_toStartOf="@id/ivLogout"
+          android:layout_toEndOf="@+id/ivBack"
           android:fontFamily="@font/googlesansextrabold"
-          android:text="@string/app_name"
+          android:singleLine="true"
           android:textColor="@color/white"
-          android:textSize="@dimen/font_mlarge" />
+          android:textSize="@dimen/font_mlarge"
+          tools:text="@string/text_bus_list" />
 
-      <include
-          layout="@layout/layout_addnotification" />
+
+      <ImageView
+
+          android:id="@+id/ivLogout"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:layout_marginEnd="@dimen/spacing_medium"
+          android:contentDescription="@string/contentdescription"
+          android:padding="@dimen/spacing_medium"
+          android:src="@drawable/log_ot_white" />
 
     </RelativeLayout>
 
   </androidx.appcompat.widget.Toolbar>
 
-  <FrameLayout
-      android:id="@+id/frame_container"
+  <RelativeLayout
+      android:layout_above="@+id/bottom_navigation"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_above="@id/bottom"
-      android:layout_below="@id/toolbar" />
+      android:layout_below="@id/toolbar"
+      android:layout_marginTop="@dimen/spacing_large"
+      android:background="@drawable/bg_card">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_xsmall"
+        app:cardCornerRadius="@dimen/spacing_small"
+        app:cardElevation="@dimen/card_shadow">
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       />
+    </com.google.android.material.card.MaterialCardView>
+  </RelativeLayout>
 
-  <include
-      android:id="@+id/bottom"
-      layout="@layout/layout_bottom_bar"/>
 
+
+
+  <com.google.android.material.bottomnavigation.BottomNavigationView
+      android:id="@+id/bottom_navigation"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      app:menu="@menu/bottom_nav_menu"
+      app:itemBackground="@color/colorPrimary"
+      app:itemIconTint="@android:color/white"
+      app:itemTextColor="@android:color/white"/>
 </RelativeLayout>

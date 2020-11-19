@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,10 +27,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -45,6 +48,7 @@ import javax.crypto.SecretKey;
 
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.adapters.TicketsAdapter;
+import ke.co.mobiticket.mobiticket.fragments.MoreFragment;
 import ke.co.mobiticket.mobiticket.pojos.Passenger;
 import ke.co.mobiticket.mobiticket.pojos.Ticket;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.CommuterNFCInterface;
@@ -76,8 +80,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaymentActivity extends BaseActivity {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener {
     SharedPreferences prefs;
+    private TextView tvTitle;
     private String reference_number = "";
     //    private TextView tvMpesaExpressOutC
     private NfcAdapter mNfcAdapter;
@@ -91,7 +96,7 @@ public class PaymentActivity extends BaseActivity {
     private String customer_message = "";
     private String payment_method_id = "";
     private String mpesa_phone_number = "";
-    private TextView tvMessage, tvPaymentMethodName, tvStatus, tvDate, tvTime, tvTitle, tvTotalAmount, tvMpesaPaybillPrompt, lblPurchasedTickets;
+    private TextView tvMessage, tvPaymentMethodName, tvStatus, tvDate, tvTime,  tvTotalAmount, tvMpesaPaybillPrompt, lblPurchasedTickets;
     private MaterialCardView cardMpesaXpress, cardMpesaPaybill, cardJambopayWallet, cardJambopayAgency, cardCommuterNFC, cardSuccess, cardRedeemVoucher;
     private Button btnMpesaXpress, btnMpesaPaybill, btnJambopayWallet, btnJambopayAgency, btnCommuterNFC,btnRedeemVoucher;
     private EditText etMpesaPhone, etJambopayWalletUsername, etJambopayWalletPassword, etJambopayAgencyUsername, etJambopayAgencyPassword, etVoucherNumber,etSecurityPin;
@@ -172,12 +177,33 @@ public class PaymentActivity extends BaseActivity {
         initLayouts();
         initListeners();
 
-
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+//
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                    case R.id.action_vehicles:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);;
+                        break;
+                    case R.id.action_tickets:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                    case R.id.action_more:
+                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 
     private void initListeners() {
-
+ivBack.setOnClickListener(this);
 
         if (payment_method_id.equals("1")) {
             try {
@@ -313,6 +339,7 @@ public class PaymentActivity extends BaseActivity {
                     for ( String message: response.body().getCustomer_message()){
                         customer_message+=message;
                     }
+                        tvMessage.setVisibility(View.VISIBLE);
                     tvMessage.setText(customer_message);
                     callAsynchronousTask(reference_number);
 
@@ -416,7 +443,7 @@ public class PaymentActivity extends BaseActivity {
                             for (int i = 0; i < response.body().getCustomer_message().length; i++) {
                                 customer_message += response.body().getCustomer_message()[i] + "\n";
                             }
-
+                            tvMessage.setVisibility(View.VISIBLE);
                             tvMessage.setText(customer_message);
                             Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
 
@@ -475,7 +502,7 @@ public class PaymentActivity extends BaseActivity {
                             for (int i = 0; i < response.body().getCustomer_message().length; i++) {
                                 customer_message += response.body().getCustomer_message()[i] + "\n";
                             }
-
+                            tvMessage.setVisibility(View.VISIBLE);
                             tvMessage.setText(customer_message);
                             Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
 
@@ -512,6 +539,8 @@ public class PaymentActivity extends BaseActivity {
 
     private void initLayouts() {
 
+        tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setText("Make Payment");
         ivBack = findViewById(R.id.ivBack);
         tvMessage = findViewById(R.id.tvMessage);
 //        tvPaymentMethodName = findViewById(R.id.tvPaymentMethodName);
@@ -529,7 +558,6 @@ public class PaymentActivity extends BaseActivity {
         cardSuccess = findViewById(R.id.cardSuccess);
         cardRedeemVoucher = findViewById(R.id.cardRedeemVoucher);
         etVoucherNumber = findViewById(R.id.etVoucherNumber);
-        etSecurityPin = findViewById(R.id.etSecurityPin);
         btnRedeemVoucher = findViewById(R.id.btnRedeemVoucher);
 
         btnMpesaXpress = findViewById(R.id.btnMpesaExpress);
@@ -642,14 +670,8 @@ callAsynchronousTask(reference_number);
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         try {
-                            Gson gson = new Gson();
-                            SharedPreferences.Editor editor = prefs.edit();
 
-                            editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
-                            editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
-                            editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
-                            editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
-                            editor.apply();
+                    resetTicketPreferences(prefs);
                         } catch (Exception e) {
                             Log.e("Write prefs", "Error editing prefs");
                         }
@@ -732,6 +754,16 @@ callAsynchronousTask(reference_number);
         });
 
 
+    }
+
+    private void resetTicketPreferences(SharedPreferences prefs) {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
+        editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
+        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
+        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+        editor.apply();
     }
 
     private void showTicketDialog(List<Ticket> ticket, String message) {
@@ -832,6 +864,7 @@ callAsynchronousTask(reference_number);
         }
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -941,6 +974,7 @@ try {
                     if (response.body().getResponse_code().equals("0")) {
 
                         cardCommuterNFC.setVisibility(View.GONE);
+                        tvMessage.setVisibility(View.VISIBLE);
                         tvMessage.setText(response.body().getResponse_message());
                         callAsynchronousTask(reference_number);
 
@@ -1007,6 +1041,82 @@ try {
                 public void onClick(View v) {
 //                    finish();
                     dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ivBack:
+
+                startActivity(PaymentMethodsActivity.class);
+                finish();
+
+                break;
+        }
+    }
+
+    public void showCustomYesNoDialog(String title, String message, final MenuItem item) {
+        try {
+
+
+            final Dialog dialog = new Dialog(PaymentActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (item.getItemId()) {
+                        case R.id.action_home:
+                            resetTicketPreferences(prefs);
+                       startActivity(DashboardActivity.class);
+                       finish();
+
+                            break;
+                        case R.id.action_vehicles:
+                            resetTicketPreferences(prefs);
+                            startActivity(MyVehiclesActivity.class);
+                            finish();
+                            break;
+                        case R.id.action_tickets:
+                            resetTicketPreferences(prefs);
+                            startActivity(TicketsActivity.class);
+                            finish();
+                            break;
+                        case R.id.action_more:
+                            resetTicketPreferences(prefs);
+                            startActivity(MoreActivity.class);
+                            finish();
+                            break;
+                    }
+
                 }
             });
 

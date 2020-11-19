@@ -76,8 +76,9 @@
             android:text="@string/lbl_your_wallet_in_balance"
             android:textColor="@color/textheader"
             android:textSize="@dimen/font_medium" />
-
         <TextView
+            android:visibility="gone"
+            android:id="@+id/tvBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_wallet_line"
@@ -89,6 +90,12 @@
             android:text="@string/_200"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/font_xxlarge" />
+<Button
+    android:layout_width="wrap_content"
+    android:id="@+id/btnRetrieveBalance"
+    style="@style/App_ButtonStyle"
+    android:text="Click to view balance"/>
+
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -14,7 +14,16 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MyVehiclesActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.MoreActivity"  android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.DestinationsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.NotificationCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MyVehiclesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MarketPlaceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -35,65 +44,70 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.TicketsActivity"
+            android:parentActivityName=".activities.DashboardActivity"
             android:label="@string/title_activity_tickets"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BookingActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.NFCActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".services.TicketVerificationService"
             android:exported="false"
             android:stopWithTask="false" />
 
-        <activity android:name=".activities.NoInternetActivity" />
+        <activity
+            android:name=".activities.NoInternetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PaymentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PaymentMethodsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PassengerDetailActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.BaseActivity" />
         <activity
             android:name=".activities.SelectionActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BusListActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.OperatorsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.HelpActivity" />
         <activity android:name=".activities.CardsActivity" />
         <activity
             android:name=".activities.WalletActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ProfileSettingsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activities.NotificationActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.NotificationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.VerificationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.RegisterActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
                 <action android:name="android.intent.action.MAIN" />

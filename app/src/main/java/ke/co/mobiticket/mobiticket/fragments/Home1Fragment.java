@@ -1,36 +1,30 @@
 package ke.co.mobiticket.mobiticket.fragments;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -44,26 +38,20 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import ke.co.mobiticket.mobiticket.R;
-import ke.co.mobiticket.mobiticket.activities.BaseActivity;
 import ke.co.mobiticket.mobiticket.activities.BusListActivity;
-import ke.co.mobiticket.mobiticket.activities.DashboardActivity;
 import ke.co.mobiticket.mobiticket.activities.NoInternetActivity;
+import ke.co.mobiticket.mobiticket.activities.NotificationActivity;
 import ke.co.mobiticket.mobiticket.activities.PaymentMethodsActivity;
 import ke.co.mobiticket.mobiticket.adapters.LazyAdapterBusStops;
 import ke.co.mobiticket.mobiticket.adapters.RouteAdapter;
 import ke.co.mobiticket.mobiticket.pojos.Route;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.ReadOneInterface;
-import ke.co.mobiticket.mobiticket.retrofit.interfaces.RouteDetailInterface;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.SearchRouteInterface;
-import ke.co.mobiticket.mobiticket.retrofit.requests.RouteDetailsRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.SearchRouteRequest;
 import ke.co.mobiticket.mobiticket.retrofit.requests.ServerReadOneRequest;
-import ke.co.mobiticket.mobiticket.retrofit.responses.RouteDetailsResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.SearchRoutesResponse;
 import ke.co.mobiticket.mobiticket.retrofit.responses.ServerReadOneResponse;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
@@ -75,33 +63,35 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class Home1Fragment extends Fragment implements View.OnClickListener {
 
     public static String mTitle = "Mobiticket";
     private AutoCompleteTextView mEdFromCity, mEdToCity;
-    private EditText etWhereTo,etSearchVehicle;
+    private EditText etWhereTo, etSearchVehicle;
     private TextView mEdDepartDate, labelSearchRoutes;
     private Calendar mDepartDateCalendar;
     public static String mFrom, mTo;
     private int mValue = 0;
     private View mView;
-    private ImageView mIvSwap, mIvDescrease, mIvIncrease, mSearch, btnSearchWhereTo, btnSearchVehicle;
+    ImageButton btnSearchVehicle, btnSearchWhereTo;
+
     private TextView mTvCount;
     private String[] destinations;
     SharedPreferences prefs;
     private RecyclerView rvSearchRoutes, rvRecentSearch;
     private ProgressBar progressBar;
-    private LinearLayout llRecentRoutes,llSearchedRoutes;
+    private LinearLayout llRecentRoutes, llSearchedRoutes;
     MaterialCardView cardSearchRoutes;
-    MaterialCardView cardSearchDestinations, cardReadyMatatu,cardRecentRoutes;
+    MaterialCardView cardSearchDestinations, cardReadyMatatu, cardRecentRoutes;
     Dialog dialog;
     List<Route> recentSearches = new ArrayList<>();
-   List<String> routeIdsList=new ArrayList<>();
+    List<String> routeIdsList = new ArrayList<>();
 
     Gson gson = new Gson();
+    private int notificationID = 1;
 
 
-    public HomeFragment() {
+    public Home1Fragment() {
         // Required empty public constructor
     }
 
@@ -109,16 +99,80 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, null);
+        View view = inflater.inflate(R.layout.fragment_home1, null);
         prefs = AppController.getInstance().getMobiPrefs();
 
         initView(view);
         setListener();
         getData();
         resetData();
+        addNotification();
 
 
         return view;
+    }
+
+    private void addNotification() {
+        Log.i("Start", "notification");
+        NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        /* Creates an explicit intent for an Activity in your app */
+        Intent resultIntent = new Intent(getActivity(), NotificationActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+        stackBuilder.addParentStack(NotificationActivity.class);
+
+        /* Adds the Intent that starts the Activity to the top of the stack */
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        /* Invoking the default notification service */
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity());
+
+        mBuilder.setContentTitle(getResources().getString(R.string.app_name));
+        mBuilder.setContentText("You can also access all our services via Whatsapp!");
+        mBuilder.setTicker("Find us also in Whatsapp");
+        mBuilder.setSmallIcon(R.drawable.mticket_green);
+        mBuilder.setAutoCancel(true);
+        mBuilder.addAction(R.drawable.ic_bus, "Call", resultPendingIntent);
+        mBuilder.addAction(R.drawable.ic_buslogo, "More", resultPendingIntent);
+        mBuilder.addAction(R.drawable.baseline_directions_bus_white_24, "And more", resultPendingIntent).build();
+
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle());
+
+        // notificationID allows you to update the notification later on.
+        mNotificationManager.notify(notificationID, mBuilder.build());
+        /* Increase notification number every time a new notification arrives */
+//        mBuilder.setNumber(++numMessages);
+
+        /* Add Big View Specific Configuration */
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        String[] events = new String[6];
+        events[0] = new String("This is first line....");
+        events[1] = new String("This is second line...");
+        events[2] = new String("This is third line...");
+        events[3] = new String("This is 4th line...");
+        events[4] = new String("This is 5th line...");
+        events[5] = new String("This is 6th line...");
+
+        // Sets a title for the Inbox style big view
+        inboxStyle.setBigContentTitle("Big Title Details:");
+
+        // Moves events into the big view
+        for (int i = 0; i < events.length; i++) {
+            inboxStyle.addLine(events[i]);
+        }
+
+        mBuilder.setStyle(inboxStyle);
+
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        /* notificationID allows you to update the notification later on. */
+        mNotificationManager.notify(notificationID, mBuilder.build());
     }
 
     private void resetData() {
@@ -132,13 +186,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getData() {
-     String   recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
+        String recentRoutesListString = prefs.getString(Constants.RECENT_ROUTES, "");
         try {
 
-            if (recentRoutesListString.isEmpty()||recentRoutesListString.equals("")){
+            if (recentRoutesListString.isEmpty() || recentRoutesListString.equals("")) {
 //                Toast.makeText(getActivity(), "No recent destinations", Toast.LENGTH_SHORT).show();
-            }else {
-                              recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
+            } else {
+                recentSearches = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentRoutesListString, Route[].class)));
                 Log.e("stored string", recentRoutesListString);
                 Log.e("stored routes", String.valueOf(recentSearches.size()));
                 decodeFromStorage(recentSearches);
@@ -225,14 +279,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
 
 
-
 //
 //        SharedPreferences.Editor editor = prefs.edit();
 //
 //        editor.putString(Constants.RECENT_ROUTES, "");
 //        editor.apply();
 //
-
 
 
     }
@@ -243,7 +295,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.btnSearchWhereTo:
 
-prepareSearchDestination();
+                prepareSearchDestination();
                 break;
             case R.id.btnSearchVehicle:
                 prepareSearchVehicle();
@@ -274,10 +326,10 @@ prepareSearchDestination();
     }
 
     private void prepareSearchVehicle() {
-        String vehicle_registration= etSearchVehicle.getText().toString();
-        if (vehicle_registration.isEmpty()||vehicle_registration.equals("")){
+        String vehicle_registration = etSearchVehicle.getText().toString();
+        if (vehicle_registration.isEmpty() || vehicle_registration.equals("")) {
             Toast.makeText(getActivity(), "Enter vehicle registration number", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             //Hide all other views
             readOne(vehicle_registration);
         }
@@ -293,7 +345,7 @@ prepareSearchDestination();
         Log.e("clicked", gson.toJson(request));
 //        progressBar.setVisibility(View.VISIBLE);
         dialog = new Dialog(getActivity());
-        String message = "Retrieving destinations"+ getResources().getString(R.string.txt_please_wait);
+        String message = "Retrieving destinations" + getResources().getString(R.string.txt_please_wait);
         showProgressDialog(dialog, message);
         Call<SearchRoutesResponse> call = api.retrieveRoutes(request);
         call.enqueue(new Callback<SearchRoutesResponse>() {
@@ -411,7 +463,13 @@ prepareSearchDestination();
                 }
             });
 
+            ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    dialog.dismiss();
+                }
+            });
             ((Button) dialog.findViewById(R.id.btnSubmit)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -423,15 +481,15 @@ prepareSearchDestination();
                         if (prefs.getString(Constants.TICKET_DROPOFF_POINT, "").equals(prefs.getString(Constants.TICKET_PICKUP_POINT, ""))) {
                             showCustomDialog("Origin and destination", "The two points need to be different");
                         } else {
-                            for (Route route: recentSearches){
+                            for (Route route : recentSearches) {
                                 //Retrieve  IDS of all routes in recent searched list and save in a strings list
                                 routeIdsList.add(route.getId());
                             }
 
                             //Check if route ID is in the list
-                            if (routeIdsList.contains(obj.getId())){
-                               //Route is already added to recents
-                            }else {
+                            if (routeIdsList.contains(obj.getId())) {
+                                //Route is already added to recents
+                            } else {
 
                                 //List of recent routes will be limited to 10 items long
                                 if (recentSearches.size() < 10) {
@@ -447,7 +505,7 @@ prepareSearchDestination();
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString(Constants.TICKET_TRAVEL_FROM, obj.getOrigin());
                             editor.putString(Constants.TICKET_TRAVEL_TO, obj.getDestination());
-                        editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
+                            editor.putString(Constants.RECENT_ROUTES, gson.toJson(recentSearches));
                             editor.apply();
 
                             Intent intent = new Intent(getActivity(), BusListActivity.class);
@@ -457,8 +515,8 @@ prepareSearchDestination();
                             startActivity(intent);
                             dialog.dismiss();
                         }
-                    }catch (Exception e){
-                       Log.e("recents",e.toString());
+                    } catch (Exception e) {
+                        Log.e("recents", e.toString());
                     }
 
                 }
@@ -471,27 +529,6 @@ prepareSearchDestination();
         }
     }
 
-    private void retrieveRouteDetail(String id) {
-        RouteDetailInterface api = AppController.getInstance().getRetrofit().create(RouteDetailInterface.class);
-        RouteDetailsRequest request = new RouteDetailsRequest();
-        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
-        request.setId(id);
-        request.setAction(Constants.READ_ONE_ACTION);
-        Call<RouteDetailsResponse> call = api.retrieveRouteDetails(request);
-        progressBar.setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<RouteDetailsResponse>() {
-            @Override
-            public void onResponse(Call<RouteDetailsResponse> call, Response<RouteDetailsResponse> response) {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<RouteDetailsResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
-    }
 
     private void showCustomDialog(String title, String message) {
         try {
@@ -561,30 +598,31 @@ prepareSearchDestination();
     private void readOne(final String vehicle_registration) {
 
 
-        final Dialog dialog=new Dialog(getActivity());
+        final Dialog dialog = new Dialog(getActivity());
         ReadOneInterface api = AppController.getInstance().getRetrofit().create(ReadOneInterface.class);
-        ServerReadOneRequest request=new ServerReadOneRequest();
-        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN,""));
+        ServerReadOneRequest request = new ServerReadOneRequest();
+        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setId(vehicle_registration);
         request.setAction(Constants.READ_ONE_ACTION);
         Call<ServerReadOneResponse> call = api.readOne(request);
-        String message ="Retrieving details"+ getResources().getString(R.string.txt_please_wait);
+        String message = "Retrieving details" + getResources().getString(R.string.txt_please_wait);
         showProgressDialog(dialog, message);
         call.enqueue(new Callback<ServerReadOneResponse>() {
             @Override
             public void onResponse(Call<ServerReadOneResponse> call, Response<ServerReadOneResponse> response) {
                 Log.e("body", gson.toJson(response.body()));
-                ServerReadOneResponse readOneResponse=response.body();
+                ServerReadOneResponse readOneResponse = response.body();
                 dialog.dismiss();
-                String registration_number=readOneResponse.getRegistration_number();
+                String registration_number = readOneResponse.getRegistration_number();
                 if (response.body().getResponse_code().equals("0")) {
+                    Log.e("fdfdfdfd", gson.toJson(response.body()));
                     if (registration_number.isEmpty() || registration_number.equals("")) {
                         showCustomDialog(vehicle_registration, "This vehicle was not retrieved. Please try again!");
                         return;
                     } else {
-                        showCustomYesNoDialog(registration_number, "Would you like proceeding to pay fare for this vehicle?", readOneResponse);
+                        showCustomYesNoDialog(readOneResponse, registration_number, "" + readOneResponse.getFare_details().getTravel_from() + " to " + readOneResponse.getFare_details().getTravel_to() + "\n\n" + "KES " + String.format("%.2f", Double.valueOf(readOneResponse.getFare_details().getCurrent_fare())) + "\n\n" + "Would you like proceeding to pay fare for this vehicle?", readOneResponse);
                     }
-                }else {
+                } else {
                     showCustomDialog(vehicle_registration, response.body().getResponse_message());
                 }
             }
@@ -597,7 +635,7 @@ prepareSearchDestination();
         });
     }
 
-    public void showCustomYesNoDialog(String title, String message, final ServerReadOneResponse readOneResponse) {
+    public void showCustomYesNoDialog(ServerReadOneResponse oneResponse, String title, String message, final ServerReadOneResponse readOneResponse) {
         try {
 
 
@@ -644,7 +682,7 @@ prepareSearchDestination();
                     editor.apply();
 
                     //Move straight to payment methods
-                    Intent intent=new Intent(getActivity(), PaymentMethodsActivity.class);
+                    Intent intent = new Intent(getActivity(), PaymentMethodsActivity.class);
                     startActivity(intent);
 
                     dialog.dismiss();

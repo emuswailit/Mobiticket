@@ -3,10 +3,12 @@ package ke.co.mobiticket.mobiticket.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import ke.co.mobiticket.mobiticket.R;
 import ke.co.mobiticket.mobiticket.adapters.TicketsAdapter;
+import ke.co.mobiticket.mobiticket.fragments.MoreFragment;
 import ke.co.mobiticket.mobiticket.pojos.Ticket;
 import ke.co.mobiticket.mobiticket.retrofit.interfaces.SearchTicketInterface;
 import ke.co.mobiticket.mobiticket.retrofit.requests.SearchTicketRequest;
@@ -41,9 +45,10 @@ import retrofit2.Response;
 public class TicketsActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView rvRecentTickets,rvSearchedTickets;
     private ImageView ivBack;
+    private TextView tvTitle;
     SharedPreferences prefs;
     private EditText etKeywords;
-    private ImageView btnSearchTicket;
+    private ImageButton btnSearchTicket;
     List<Ticket> recentTicketsList = null;
     MaterialCardView cardSearchedTickets;
     TicketsAdapter adapter = null;
@@ -94,6 +99,29 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                     startActivity(DashboardActivity.class);
+                        break;
+                    case R.id.action_vehicles:
+                        startActivity(MyVehiclesActivity.class);
+                        break;
+                    case R.id.action_tickets:
+                        break;
+                    case R.id.action_more:
+                        startActivity(MoreActivity.class);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
 
     private void initListeners() {
@@ -120,6 +148,8 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         rvRecentTickets = findViewById(R.id.rvRecentTickets);
         rvSearchedTickets = findViewById(R.id.rvSearchedTickets);
         ivBack = findViewById(R.id.ivBack);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setText("Tickets");
 //        cardSearchedTickets = findViewById(R.id.cardSearchedTickets);
 
     }
@@ -131,7 +161,12 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
         MenuItem search = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        search(searchView);
+        try {
+            search(searchView);
+        }catch (Exception e){
+            Log.e("hhhc", e.toString());
+        }
+
         return true;
     }
 
@@ -156,7 +191,15 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                adapter.getFilter().filter(newText);
+                try {
+                    if (adapter!=null){
+                        adapter.getFilter().filter(newText);
+                    }
+
+                }catch (Exception e){
+                    Log.e("dvdvd", e.toString());
+                }
+
                 return true;
             }
         });
@@ -193,7 +236,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
                 if (response.body()!=null){
                     if (response.body().getResponse_code().equals("0")){
                         cardSearchedTickets.setVisibility(View.VISIBLE);
-                        TicketsAdapter adapter = new TicketsAdapter(TicketsActivity.this, response.body().getTicket());
+                         adapter = new TicketsAdapter(TicketsActivity.this, response.body().getTicket());
                         rvSearchedTickets.setAdapter(adapter);
                         RunLayoutAnimation(rvSearchedTickets);
                         tvSearchResult.setText("Retrieve tickets: "+ String.valueOf(response.body().getTicket().size()));
