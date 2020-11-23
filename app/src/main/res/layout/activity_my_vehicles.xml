@@ -31,7 +31,7 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_left_arrow_white" />
+                android:src="@drawable/baseline_home_white_24" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -40,7 +40,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_toStartOf="@id/ivFilter"
+                android:layout_toStartOf="@id/ivLogout"
                 android:layout_toEndOf="@+id/ivBack"
                 android:fontFamily="@font/googlesansextrabold"
                 android:singleLine="true"
@@ -50,8 +50,8 @@
 
 
             <ImageView
-                android:visibility="invisible"
-                android:id="@+id/ivFilter"
+
+                android:id="@+id/ivLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -59,7 +59,7 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_filter_fill" />
+                android:src="@drawable/log_ot_white" />
 
         </RelativeLayout>
 

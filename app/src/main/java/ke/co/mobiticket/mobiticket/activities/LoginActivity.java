@@ -295,6 +295,7 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
                 public void onFailure(Call<ServerLoginResponse> call, Throwable t) {
 
                     showCustomDialog("Log In", "System error occurred!. Please try again!");
+                    Log.e("KorrosError", t.getLocalizedMessage());
                     dialog.dismiss();
                 }
             });

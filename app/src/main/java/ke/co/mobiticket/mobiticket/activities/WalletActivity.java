@@ -31,8 +31,7 @@ import retrofit2.Response;
 
 public class WalletActivity extends BaseActivity implements View.OnClickListener {
 private ImageView ivBack;
-private Button btnRetrieveBalance;
-private TextView tvBalance;
+private TextView tvBalance, tvTitle;
 private SharedPreferences prefs;
 Gson gson=new Gson();
     @Override
@@ -46,12 +45,14 @@ Gson gson=new Gson();
 
     private void initListeners() {
         ivBack.setOnClickListener(this);
-        btnRetrieveBalance.setOnClickListener(this);
+        tvBalance.setOnClickListener(this);
     }
 
     private void initLayouts() {
+        tvTitle=findViewById(R.id.tvTitle);
+        tvTitle.setText("My Wallet");
         ivBack=findViewById(R.id.ivBack);
-        btnRetrieveBalance=findViewById(R.id.btnRetrieveBalance);
+
         tvBalance=findViewById(R.id.tvBalance);
 
     }
@@ -64,7 +65,7 @@ Gson gson=new Gson();
                 finish();
                 break;
 
-            case R.id.btnRetrieveBalance:
+            case R.id.tvBalance:
                 String phone_number=prefs.getString(Constants.PHONE_NUMBER,"");
                 if (!phone_number.isEmpty()||phone_number.equals("")){
                     showDialogLogin("Show Balance", "Enter your password to continue", phone_number);
@@ -152,8 +153,8 @@ processLogin(phone_number,password);
                         ServerLoginResponse serverLoginResponse = response.body();
 
                         if (response.body().getResponse_code().equals("0")) {
-                            tvBalance.setVisibility(View.VISIBLE);
-                            tvBalance.setText("KES "+ serverLoginResponse.getWallet_balance());
+
+                            tvBalance.setText("Jambopay Wallet Balance: \nKES "+ serverLoginResponse.getWallet_balance());
                             ServerLoginResponse resp=response.body();
 
                             //Update shared preferences

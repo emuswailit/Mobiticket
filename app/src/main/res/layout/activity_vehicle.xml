@@ -53,7 +53,7 @@
 
 
             <ImageView
-                android:id="@+id/ivFilter"
+                android:id="@+id/ivLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -61,7 +61,7 @@
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_filter_fill" />
+                android:src="@drawable/log_ot_white" />
 
         </RelativeLayout>
 
@@ -86,6 +86,257 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                 android:layout_margin="@dimen/spacing_medium"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xmlarge"
+                            android:layout_marginLeft="@dimen/spacing_large"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/googlesansextrabold"
+                                android:gravity="center"
+                                android:text="Finance Summary"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:textColor="@color/blue_grey_800" />
+
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey_10" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/spacing_middle" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xxlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/spacing_large"
+                            android:paddingRight="@dimen/spacing_large">
+
+
+
+                            <View
+                                android:layout_width="@dimen/spacing_middle"
+                                android:layout_height="0dp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Total Income"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="TODAY"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/grey_40" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvIncome"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0.00"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="KES"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/grey_40" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xxlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/spacing_large"
+                            android:paddingRight="@dimen/spacing_large">
+
+
+
+                            <View
+                                android:layout_width="@dimen/spacing_middle"
+                                android:layout_height="0dp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Expense"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="TODAY"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/grey_40" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvExpense"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0.00"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="KES"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/grey_40" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/spacing_middle" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spacing_xxlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/spacing_large"
+                            android:paddingRight="@dimen/spacing_large">
+
+
+
+                            <View
+                                android:layout_width="@dimen/spacing_middle"
+                                android:layout_height="0dp" />
+
+                            <LinearLayout
+                                android:padding="@dimen/spacing_xsmall"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Wallet Balance"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <Button
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Withdraw"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/white" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvBalance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0.00"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/grey_80"
+                                    app:fontFamily="sans-serif-medium" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="KES"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/grey_40" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
                 <LinearLayout
                     android:id="@+id/llExpenses"
                     android:layout_width="match_parent"
@@ -119,12 +370,16 @@
                         android:scrollbars="vertical"
                         android:scrollingCache="true" />
                 </LinearLayout>
-                <View
-                    android:layout_margin="@dimen/spacing_small"
-                    android:background="@color/grey_300"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_medium"/>
+                </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
                 <LinearLayout
                     android:id="@+id/llCharges"
                     android:layout_width="match_parent"
@@ -158,11 +413,15 @@
                         android:scrollbars="vertical"
                         android:scrollingCache="true" />
                 </LinearLayout>
-                <View
-                    android:layout_margin="@dimen/spacing_small"
-android:background="@color/grey_300"
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_medium"/>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:visibility="visible"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_margin="@dimen/spacing_small"
@@ -199,7 +458,7 @@ android:gravity="center"
                         android:scrollbars="vertical"
                         android:scrollingCache="true" />
                 </LinearLayout>
-
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

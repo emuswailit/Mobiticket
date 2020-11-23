@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class TicketsActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView rvRecentTickets,rvSearchedTickets;
-    private ImageView ivBack;
+    private ImageView ivLogout;
     private TextView tvTitle, tvRecentTickets;
     SharedPreferences prefs;
     private EditText etKeywords;
@@ -94,18 +94,17 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                     startActivity(DashboardActivity.class);
-                        break;
+
                     case R.id.action_vehicles:
                         startActivity(MyVehiclesActivity.class);
                         break;
                     case R.id.action_tickets:
-                        break;
+                    break;
                     case R.id.action_more:
                         startActivity(MoreActivity.class);
                         break;
@@ -120,92 +119,81 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
     private void initListeners() {
 
 
-        if (recentTicketsList.size()>0){
-            tvRecentTickets.setText("Recent tickets : "+ recentTicketsList.size());
-
-            rvRecentTickets.setVisibility(View.VISIBLE);
-            rvRecentTickets.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-            rvRecentTickets.setHasFixedSize(true);
-
-            adapter = new TicketsAdapter(TicketsActivity.this, recentTicketsList);
-            rvRecentTickets.setAdapter(adapter);
-            RunLayoutAnimation(rvRecentTickets);
-
-        }else {
-            tvRecentTickets.setText("No tickets to display");
-        }
+//
 
 
         btnSearchTicket.setOnClickListener(this);
+        ivLogout.setOnClickListener(this);
     }
 
     private void initLayouts() {
         //Tickets
 
+        ivLogout = findViewById(R.id.ivLogout);
         tvRecentTickets = findViewById(R.id.tvRecentTickets);
         etKeywords = findViewById(R.id.etKeywords);
-//        tvSearchResult = findViewById(R.id.tvSearchResult);
+        ivLogout = findViewById(R.id.ivLogout);
         progressBar = findViewById(R.id.progressBar);
         btnSearchTicket = findViewById(R.id.btnSearchTicket);
         rvRecentTickets = findViewById(R.id.rvRecentTickets);
         rvSearchedTickets = findViewById(R.id.rvSearchedTickets);
-        ivBack = findViewById(R.id.ivBack);
+
         tvTitle = findViewById(R.id.tvTitle);
         tvTitle.setText("Tickets");
 //        cardSearchedTickets = findViewById(R.id.cardSearchedTickets);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem search = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        try {
-            search(searchView);
-        }catch (Exception e){
-            Log.e("hhhc", e.toString());
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void search(SearchView searchView) {
-        searchView.setBackgroundColor(getResources().getColor(R.color.green_100));
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//
+//        MenuItem search = menu.findItem(R.id.action_search);
+//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+//        try {
+//            search(searchView);
+//        }catch (Exception e){
+//            Log.e("hhhc", e.toString());
+//        }
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                try {
-                    if (adapter!=null){
-                        adapter.getFilter().filter(newText);
-                    }
-
-                }catch (Exception e){
-                    Log.e("dvdvd", e.toString());
-                }
-
-                return true;
-            }
-        });
-    }
+//    private void search(SearchView searchView) {
+//        searchView.setBackgroundColor(getResources().getColor(R.color.green_100));
+//
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                try {
+//                    if (adapter!=null){
+//                        adapter.getFilter().filter(newText);
+//                    }
+//
+//                }catch (Exception e){
+//                    Log.e("dvdvd", e.toString());
+//                }
+//
+//                return true;
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View v) {
@@ -218,7 +206,9 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
                     searchTicket(keyword);
                 }
                 break;
-            case R.id.ivBack:
+            case R.id.ivLogout:
+                AppController.getInstance().logOutUser();
+                startActivity(SelectionActivity.class);
                 finish();
                 break;
         }

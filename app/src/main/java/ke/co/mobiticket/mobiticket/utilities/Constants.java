@@ -67,6 +67,7 @@ public class Constants {
     public static final String EMAIL_SUFFIX_JAMBOPAY ="@jambopay.com" ;
     public static final String EMAIL_SUFFIX_MOBITICKET ="@mobiticket.co.ke" ;
     public static final String ACTION_FINALIZE_PASSWORD_RESET ="complete-user-password-reset" ;
+    public static final String PAYMENT_METHODS_REPO ="payment_method_repo" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

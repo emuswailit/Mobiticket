@@ -11,6 +11,7 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
+
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
         android:weightSum="3">
 
         <LinearLayout
-            android:layout_margin="@dimen/spacing_small"
+
             android:background="@color/white"
         android:layout_gravity="center"
             android:gravity="center"
@@ -45,7 +46,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_margin="@dimen/spacing_small"
+
             android:background="@color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_margin="@dimen/spacing_small"
+
             android:background="@color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -31,7 +31,7 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_left_arrow_white" />
+                android:src="@drawable/baseline_home_white_24" />
 
             <TextView
                 android:id="@+id/tvTitle"

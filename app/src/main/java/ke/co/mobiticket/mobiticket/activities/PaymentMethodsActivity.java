@@ -53,7 +53,7 @@ import retrofit2.Response;
 
 public class PaymentMethodsActivity extends BaseActivity {
     private RecyclerView rvPaymentMethods;
-    private TextView tvPaymentMethods;
+    private TextView tvPaymentMethods,tvTitle;
     private ImageView ivBack;
     private double total_cost = 0.00;
     ProgressBar progressBar;
@@ -79,37 +79,22 @@ public class PaymentMethodsActivity extends BaseActivity {
         editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
         editor.apply();
 
-        //Check if reference number is set, if not generate new
-        if (AppController.getInstance().isNetworkConnected()) {
+        try {
+            if (prefs.getString(Constants.PAYMENT_METHODS_REPO,"")==""||prefs.getString(Constants.PAYMENT_METHODS_REPO,"").isEmpty()){
+                retrievePaymentMethods();
+            }else {
+                RetrievePaymentMethodResponse resp = new Gson().fromJson(prefs.getString(Constants.PAYMENT_METHODS_REPO,""), RetrievePaymentMethodResponse.class);
+                displayPaymentMethods(resp);
 
+            }
 
-
-
-                if (prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")==""||prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"").isEmpty()) {
-                    generateReferenceNumber();
-                }else {
-                    Toast.makeText(this, "Reference number "+ prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")+" is set. No need to regenerate", Toast.LENGTH_SHORT).show();
-                }
-
-
-        } else {
-            startActivity(NoInternetActivity.class);
+        }catch (Exception e){
+            Log.e("get payment methods",e.toString());
         }
 
-//        String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
-//        Log.e("retrievePassengers", passengerListString);
-//        if (passengerListString.isEmpty() || passengerListString.equals("")) {
-//            finish();
-//        } else {
-//
-//            passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
-//
-//            for (Passenger passenger : passengerList) {
-//                Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
 
-        retrievePaymentMethods();
+
+
         initListeners();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -117,9 +102,7 @@ public class PaymentMethodsActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
-                        break;
+
                     case R.id.action_vehicles:
                         showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
                         break;
@@ -137,12 +120,35 @@ public class PaymentMethodsActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        //Check if reference number is set, if not generate new
+        if (AppController.getInstance().isNetworkConnected()) {
+
+
+
+
+            if (prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")==""||prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"").isEmpty()) {
+                generateReferenceNumber();
+            }else {
+                Toast.makeText(this, "Reference number "+ prefs.getString(Constants.TICKET_REFERENCE_NUMBER,"")+" is set. No need to regenerate", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } else {
+            startActivity(NoInternetActivity.class);
+        }
+    }
+
     private void initListeners() {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showGoHome(getResources().getString(R.string.text_ticket_purchase_in_progress),getResources().getString(R.string.text_exit));
 
-                finish();
             }
         });
     }
@@ -164,37 +170,11 @@ public class PaymentMethodsActivity extends BaseActivity {
                 if (response.body() != null) {
                     RetrievePaymentMethodResponse resp = response.body();
                     if (resp.getResponse_code().equals("0")) {
-                        List<PaymentMethod> paymentMethods = resp.getPaymentmethod();
-
-                        for (PaymentMethod paymentMethod : paymentMethods) {
-                            Log.e("method", paymentMethod.getName());
-                        }
-                        try {
-                            //set data and list adapter
-                            mAdapter = new AdapterPaymentMethods(PaymentMethodsActivity.this, resp.getPaymentmethod());
-                            rvPaymentMethods.setAdapter(mAdapter);
-                            RunLayoutAnimation(rvPaymentMethods);
-
-                            // on item list clicked
-                            mAdapter.setOnItemClickListener(new AdapterPaymentMethods.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, PaymentMethod obj, int position) {
-                                String     payment_method_id = obj.getId();
                         SharedPreferences.Editor editor = prefs.edit();
 
-                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
+                        editor.putString(Constants.PAYMENT_METHODS_REPO, new Gson().toJson(resp));
                         editor.apply();
-                                    try {
-                                        showCustomYesNoDialog(obj.getName(), "Use " + obj.getName() + " to pay your fare now?", payment_method_id);
-                                    } catch (Exception e) {
-                                        Log.e("dialog p/meth", e.toString());
-                                    }
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            Log.e("Error", e.toString());
-                        }
+           displayPaymentMethods(resp);
 
                     } else {
                         showCustomDialog("Payment methods", resp.getResponse_message());
@@ -212,8 +192,47 @@ public class PaymentMethodsActivity extends BaseActivity {
         });
     }
 
+    private void displayPaymentMethods(RetrievePaymentMethodResponse resp) {
+
+        List<PaymentMethod> paymentMethods = resp.getPaymentmethod();
+
+
+
+        for (PaymentMethod paymentMethod : paymentMethods) {
+            Log.e("method", paymentMethod.getName());
+        }
+        try {
+            //set data and list adapter
+            mAdapter = new AdapterPaymentMethods(PaymentMethodsActivity.this, resp.getPaymentmethod());
+            rvPaymentMethods.setAdapter(mAdapter);
+            RunLayoutAnimation(rvPaymentMethods);
+
+            // on item list clicked
+            mAdapter.setOnItemClickListener(new AdapterPaymentMethods.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, PaymentMethod obj, int position) {
+                    String     payment_method_id = obj.getId();
+                    SharedPreferences.Editor editor = prefs.edit();
+
+                    editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
+                    editor.apply();
+                    try {
+                        showCustomYesNoDialog(obj.getName(), "Use " + obj.getName() + " to pay your fare now?", payment_method_id);
+                    } catch (Exception e) {
+                        Log.e("dialog p/meth", e.toString());
+                    }
+
+                }
+            });
+        } catch (Exception e) {
+            Log.e("Error", e.toString());
+        }
+    }
+
     private void initLayouts() {
         ivBack = findViewById(R.id.ivBack);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setText("Payment Methods");
 
         rvPaymentMethods = findViewById(R.id.rvPaymentMethods);
         rvPaymentMethods.setLayoutManager(new LinearLayoutManager(this));
@@ -505,24 +524,18 @@ public class PaymentMethodsActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     switch (item.getItemId()) {
-                        case R.id.action_home:
-                            resetTicketPreferences(prefs);
-                            startActivity(DashboardActivity.class);
-                            finish();
-
-                            break;
                         case R.id.action_vehicles:
                             resetTicketPreferences(prefs);
                             startActivity(MyVehiclesActivity.class);
                             finish();
                             break;
                         case R.id.action_tickets:
-                            resetTicketPreferences(prefs);
+//                            resetTicketPreferences(prefs);
                             startActivity(TicketsActivity.class);
                             finish();
                             break;
                         case R.id.action_more:
-                            resetTicketPreferences(prefs);
+//                            resetTicketPreferences(prefs);
                             startActivity(MoreActivity.class);
                             finish();
                             break;
@@ -538,6 +551,59 @@ public class PaymentMethodsActivity extends BaseActivity {
         }
     }
 
+//    private void resetTicketPreferences(SharedPreferences prefs) {
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        editor.putString(Constants.TICKET_REFERENCE_NUMBER, "");
+//        editor.putBoolean(Constants.TICKET_IS_RESERVED, false);
+//        editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING, null);
+//        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, "");
+//        editor.apply();
+//    }
+
+    public void showGoHome(String title, String message) {
+        try {
+
+
+            final Dialog dialog = new Dialog(PaymentMethodsActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetTicketPreferences(prefs);
+                    startActivity(DashboardActivity.class);
+                    finish();
+
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
     private void resetTicketPreferences(SharedPreferences prefs) {
         SharedPreferences.Editor editor = prefs.edit();
 

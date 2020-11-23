@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.utilities.AppController;
 import ke.co.mobiticket.mobiticket.utilities.CustomToast;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
@@ -195,6 +196,49 @@ public class BaseActivity extends AppCompatActivity {
             tvMessage.setText(message);
 
 
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+    public void showLogoutYesNoDialog(String title, String message, final Activity activity) {
+        try {
+
+
+            final Dialog dialog = new Dialog(BaseActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppController.getInstance().logOutUser();
+                    startActivity(SelectionActivity.class);
+                    activity.finish();
+                }
+            });
 
             dialog.show();
             dialog.getWindow().setAttributes(lp);

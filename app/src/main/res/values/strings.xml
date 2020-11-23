@@ -52,8 +52,8 @@
     <string name="lbl_sleeper">Sleeper</string>
     <string name="lbl_seater">Seater</string>
     <string name="_1">1</string>
-    <string name="lbl_profile_settings">Edit Profile</string>
-    <string name="lbl__wallet">Wallet</string>
+    <string name="lbl_profile_settings">My Profile</string>
+    <string name="lbl__wallet">My Wallet</string>
     <string name="lbl_cards">Cards</string>
     <string name="lbl_operators">Operators</string>
     <!--    <string name="lbl_operators">Refer &amp; Earn</string>-->
@@ -156,7 +156,7 @@
     <string name="lbl_submit">Submit</string>
     <string name="RETRY">Retry</string>
     <string name="owner_travelling">Is account owner travelling?</string>
-    <string name="lbl_tap_cards">Tap Cards</string>
+    <string name="lbl_tap_cards">Write Cards</string>
     <string name="write_nfc_card">Enter NFC card details</string>
     <string name="wallet_password">Password</string>
     <string name="hint_wallet_password">Jambopay wallet password</string>
@@ -215,8 +215,10 @@
     <string name="txt_search_bus">Already inside a bus? Enter its registration number below to pay fare</string>
     <string name="lbl_my_vehicles">My Vehicles</string>
     <string name="text_my_vehicles">My Vehicles</string>
-    <string name="text_forgotten_password">Forgotten your password?</string>
+    <string name="text_forgotten_password">Forgot password?</string>
     <string name="title_activity_more">More..</string>
     <string name="tell_your_friends">Tell your friends and family about mobiticket cashless fare service!</string>
+    <string name="text_ticket_purchase_in_progress">Ticket purchase in progress</string>
+    <string name="text_exit">Your ticket data will be lost. \n\n Do you want to exit anyway?</string>
 
 </resources>

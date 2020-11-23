@@ -610,17 +610,18 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<ServerReadOneResponse>() {
             @Override
             public void onResponse(Call<ServerReadOneResponse> call, Response<ServerReadOneResponse> response) {
-                Log.e("body", gson.toJson(response.body()));
-                ServerReadOneResponse readOneResponse = response.body();
                 dialog.dismiss();
-                String registration_number = readOneResponse.getRegistration_number();
                 if (response.body().getResponse_code().equals("0")) {
-                    Log.e("fdfdfdfd", gson.toJson(response.body()));
+                    Log.e("body", gson.toJson(response.body()));
+                    ServerReadOneResponse readOneResponse = response.body();
+
+                    String registration_number = readOneResponse.getRegistration_number();
+                    Log.e("retrieved bus", gson.toJson(response.body()));
                     if (registration_number.isEmpty() || registration_number.equals("")) {
                         showCustomDialog(vehicle_registration, "This vehicle was not retrieved. Please try again!");
                         return;
                     } else {
-                        showCustomYesNoDialog(readOneResponse, registration_number, "" + readOneResponse.getFare_details().getTravel_from() + " to " + readOneResponse.getFare_details().getTravel_to() + "\n\n" + "KES " + String.format("%.2f", Double.valueOf(readOneResponse.getFare_details().getCurrent_fare())) + "\n\n" + "Would you like proceeding to pay fare for this vehicle?", readOneResponse);
+                        showCustomYesNoDialog(readOneResponse, registration_number, "" + readOneResponse.getFare_details().getTravel_from() + " to " + readOneResponse.getFare_details().getTravel_to() + "\n\n" + "KES " + String.format("%.2f", Double.valueOf(readOneResponse.getFare_details().getCurrent_fare())) + "\n\n" + "Would you like to pay fare for this vehicle?", readOneResponse);
                     }
                 } else {
                     showCustomDialog(vehicle_registration, response.body().getResponse_message());
@@ -678,8 +679,15 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
                     editor.putString(Constants.TICKET_VEHICLE_CURRENT_FARE, readOneResponse.getFare_details().getCurrent_fare());
                     editor.putString(Constants.TICKET_VEHICLE_OPERATOR_ID, readOneResponse.getOperator().getId());
                     editor.putString(Constants.TICKET_VEHICLE_TRIP_NUMBER, readOneResponse.getFare_details().getTrip_number());
+                    editor.putString(Constants.TICKET_TRAVEL_FROM, readOneResponse.getFare_details().getTravel_from());
+                    editor.putString(Constants.TICKET_TRAVEL_TO, readOneResponse.getFare_details().getTravel_to());
+                    editor.putString(Constants.TICKET_PICKUP_POINT, readOneResponse.getFare_details().getTravel_from());
+                    editor.putString(Constants.TICKET_DROPOFF_POINT, readOneResponse.getFare_details().getTravel_to());
+
 
                     editor.apply();
+
+
 
                     //Move straight to payment methods
                     Intent intent = new Intent(getActivity(), PaymentMethodsActivity.class);

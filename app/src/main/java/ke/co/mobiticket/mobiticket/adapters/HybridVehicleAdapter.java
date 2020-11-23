@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,37 +48,38 @@ public class HybridVehicleAdapter extends RecyclerView.Adapter<HybridVehicleAdap
     public void onBindViewHolder(final HybridVehicleAdapter.ViewHolder holder, int position) {
         final HybridVehicle myList = list.get(position);
         holder.tvVehicleRegistration.setText(myList.getRegistration_number());
-        holder.tvVehicleOperator.setText(myList.getRoutes());
-
-        holder.btnOptions.setOnClickListener(new View.OnClickListener() {
+        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(mCtx, myList.getRegistration_number(), Toast.LENGTH_SHORT).show();
 
-                //creating a popup menu
-                PopupMenu popup = new PopupMenu(mCtx, view);
-                //inflating menu from xml resource
-                popup.inflate(R.menu.options_menu);
-                //adding click listener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.mnActivitySummary:
-                                //handle menu1 click
-                                ((MyVehiclesActivity)mCtx).customMethod(myList);
-                                break;
-                            case R.id.menu2:
-                                //handle menu2 click
-                                break;
-                            case R.id.menu3:
-                                //handle menu3 click
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                //displaying the popup
-                popup.show();
+                ((MyVehiclesActivity)mCtx).customMethod(myList);
+
+//                //creating a popup menu
+//                PopupMenu popup = new PopupMenu(mCtx, view);
+//                //inflating menu from xml resource
+//                popup.inflate(R.menu.options_menu);
+//                //adding click listener
+//                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        switch (item.getItemId()) {
+//                            case R.id.mnActivitySummary:
+//                                //handle menu1 click
+//                                ((MyVehiclesActivity)mCtx).customMethod(myList);
+//                                break;
+//                            case R.id.itemCharges:
+//                                //handle menu2 click
+//                                break;
+//                            case R.id.itemExpenses:
+//                                //handle menu3 click
+//                                break;
+//                        }
+//                        return false;
+//                    }
+//                });
+//                //displaying the popup
+//                popup.show();
 
             }
         });
@@ -93,15 +95,14 @@ public class HybridVehicleAdapter extends RecyclerView.Adapter<HybridVehicleAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvVehicleRegistration;
-        public TextView tvVehicleOperator;
-        public TextView btnOptions;
+        public LinearLayout lyt_parent;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            lyt_parent = (LinearLayout) itemView.findViewById(R.id.lyt_parent);
             tvVehicleRegistration = (TextView) itemView.findViewById(R.id.tvVehicleRegistration);
-            tvVehicleOperator = (TextView) itemView.findViewById(R.id.tvVehicleOperator);
-            btnOptions = (Button) itemView.findViewById(R.id.btnOptions);
+
         }
     }
 

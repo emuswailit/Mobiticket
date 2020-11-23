@@ -182,12 +182,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-//
-                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
-                        break;
+
                     case R.id.action_vehicles:
-                        showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);;
+                        showCustomYesNoDialog(getString(R.string.text_ticket_purchase_in_progress), getString(R.string.text_exit), item);;
                         break;
                     case R.id.action_tickets:
                         showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
@@ -774,26 +771,25 @@ callAsynchronousTask(reference_number);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
             dialog.setContentView(R.layout.dialog_success_payment_method);
             dialog.setCancelable(false);
-
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(dialog.getWindow().getAttributes());
             lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-
+            //Hide title textview, the layout is shared so cannot be deleted
             TextView tvTitle = dialog.findViewById(R.id.title);
-            TextView tvTickets = dialog.findViewById(R.id.tvTickets);
+            tvTitle.setVisibility(View.GONE);
             TextView tvTotalCost = dialog.findViewById(R.id.tvTotalCost);
             TextView tvContent = dialog.findViewById(R.id.content);
             tvContent.setText(message);
             tvTitle.setText(message);
             Double total_cost = Double.valueOf(prefs.getString(Constants.TICKET_VEHICLE_CURRENT_FARE, "")) * passengerList.size();
-            tvTickets.setText("Tickets: " + passengerList.size());
+
             tvTotalCost.setText("KES " + String.format("%.2f", total_cost));
             ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(PaymentActivity.this, ((AppCompatButton) v).getText().toString() + " Clicked", Toast.LENGTH_SHORT).show();
+
                     dialog.dismiss();
                     Intent intent = new Intent(PaymentActivity.this, DashboardActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -868,16 +864,9 @@ callAsynchronousTask(reference_number);
 
     @Override
     public void onBackPressed() {
-        Log.e("ticket ref", prefs.getString(Constants.TICKET_REFERENCE_NUMBER, ""));
-        Log.e("ticket data", prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, ""));
-        if (prefs.getString(Constants.TICKET_REFERENCE_NUMBER, "").isEmpty() || prefs.getString(Constants.TICKET_REFERENCE_NUMBER, "").equals("")) {
-            Intent intent = new Intent(PaymentActivity.this, DashboardActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }else{
-            Intent intent = new Intent(PaymentActivity.this, PaymentMethodsActivity.class);
-            startActivity(intent);
-        }
+
+      startActivity(PaymentMethodsActivity.class);
+      finish();
     }
 
 
@@ -1056,8 +1045,7 @@ try {
         switch (v.getId()){
             case R.id.ivBack:
 
-                startActivity(PaymentMethodsActivity.class);
-                finish();
+                showGoHome(getResources().getString(R.string.text_ticket_purchase_in_progress),getResources().getString(R.string.text_exit));
 
                 break;
         }
@@ -1094,17 +1082,8 @@ try {
                 @Override
                 public void onClick(View v) {
                     switch (item.getItemId()) {
-                        case R.id.action_home:
-                            resetTicketPreferences(prefs);
-                       startActivity(DashboardActivity.class);
-                       finish();
 
-                            break;
-                        case R.id.action_vehicles:
-                            resetTicketPreferences(prefs);
-                            startActivity(MyVehiclesActivity.class);
-                            finish();
-                            break;
+
                         case R.id.action_tickets:
                             resetTicketPreferences(prefs);
                             startActivity(TicketsActivity.class);
@@ -1126,4 +1105,50 @@ try {
             Log.e("Dialog", e.toString());
         }
     }
+
+    public void showGoHome(String title, String message) {
+        try {
+
+
+            final Dialog dialog = new Dialog(PaymentActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
+            dialog.setCancelable(false);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+            TextView tvTitle = dialog.findViewById(R.id.title);
+            TextView tvContent = dialog.findViewById(R.id.content);
+            tvContent.setText(message);
+            tvTitle.setText(title);
+
+            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetTicketPreferences(prefs);
+              startActivity(DashboardActivity.class);
+              finish();
+
+                }
+            });
+
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
+        } catch (Exception e) {
+            Log.e("Dialog", e.toString());
+        }
+    }
+
+
 }

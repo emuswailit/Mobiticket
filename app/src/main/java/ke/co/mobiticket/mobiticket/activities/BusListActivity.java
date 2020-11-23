@@ -193,7 +193,8 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v == mIvBack) {
-            onBackPressed();
+         startActivity(DashboardActivity.class);
+         finish();
         } else if (v == mIvFilter) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_filter);

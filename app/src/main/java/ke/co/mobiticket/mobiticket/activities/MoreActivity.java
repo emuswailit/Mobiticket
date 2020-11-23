@@ -19,7 +19,7 @@ import ke.co.mobiticket.mobiticket.utilities.AppController;
 
 public class MoreActivity extends BaseActivity implements View.OnClickListener {
     private TextView tvTitle, tvProfileSettings,tvWallet, tvTapCard,tvMyVehicles,tvHelp,tvSetting,tvLogout;
-    private ImageView ivLogout;
+    private ImageView ivLogout,ivBack;
 
 
     @Override
@@ -34,9 +34,7 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                    startActivity(DashboardActivity.class);
-                        break;
+
                     case R.id.action_vehicles:
                         startActivity(MyVehiclesActivity.class);
                         break;
@@ -64,10 +62,12 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
         tvHelp.setOnClickListener(this);
         tvSetting.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
     }
 
     private void initLayouts() {
         ivLogout=findViewById(R.id.ivLogout);
+        ivBack=findViewById(R.id.ivBack);
         tvTitle=findViewById(R.id.tvTitle);
         tvTitle.setText("More..");
         tvProfileSettings=findViewById(R.id.tvProfileSettings);
@@ -105,56 +105,17 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tvSetting:
                 break;
             case R.id.tvLogout:
-                showLogoutYesNoDialog("Log out", "Do you really want to log out?");
+                showLogoutYesNoDialog("Log out", "Do you really want to log out?",MoreActivity.this);
                 break;
-            case R.id.ivLogout:
-                showLogoutYesNoDialog("Log out", "Do you really want to log out?");
+
+            case R.id.ivBack:
+               startActivity(DashboardActivity.class);
+               finish();
                 break;
             default:
                 break;
         }
     }
 
-    public void showLogoutYesNoDialog(String title, String message) {
-        try {
 
-
-            final Dialog dialog = new Dialog(MoreActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-            dialog.setContentView(R.layout.dialog_exit_activity_or_no);
-            dialog.setCancelable(false);
-
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
-            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-            TextView tvTitle = dialog.findViewById(R.id.title);
-            TextView tvContent = dialog.findViewById(R.id.content);
-            tvContent.setText(message);
-            tvTitle.setText(title);
-
-            dialog.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog.dismiss();
-                }
-            });
-            dialog.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AppController.getInstance().logOutUser();
-                    startActivity(SelectionActivity.class);
-                    finish();
-                }
-            });
-
-            dialog.show();
-            dialog.getWindow().setAttributes(lp);
-        } catch (Exception e) {
-            Log.e("Dialog", e.toString());
-        }
-    }
 }

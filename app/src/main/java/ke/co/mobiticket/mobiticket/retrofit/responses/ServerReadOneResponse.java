@@ -18,6 +18,9 @@ public class ServerReadOneResponse {
     private String registration_number;
     private String msisdn;
     private String email_address;
+    private String total_expenses;
+    private String total_income;
+    private String wallet_balance;
     private String routes;
     private String office_city;
     private String type;
@@ -29,6 +32,18 @@ public class ServerReadOneResponse {
     private List<Charge> charge;
     private List<Expense> expense;
     private List<Ticket> ticket;
+
+    public String getTotal_expenses() {
+        return total_expenses;
+    }
+
+    public String getTotal_income() {
+        return total_income;
+    }
+
+    public String getWallet_balance() {
+        return wallet_balance;
+    }
 
     public String getResponse_code() {
         return response_code;

@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +44,13 @@ public class ExpensesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
+        FloatingActionButton fab;
         public TextView tvExpenseDescription,tvChargeChannel,tvAmount, tvStatus;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
+            fab = (FloatingActionButton) v.findViewById(R.id.btnPay);
             image = (ImageView) v.findViewById(R.id.image);
             tvAmount = (TextView) v.findViewById(R.id.tvAmount);
             tvStatus = (TextView) v.findViewById(R.id.tvStatus);
@@ -79,6 +84,12 @@ public class ExpensesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }catch (Exception e){
 
             }
+            view.fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(ctx, "To payment of an expense", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             Tools.displayImageRound(ctx, view.image, ctx.getDrawable(R.drawable.coin_etc));
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {

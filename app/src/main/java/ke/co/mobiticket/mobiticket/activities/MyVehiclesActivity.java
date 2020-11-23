@@ -46,7 +46,7 @@ Gson gson=new Gson();
     List<String> vehicleNumbersList=new ArrayList<>();
     private TextView tvMyVehicles,tvTitle;
     private RecyclerView recyclerView;
-    private ImageView ivBack;
+    private ImageView ivBack,ivLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +61,7 @@ prefs=AppController.getInstance().getMobiPrefs();
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                        startActivity(DashboardActivity.class);
-                        break;
+
                     case R.id.action_vehicles:
 //                        startActivity(MyVehiclesActivity.class);
                         break;
@@ -133,7 +131,7 @@ prefs=AppController.getInstance().getMobiPrefs();
                     }
 
                     if (filteredVehicleList.size()>0){
-                        tvMyVehicles.setText("Your vehicles: "+filteredVehicleList.size());
+//                        tvMyVehicles.setText("Your vehicles: "+filteredVehicleList.size());
                         try {
                             HybridVehicleAdapter hybridVehicleAdapter=new HybridVehicleAdapter( filteredVehicleList, MyVehiclesActivity.this);
                             recyclerView.setAdapter(hybridVehicleAdapter);
@@ -141,9 +139,10 @@ prefs=AppController.getInstance().getMobiPrefs();
                             Log.e("fdfd", e.toString());
                         }
 
-
+tvMyVehicles.setText("Your Vehicles: "+ filteredVehicleList.size());
+                        tvMyVehicles.setVisibility(View.INVISIBLE);
                     }else {
-                        tvMyVehicles.setText("No vehicles to display");
+                        tvMyVehicles.setText("No enrolled vehicles. Do you want to register a PSV vehicle you own, drive or are a conductor?");
                     }
 
 
@@ -165,9 +164,11 @@ showCustomDialog("Vehicle details", "System errror occurred. Please try again");
 
     private void initListeners() {
 ivBack.setOnClickListener(this);
+ivLogout.setOnClickListener(this);
     }
 
     private void initLayouts() {
+ivLogout=findViewById(R.id.ivLogout);
 ivBack=findViewById(R.id.ivBack);
 tvTitle=findViewById(R.id.tvTitle);
 tvTitle.setText("My Vehicles");
@@ -193,7 +194,11 @@ tvMyVehicles=findViewById(R.id.tvMyVehicles);
         switch (v.getId()){
 
             case R.id.ivBack:
+                startActivity(DashboardActivity.class);
                 finish();
+                break;
+            case R.id.ivLogout:
+                showLogoutYesNoDialog("Log out", "Do you really want to log out?", MyVehiclesActivity.this);
                 break;
         }
     }

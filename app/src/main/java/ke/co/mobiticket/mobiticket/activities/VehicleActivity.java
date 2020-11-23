@@ -35,8 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class VehicleActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView ivBack;
-    private TextView tvTitle, tvChargesCount,tvTicketsCount,tvExpensesCount;
+    private ImageView ivBack,ivLogout;
+    private TextView tvTitle, tvChargesCount,tvTicketsCount,tvExpensesCount, tvIncome,tvExpense,tvBalance;
     private RecyclerView recyclerViewTickets, recyclerViewCharges,recyclerViewExpenses;
     List<String> dates = new ArrayList<>();
     String vehicle_reg;
@@ -86,6 +86,9 @@ dialog.dismiss();
                 if (response.body() !=null){
                     if (response.body().getResponse_code().equals("0")) {
                         List<Ticket> tickets = response.body().getTicket();
+                        tvBalance.setText(String.format("%.2f",Double.valueOf(response.body().getWallet_balance())));
+                        tvIncome.setText(String.format("%.2f",Double.valueOf(response.body().getTotal_income())));
+                        tvExpense.setText(String.format("%.2f",Double.valueOf(response.body().getTotal_expenses())));
                         if (tickets.size() > 0) {
                             List<Ticket> todayTickets = new ArrayList<>();
                             for (Ticket ticket : tickets) {
@@ -227,10 +230,15 @@ dialog.dismiss();
 
     private void initListeners() {
     ivBack.setOnClickListener(this);
+    ivLogout.setOnClickListener(this);
     }
 
     private void initLayouts() {
+ivLogout=findViewById(R.id.ivLogout);
 ivBack=findViewById(R.id.ivBack);
+tvIncome=findViewById(R.id.tvIncome);
+tvExpense=findViewById(R.id.tvExpense);
+tvBalance=findViewById(R.id.tvBalance);
         tvChargesCount=findViewById(R.id.tvChargesCount);
 tvTicketsCount=findViewById(R.id.tvTicketsCount);
 tvExpensesCount=findViewById(R.id.tvExpensesCount);
@@ -258,6 +266,10 @@ tvTitle.setText(vehicle_reg);
         switch (v.getId()){
             case R.id.ivBack:
                 finish();
+                break;
+
+            case R.id.ivLogout:
+                showLogoutYesNoDialog("Log out", "Do you really want to log out?", VehicleActivity.this);
                 break;
         }
     }

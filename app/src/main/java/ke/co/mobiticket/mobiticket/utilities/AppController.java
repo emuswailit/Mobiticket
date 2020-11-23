@@ -79,6 +79,7 @@ public class AppController extends Application {
         editor.putString(Constants.ENTIRE_RESPONSE,null);
         editor.putString(Constants.RECENT_ROUTES,null);
         editor.putString(Constants.PASSENGER_DATA_THIS_BOOKING,null);
+        editor.putString(Constants.PAYMENT_METHODS_REPO,"");
 
         editor.apply();
 Log.e("logged out", "out");

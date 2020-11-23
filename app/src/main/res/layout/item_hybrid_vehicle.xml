@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:clickable="true"
         android:id="@+id/lyt_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,56 +15,15 @@
         android:paddingLeft="@dimen/spacing_large"
         android:paddingRight="@dimen/spacing_large">
 
-<!--        <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--            android:id="@+id/image"-->
-<!--            app:civ_background_color="@color/colorPrimary"-->
-<!--            android:layout_width="70dp"-->
-<!--            android:layout_height="70dp"-->
-<!--            android:src="@drawable/baseline_directions_bus_white_24"-->
-<!--            app:civ_border_color="@color/grey_5"-->
-<!--            app:civ_border_width="1dp" />-->
 
 
+        <TextView
+            android:layout_margin="@dimen/font_large"
+            android:textSize="18sp"
+            android:text="KAN100X"
+            android:id="@+id/tvVehicleRegistration"
+         style="@style/App_TextViewMedium" />
 
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:orientation="vertical">
-            <Button
-                android:textColor="@color/textheader"
-                android:id="@+id/btnOptions"
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:text="&#8942;"
-                android:textAppearance="?android:textAppearanceLarge" />
-            <TextView
-                android:id="@+id/tvVehicleRegistration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="KAN100X"
-                android:layout_margin="@dimen/spacing_medium"
-                android:textColor="@color/textheader"
-              android:fontFamily="@font/googlesansextrabold" />
-
-            <TextView
-                android:layout_below="@+id/tvVehicleRegistration"
-                android:id="@+id/tvVehicleOperator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="gggf"
-                android:fontFamily="@font/googlesansbold"
-                android:layout_margin="@dimen/spacing_medium"
-                android:textColor="@color/textchild" />
-
-        </RelativeLayout>
 
 
     </LinearLayout>
