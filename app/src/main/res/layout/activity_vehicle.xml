@@ -43,7 +43,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_toStartOf="@id/ivFilter"
+                android:layout_toStartOf="@id/ivLogout"
                 android:layout_toEndOf="@+id/ivBack"
                 android:fontFamily="@font/googlesansextrabold"
                 android:singleLine="true"
@@ -89,7 +89,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                 android:layout_margin="@dimen/spacing_medium"
+                    android:layout_margin="@dimen/spacing_medium"
                     android:visibility="visible"
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp"
@@ -109,18 +109,9 @@
                             android:orientation="horizontal">
 
                             <TextView
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:fontFamily="@font/googlesansextrabold"
+                                style="@style/App_TextViewLarge"
                                 android:gravity="center"
-                                android:text="Finance Summary"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                android:textColor="@color/blue_grey_800" />
-
-
-
+                                android:text="Finance Summary" />
                         </LinearLayout>
 
                         <View
@@ -141,7 +132,6 @@
                             android:paddingRight="@dimen/spacing_large">
 
 
-
                             <View
                                 android:layout_width="@dimen/spacing_middle"
                                 android:layout_height="0dp" />
@@ -153,20 +143,12 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Total Income"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
+                                    style="@style/App_TextViewSmall"
+                                    android:text="Total Income" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="TODAY"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/grey_40" />
-
+                                    style="@style/App_TextViewSmall"
+                                    android:text="TODAY" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -177,20 +159,12 @@
 
                                 <TextView
                                     android:id="@+id/tvIncome"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="0.00"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
+                                    style="@style/App_TextViewMedium"
+                                    android:text="0.00" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="KES"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/grey_40" />
-
+                                    style="@style/App_TextViewSmall"
+                                    android:text="KES" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -203,32 +177,25 @@
                             android:paddingLeft="@dimen/spacing_large"
                             android:paddingRight="@dimen/spacing_large">
 
-
-
                             <View
                                 android:layout_width="@dimen/spacing_middle"
                                 android:layout_height="0dp" />
 
                             <LinearLayout
+
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Expense"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
+
+                                    style="@style/App_TextViewLarge"
+                                    android:text="Expense" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="TODAY"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/grey_40" />
+                                    style="@style/App_TextViewSmall"
+                                    android:text="TODAY" />
 
                             </LinearLayout>
 
@@ -240,19 +207,13 @@
 
                                 <TextView
                                     android:id="@+id/tvExpense"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    style="@style/App_TextViewMedium"
                                     android:text="0.00"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="KES"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/grey_40" />
+                                    style="@style/App_TextViewSmall"
+                                    android:text="KES" />
 
                             </LinearLayout>
 
@@ -261,6 +222,7 @@
                         <View
                             android:layout_width="0dp"
                             android:layout_height="@dimen/spacing_middle" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/spacing_xxlarge"
@@ -270,33 +232,25 @@
                             android:paddingRight="@dimen/spacing_large">
 
 
-
                             <View
                                 android:layout_width="@dimen/spacing_middle"
                                 android:layout_height="0dp" />
 
                             <LinearLayout
-                                android:padding="@dimen/spacing_xsmall"
+
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Wallet Balance"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
 
-                                <Button
+                                    style="@style/App_TextViewLarge"
+                                    android:text="Balance" />
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Withdraw"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/white" />
+                                <TextView
+                                    style="@style/App_TextViewSmall"
+                                    android:text="TODAY" />
 
                             </LinearLayout>
 
@@ -308,19 +262,13 @@
 
                                 <TextView
                                     android:id="@+id/tvBalance"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    style="@style/App_TextViewMedium"
                                     android:text="0.00"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_80"
-                                    app:fontFamily="sans-serif-medium" />
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="KES"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textColor="@color/grey_40" />
+                                    style="@style/App_TextViewSmall"
+                                    android:text="KES" />
 
                             </LinearLayout>
 
@@ -329,6 +277,7 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -337,39 +286,37 @@
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:id="@+id/llExpenses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvExpenses"
+                    <LinearLayout
+                        android:id="@+id/llExpenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansextrabold"
-                        android:gravity="center"
-                        android:text="Expenses"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/blue_grey_800" />
-                    <TextView
-                        android:id="@+id/tvExpensesCount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansregular"
-                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvExpenses"
+                            style="@style/App_TextViewLarge"
+                            android:gravity="center"
+                            android:text="Expenses" />
+
+                        <TextView
+                            android:id="@+id/tvExpensesCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/googlesansregular"
+                            android:gravity="center"
 
 
-                        android:textColor="@color/blue_grey_800" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewExpenses"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical"
-                        android:scrollingCache="true" />
-                </LinearLayout>
+                            android:textColor="@color/blue_grey_800" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewExpenses"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollingCache="true" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -380,40 +327,41 @@
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:id="@+id/llCharges"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvCharges"
+                    <LinearLayout
+                        android:id="@+id/llCharges"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansextrabold"
-                        android:gravity="center"
-                        android:text="Standing Charges"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/textheader" />
-                    <TextView
-                        android:id="@+id/tvChargesCount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansregular"
-                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCharges"
+                            style="@style/App_TextViewLarge"
+                            android:layout_gravity="center"
+
+                            android:gravity="center"
+                            android:text="Standing Charges" />
+
+                        <TextView
+                            android:id="@+id/tvChargesCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/googlesansregular"
+                            android:gravity="center"
 
 
-                        android:textColor="@color/blue_grey_800" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewCharges"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical"
-                        android:scrollingCache="true" />
-                </LinearLayout>
+                            android:textColor="@color/blue_grey_800" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewCharges"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollingCache="true" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -423,41 +371,42 @@
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    android:layout_margin="@dimen/spacing_small"
-                    android:id="@+id/llTickets"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvTickets"
+                    <LinearLayout
+                        android:id="@+id/llTickets"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/googlesansextrabold"
-                        android:gravity="center"
-                        android:text="Tickets Today"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/blue_grey_800" />
-                    <TextView
-                        android:id="@+id/tvTicketsCount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/spacing_medium"
-                        android:fontFamily="@font/googlesansregular"
-android:gravity="center"
+                        android:layout_margin="@dimen/spacing_small"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTickets"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/googlesansextrabold"
+                            android:gravity="center"
+                            android:text="Tickets Today"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/blue_grey_800" />
+
+                        <TextView
+                            android:id="@+id/tvTicketsCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:fontFamily="@font/googlesansregular"
+                            android:gravity="center"
 
 
+                            android:textColor="@color/blue_grey_800" />
 
-                        android:textColor="@color/blue_grey_800" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewTickets"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical"
-                        android:scrollingCache="true" />
-                </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewTickets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical"
+                            android:scrollingCache="true" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 

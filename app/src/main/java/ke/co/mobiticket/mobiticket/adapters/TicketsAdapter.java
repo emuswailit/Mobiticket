@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +88,7 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public TextView tvJourney,tvSeat, tvAmount,tvPaymentStatus,tvTravelDate,tvTravelTime, tvReferenceNumber;
         public View lyt_parent;
+        private ImageView ivQRCode;
 
         public OriginalViewHolder(View v) {
             super(v);
@@ -99,6 +102,7 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvPaymentStatus = (TextView) v.findViewById(R.id.tvPaymentStatus);
 
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
+            ivQRCode = (ImageView) v.findViewById(R.id.ivQRCode);
         }
     }
 
@@ -118,14 +122,17 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             Ticket p = items.get(position);
             view.tvJourney.setText(AppController.getInstance().camelCase(p.getPickup_point()) + " to " + AppController.getInstance().camelCase(p.getDropoff_point()) );
-            view.tvReferenceNumber.setText("Ticket #: "+p.getReference_number());
+            view.tvReferenceNumber.setText(p.getReference_number());
             if (p.getTotal_fare().equals("")){
-                view.tvAmount.setText("Ticket Cost: KES "+String.format("%.2f",0.00));
+                view.tvAmount.setText("KES "+String.format("%.2f",0.00));
             }else {
-                view.tvAmount.setText("Ticket Cost: KES "+String.format("%.2f",Double.valueOf(p.getTotal_fare())));
+                view.tvAmount.setText("KES "+String.format("%.2f",Double.valueOf(p.getTotal_fare())));
             }
 
-            view.tvPaymentStatus.setText("Payment Status: "+ p.getStatus());
+            view.tvPaymentStatus.setText(p.getStatus().toUpperCase());
+            if (p.getStatus().equals("Confirmed")){
+                view.tvPaymentStatus.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
+            }
 //            if (p.getStatus().equals("Pending")){
 //                view.tvPaymentStatus.setTextColor(Color.RED);
 //            }else  if (p.getStatus().equals("Confirmed")){
@@ -143,6 +150,11 @@ public class TicketsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
+
+            Glide.with(ctx)
+                    .load(p.getQr_code())
+                    .placeholder(R.drawable.ticket)
+                    .into(view.ivQRCode);
         }
     }
 

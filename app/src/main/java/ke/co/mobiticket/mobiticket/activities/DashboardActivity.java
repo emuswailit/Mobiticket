@@ -3,6 +3,7 @@ package ke.co.mobiticket.mobiticket.activities;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -26,6 +27,7 @@ import ke.co.mobiticket.mobiticket.fragments.Home1Fragment;
 import ke.co.mobiticket.mobiticket.fragments.MoreFragment;
 import ke.co.mobiticket.mobiticket.fragments.OffersFragment;
 import ke.co.mobiticket.mobiticket.utilities.AppController;
+import ke.co.mobiticket.mobiticket.utilities.Constants;
 
 
 public class DashboardActivity extends BaseActivity implements View.OnClickListener {
@@ -37,6 +39,7 @@ public class DashboardActivity extends BaseActivity implements View.OnClickListe
     private BookingFragment mMyBookingFragment = new BookingFragment();
     private MoreFragment mMoreFragment = new MoreFragment();
     private LinearLayout mLlHome, mLllPackages, mLlBooking, mLlMore;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class DashboardActivity extends BaseActivity implements View.OnClickListe
         initializeListeners();
 
 //        setSelected(mIvHome);
+
+
         loadFragment(home1Fragment);
 
 
@@ -115,7 +120,6 @@ ivLogout.setOnClickListener(this);
 switch (v.getId()){
     case R.id.ivLogout:
         showLogoutYesNoDialog("Log out", "Do you really want to log out?", DashboardActivity.this);
-
         break;
 }
 

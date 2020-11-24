@@ -63,7 +63,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
             // RecyclerView for items
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             itemRecyclerView.setLayoutManager(linearLayoutManager);
-            itemAdapter = new ItemAdapter(section.getAllItemsInSection());
+            itemAdapter = new ItemAdapter(context, section.getAllItemsInSection());
             itemRecyclerView.setAdapter(itemAdapter);
         }
     }

@@ -54,9 +54,15 @@ public class SelectionActivity extends BaseActivity implements View.OnClickListe
         if (prefs.getString(Constants.PHONE_NUMBER,"").isEmpty() && prefs.getString(Constants.EMAIL_ADDRESS,"").isEmpty() ){
             Toast.makeText(this, "You are logged in not", Toast.LENGTH_SHORT).show();
         }else {
+//            if (prefs.getBoolean(Constants.PENDING_MPESA_PAYBILL_ACTIVITY, false)){
+//                startActivity(PendingPaybillActivity.class);
+//                return;
+//            }
 
             startActivity(DashboardActivity.class);
         }
+
+
         initLayouts();
         initializeListeners();
     }

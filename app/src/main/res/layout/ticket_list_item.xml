@@ -16,7 +16,8 @@
 
 
         <LinearLayout
-
+            android:id="@+id/llTicket"
+android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
@@ -35,19 +36,13 @@
                 <TextView
 
                     android:id="@+id/list_item_text_view"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular"
+style="@style/App_TextViewSmall"
                     android:text="Reg number" />
 
                 <TextView
 
                     android:id="@+id/tvStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular"
-
+                  style="@style/App_TextViewSmall"
                     android:text="Confirmed" />
             </LinearLayout>
 
@@ -66,16 +61,12 @@
                 <TextView
 
                     android:id="@+id/tvFromTo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular"
+              style="@style/App_TextViewSmall"
                     android:text="From - To " />
 
                 <TextView
                     android:id="@+id/tvTravelTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular"
+                   style="@style/App_TextViewSmall"
                     android:text="8.00" />
             </LinearLayout>
 
@@ -89,18 +80,13 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:text="Unpaid"
                     android:id="@+id/tvPaymentMethod"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular" />
+                    style="@style/App_TextViewSmall" />
 
                 <TextView
-
                     android:id="@+id/tvPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/googlesansregular"
-                    android:gravity="center"
+                    style="@style/App_TextViewSmall"
                     android:text="0.00" />
             </LinearLayout>
 

@@ -31,47 +31,29 @@
 
                 <TextView
                     android:id="@+id/tvExpenseDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_80"
-                    app:fontFamily="sans-serif-medium" />
+                    style="@style/App_TextViewMedium" />
 
                 <TextView
                     android:id="@+id/tvChargeChannel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/grey_40" />
+                    style="@style/App_TextViewSmall" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginEnd="@dimen/spacing_medium"
+
                 android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:gravity="start"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_80"
-                    app:fontFamily="sans-serif-medium" />
+                    style="@style/App_TextViewMedium" />
 
                 <TextView
                     android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/grey_40" />
+                   style="@style/App_TextViewSmall" />
 
             </LinearLayout>
             <com.google.android.material.floatingactionbutton.FloatingActionButton

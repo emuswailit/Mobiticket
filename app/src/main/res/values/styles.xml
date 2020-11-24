@@ -61,7 +61,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
-
+    <!--    Large sized text view-->
+    <style name="App_TextViewLarge" parent="Widget.AppCompat.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:textColor">@color/textheader</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/googlesansbold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
     <!--    Medium sized text view-->
     <style name="App_TextViewMedium" parent="Widget.AppCompat.TextView">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
@@ -70,6 +79,18 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fontFamily">@font/googlesansbold</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <style name="App_TextViewSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textColor">@color/textheader</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/googlesansregular</item>
 
     </style>
     <!--style for ripple library-->

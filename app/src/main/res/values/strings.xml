@@ -220,5 +220,7 @@
     <string name="tell_your_friends">Tell your friends and family about mobiticket cashless fare service!</string>
     <string name="text_ticket_purchase_in_progress">Ticket purchase in progress</string>
     <string name="text_exit">Your ticket data will be lost. \n\n Do you want to exit anyway?</string>
+    <string name="text_system_error">A system error occurred. Please try again</string>
+    <string name="text_jp_wallet_payment">Jambopay Wallet Payment</string>
 
 </resources>

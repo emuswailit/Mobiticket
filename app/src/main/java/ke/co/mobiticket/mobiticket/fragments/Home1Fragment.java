@@ -693,6 +693,7 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
                     Intent intent = new Intent(getActivity(), PaymentMethodsActivity.class);
                     startActivity(intent);
 
+
                     dialog.dismiss();
                 }
             });

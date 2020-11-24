@@ -3,6 +3,7 @@ package ke.co.mobiticket.mobiticket.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.utilities.AppController;
 
 public class SplashActivity extends AppCompatActivity {
     private ImageView mIVLogo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -24,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
 
         initLayouts();
         initializeListeners();
+
     }
 
     /* initialize listener */
@@ -45,5 +49,6 @@ public class SplashActivity extends AppCompatActivity {
     private void initLayouts() {
 
         mIVLogo = findViewById(R.id.ivLogo);
+
     }
 }

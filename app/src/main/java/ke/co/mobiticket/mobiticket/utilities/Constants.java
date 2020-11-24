@@ -68,6 +68,9 @@ public class Constants {
     public static final String EMAIL_SUFFIX_MOBITICKET ="@mobiticket.co.ke" ;
     public static final String ACTION_FINALIZE_PASSWORD_RESET ="complete-user-password-reset" ;
     public static final String PAYMENT_METHODS_REPO ="payment_method_repo" ;
+    public static final String PENDING_MPESA_PAYBILL_ACTIVITY ="mpesa_paybill_pending" ;
+    public static final String PENDING_MPESA_PAYBILL_MESSAGE ="mpesa_paybill_message" ;
+    public static final String PENDING_MPESA_PAYBILL_REF_NUMBER ="mpesa_paybill_reference_number" ;
     public static String NO_INTERNET_MESSAGE="Internet connection is required for this function!";
     public static String CREATE_REF_NUMBER_ACTION="createreferencenumber";
     String title="No internet connection!";

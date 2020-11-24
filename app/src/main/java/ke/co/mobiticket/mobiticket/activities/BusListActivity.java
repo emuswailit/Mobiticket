@@ -1,5 +1,6 @@
 package ke.co.mobiticket.mobiticket.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,12 +10,15 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +55,27 @@ public class BusListActivity extends BaseActivity implements View.OnClickListene
         prefs = AppController.getInstance().getMobiPrefs();
         initLayouts();
         initializeListeners();
+
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.action_vehicles:
+                        startActivity(MyVehiclesActivity.class);
+                        break;
+                    case R.id.action_tickets:
+                        startActivity(TicketsActivity.class);
+
+                        break;
+                    case R.id.action_more:
+                        startActivity(MoreActivity.class);
+
+                }
+                return true;
+            }
+        });
     }
 
     private void initializeListeners() {

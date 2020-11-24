@@ -1,10 +1,14 @@
 package ke.co.mobiticket.mobiticket.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,14 +17,18 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import ke.co.mobiticket.mobiticket.R;
+import ke.co.mobiticket.mobiticket.activities.VehicleActivity;
 import ke.co.mobiticket.mobiticket.pojos.Payment;
 import ke.co.mobiticket.mobiticket.pojos.Ticket;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     List<Ticket> items;
+    private OnItemClickListener mOnItemClickListener;
     Double fare =0.00;
-    public ItemAdapter(List<Ticket> items) {
+    private Context ctx;
+    public ItemAdapter(Context ctx, List<Ticket> items) {
         this.items = items;
+        this.ctx = ctx;
     }
     @NonNull
     @Override
@@ -28,10 +36,28 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_item, parent, false);
         return new ViewHolder(view);
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, Ticket obj, int position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mOnItemClickListener = mItemClickListener;
+    }
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
-        Ticket itemName = items.get(position);
-        holder.bind(itemName);
+    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, final int position) {
+        final Ticket ticket = items.get(position);
+        holder.bind(ticket);
+
+        holder.llTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Log.e("Omaria", new Gson().toJson(ticket));
+                if(ctx instanceof VehicleActivity){
+                    ((VehicleActivity)ctx).showTicketDialog(ticket);
+                }
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -39,8 +65,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView itemName,tvPaymentMethod, tvTravelTime, tvPrice, tvFromTo,tvStatus;
+        private LinearLayout llTicket;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            llTicket = itemView.findViewById(R.id.llTicket);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             itemName = itemView.findViewById(R.id.list_item_text_view);
             tvPrice = itemView.findViewById(R.id.tvPrice);

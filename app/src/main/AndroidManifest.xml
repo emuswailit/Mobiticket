@@ -14,7 +14,14 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MoreActivity"  android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.TicketActivity"    android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".activities.PendingPaybillActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MoreActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DestinationsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -43,9 +50,10 @@
             android:name=".activities.VehicleActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.TicketsActivity"
-            android:parentActivityName=".activities.DashboardActivity"
             android:label="@string/title_activity_tickets"
+            android:parentActivityName=".activities.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BookingActivity"
@@ -64,6 +72,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PaymentActivity"
+            android:persistent="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PaymentMethodsActivity"

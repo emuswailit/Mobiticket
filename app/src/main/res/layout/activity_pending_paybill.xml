@@ -77,86 +77,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never">
-            <RelativeLayout
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    android:layout_marginBottom="@dimen/spacing_xsmall"
-                    app:cardCornerRadius="@dimen/spacing_small"
-                    app:cardElevation="@dimen/card_shadow">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_medium">
-
-                        <ImageView
-                            android:id="@+id/ivPrevious"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/contentdescription"
-                            android:padding="@dimen/spacing_small"
-                            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
-
-                        <TextView
-                            android:id="@+id/tvDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@id/ivNext"
-                            android:layout_toEndOf="@id/ivPrevious"
-                            android:fontFamily="@font/googlesansbold"
-                            android:gravity="center"
-                            android:textColor="@color/textheader"
-                            android:textSize="@dimen/font_large" />
-
-                        <ImageView
-                            android:id="@+id/ivNext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:contentDescription="@string/contentdescription"
-                            android:padding="@dimen/spacing_small"
-                            android:src="@drawable/ic_keyboard_arrow_right" />
-                    </RelativeLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/cvDate"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone" />
-
+                android:layout_height="wrap_content">
                 <TextView
-                    style="@style/App_TextViewMedium"
-                    android:id="@+id/tvAvailableBus"
-                    android:layout_below="@id/progressBar"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:gravity="center"
-                    android:textColor="@color/textchild"
+                    android:id="@+id/tvInstructions"
+                    android:gravity="start"
+                    style="@style/App_TextViewLarge"
                     />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvBus"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/tvAvailableBus"
-                    android:clipToPadding="false"
-                    android:overScrollMode="never" />
-            </RelativeLayout>
+                    android:layout_height="wrap_content">
+                    <Button
+android:layout_weight="1"
+                        android:text="Done"
+                        style="@style/App_ButtonStyle"/>
+
+                    <Button
+android:layout_weight="1"
+                        android:text="Cancel"
+                        style="@style/App_ButtonStyle"/>
+                </LinearLayout>
+
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 

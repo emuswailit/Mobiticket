@@ -50,7 +50,6 @@
 
 
             <ImageView
-
                 android:id="@+id/ivLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,30 +123,6 @@
                     android:text="@string/lbl__wallet"
                     android:textColor="@color/textheader"
                     android:textSize="@dimen/font_large" />
-
-
-                <!--                <TextView-->
-                <!--                    android:id="@+id/tvCards"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="@dimen/spacing_medium"-->
-                <!--                    android:layout_marginTop="@dimen/spacing_medium"-->
-                <!--                    android:layout_marginEnd="@dimen/spacing_medium"-->
-                <!--                    android:background="@drawable/bg_square"-->
-                <!--                    android:drawableStart="@drawable/ic_bank_card_line"-->
-                <!--                    android:drawableEnd="@drawable/ic_keyboard_arrow_grey"-->
-                <!--                    android:drawablePadding="@dimen/spacing_medium"-->
-                <!--                    android:fontFamily="@font/googlesansbold"-->
-                <!--                    android:foreground="?android:attr/selectableItemBackgroundBorderless"-->
-                <!--                    android:gravity="start"-->
-                <!--                    android:paddingStart="@dimen/spacing_medium"-->
-                <!--                    android:paddingTop="@dimen/spacing_large"-->
-                <!--                    android:paddingEnd="@dimen/spacing_medium"-->
-                <!--                    android:paddingBottom="@dimen/spacing_large"-->
-                <!--                    android:text="@string/lbl_cards"-->
-                <!--                    android:textColor="@color/textheader"-->
-                <!--                    android:textSize="@dimen/font_large" />-->
-
 
                 <TextView
                     android:id="@+id/tvMyVehicles"
@@ -272,6 +247,7 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:tint="@color/colorPrimary"
                         android:layout_width="@dimen/small_label_width"
                         android:layout_height="@dimen/small_label_width"
                         android:layout_gravity="center"
@@ -294,15 +270,15 @@
     </RelativeLayout>
 
 
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@drawable/bottom_navigation_item_color"
-        app:itemIconTint="@drawable/bottom_navigation_item_color"/>
+        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+        app:itemTextAppearanceInactive="@style/BottomNavigationView"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@android:color/white"/>
 </RelativeLayout>

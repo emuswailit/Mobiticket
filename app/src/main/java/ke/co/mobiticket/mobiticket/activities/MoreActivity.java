@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -105,9 +106,13 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tvSetting:
                 break;
             case R.id.tvLogout:
+
                 showLogoutYesNoDialog("Log out", "Do you really want to log out?",MoreActivity.this);
                 break;
+            case R.id.ivLogout:
 
+                showLogoutYesNoDialog("Log out", "Do you really want to log out?",MoreActivity.this);
+                break;
             case R.id.ivBack:
                startActivity(DashboardActivity.class);
                finish();

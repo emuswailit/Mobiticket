@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -272,5 +273,9 @@ tvTitle.setText(vehicle_reg);
                 showLogoutYesNoDialog("Log out", "Do you really want to log out?", VehicleActivity.this);
                 break;
         }
+    }
+
+    public void showTicketDialog(Ticket ticket) {
+        Toast.makeText(this, ticket.getReference_number(), Toast.LENGTH_SHORT).show();
     }
 }

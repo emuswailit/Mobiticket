@@ -96,10 +96,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private String customer_message = "";
     private String payment_method_id = "";
     private String mpesa_phone_number = "";
-    private TextView tvMessage, tvPaymentMethodName, tvStatus, tvDate, tvTime,  tvTotalAmount, tvMpesaPaybillPrompt, lblPurchasedTickets;
+    private TextView tvMessage, tvPaymentMethodName, tvStatus, tvDate, tvTime, tvTotalAmount, tvMpesaPaybillPrompt, lblPurchasedTickets;
     private MaterialCardView cardMpesaXpress, cardMpesaPaybill, cardJambopayWallet, cardJambopayAgency, cardCommuterNFC, cardSuccess, cardRedeemVoucher;
-    private Button btnMpesaXpress, btnMpesaPaybill, btnJambopayWallet, btnJambopayAgency, btnCommuterNFC,btnRedeemVoucher;
-    private EditText etMpesaPhone, etJambopayWalletUsername, etJambopayWalletPassword, etJambopayAgencyUsername, etJambopayAgencyPassword, etVoucherNumber,etSecurityPin;
+    private Button btnMpesaXpress, btnMpesaPaybill, btnJambopayWallet, btnJambopayAgency, btnCommuterNFC, btnRedeemVoucher;
+    private EditText etMpesaPhone, etJambopayWalletUsername, etJambopayWalletPassword, etJambopayAgencyUsername, etJambopayAgencyPassword, etVoucherNumber, etSecurityPin;
     private boolean searchIsRunning = false;
     List<Ticket> recentTicketsList = new ArrayList<Ticket>();
     List<Passenger> passengerList = null;
@@ -107,8 +107,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     String recentTicketsString = "";
     private String payload;
     private String encryptedText = null;
-    private int search_runs=3;
-    SecretKey secretKey=null;
+    private int search_runs = 3;
+    SecretKey secretKey = null;
     private ImageView ivBack;
 
 
@@ -118,65 +118,19 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_payment);
 
 
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mNfcAdapter == null) {
-            //No NFC in device or NFC could not be initialized
-            Toast.makeText(this, "Device not NFC enabled!", Toast.LENGTH_SHORT).show();
-            //Close the activity
-//            finish();
-        } else {
-            Toast.makeText(this, "NFC successfully initialized!", Toast.LENGTH_SHORT).show();
-            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            mPendingIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-            IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-            //ndef.addDataScheme("http");
-            mFilters = new IntentFilter[]{
-                    ndef,
-            };
-            mTechLists = new String[][]{new String[]{Ndef.class.getName()},
-                    new String[]{NdefFormatable.class.getName()}};
-
-        }
+        initNFC();
         prefs = AppController.getInstance().getMobiPrefs();
         reference_number = prefs.getString(Constants.TICKET_REFERENCE_NUMBER, "");
         payment_method_id = prefs.getString(Constants.TICKET_PAYMENT_METHOD_ID, "");
-        if (payment_method_id.isEmpty() || payment_method_id.equals("")) {
-            finish();
-        }
-        Toast.makeText(this, payment_method_id, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, reference_number, Toast.LENGTH_SHORT).show();
-        String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
-        Log.e("retrievePassengers", passengerListString);
-        if (passengerListString.isEmpty() || passengerListString.equals("")) {
-            finish();
-        } else {
-            Gson gson = new Gson();
-            passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
-            Log.e("Passengers at pay", String.valueOf(passengerList.size()));
-
-            for (Passenger passenger : passengerList) {
-                Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        String recentTicketString = prefs.getString(Constants.RECENT_TICKETS, "");
-        Log.e("recentTicketsStr", passengerListString);
-        if (recentTicketString.isEmpty() || recentTicketString.equals("")) {
-            Log.e("No recents", "No recents");
-        } else {
-            Gson gson = new Gson();
-            recentTicketsList = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentTicketString, Ticket[].class)));
-
-            for (Ticket ticket : recentTicketsList) {
-                Log.e("from recents", ticket.getStatus());
-            }
-        }
 
 
         initLayouts();
         initListeners();
+        initData();
+        initBottomNavigation();
+    }
 
+    private void initBottomNavigation() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -184,7 +138,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 switch (item.getItemId()) {
 
                     case R.id.action_vehicles:
-                        showCustomYesNoDialog(getString(R.string.text_ticket_purchase_in_progress), getString(R.string.text_exit), item);;
+                        showCustomYesNoDialog(getString(R.string.text_ticket_purchase_in_progress), getString(R.string.text_exit), item);
+                        ;
                         break;
                     case R.id.action_tickets:
                         showCustomYesNoDialog("Ticket purchase in progress", "Your ticket data will be lost. \n\n Do you want to exit anyway?", item);
@@ -198,9 +153,71 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    private void initData() {
+        try {
+            String passengerListString = prefs.getString(Constants.PASSENGER_DATA_THIS_BOOKING, "");
+            Log.e("retrievePassengers", passengerListString);
+            if (passengerListString.isEmpty() || passengerListString.equals("")) {
+
+            } else {
+                Gson gson = new Gson();
+                passengerList = Arrays.asList(new GsonBuilder().create().fromJson(passengerListString, Passenger[].class));
+                Log.e("Passengers at pay", String.valueOf(passengerList.size()));
+
+                for (Passenger passenger : passengerList) {
+                    Toast.makeText(this, passenger.getEmail_address(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            String recentTicketString = prefs.getString(Constants.RECENT_TICKETS, "");
+            Log.e("recentTicketsStr", passengerListString);
+            if (recentTicketString.isEmpty() || recentTicketString.equals("")) {
+                Log.e("No recents", "No recents");
+            } else {
+                Gson gson = new Gson();
+                recentTicketsList = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(recentTicketString, Ticket[].class)));
+
+                for (Ticket ticket : recentTicketsList) {
+                    Log.e("from recents", ticket.getStatus());
+                }
+            }
+
+
+        } catch (Exception e) {
+            Log.e("Init Data", e.toString());
+        }
+    }
+
+    private void initNFC() {
+        try {
+            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            if (mNfcAdapter == null) {
+                //No NFC in device or NFC could not be initialized
+                Toast.makeText(this, "Device not NFC enabled!", Toast.LENGTH_SHORT).show();
+                //Close the activity
+//            finish();
+            } else {
+                Toast.makeText(this, "NFC successfully initialized!", Toast.LENGTH_SHORT).show();
+                mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+                mPendingIntent = PendingIntent.getActivity(this, 0,
+                        new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+                //ndef.addDataScheme("http");
+                mFilters = new IntentFilter[]{
+                        ndef,
+                };
+                mTechLists = new String[][]{new String[]{Ndef.class.getName()},
+                        new String[]{NdefFormatable.class.getName()}};
+
+            }
+        } catch (Exception e) {
+            Log.e("NFC Init", e.toString());
+        }
+    }
+
 
     private void initListeners() {
-ivBack.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
 
         if (payment_method_id.equals("1")) {
             try {
@@ -244,7 +261,7 @@ ivBack.setOnClickListener(this);
 
             //Payment via Jambopay wallet
             cardJambopayWallet.setVisibility(View.VISIBLE);
-            etJambopayWalletUsername.setText(prefs.getString(Constants.PHONE_NUMBER,""));
+            etJambopayWalletUsername.setText(prefs.getString(Constants.PHONE_NUMBER, ""));
 
             btnJambopayWallet.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,7 +273,7 @@ ivBack.setOnClickListener(this);
             });
         } else if (payment_method_id.equals("4")) {
             cardJambopayAgency.setVisibility(View.VISIBLE);
-            etJambopayAgencyUsername.setText(prefs.getString(Constants.PHONE_NUMBER,""));
+            etJambopayAgencyUsername.setText(prefs.getString(Constants.PHONE_NUMBER, ""));
 
             btnJambopayAgency.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -285,26 +302,26 @@ ivBack.setOnClickListener(this);
             });
 
         } else if (payment_method_id.equals("5")) {
-            if (mNfcAdapter==null){
+            if (mNfcAdapter == null) {
                 Toast.makeText(this, "NFC not enabled in this device!", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 cardCommuterNFC.setVisibility(View.VISIBLE);
                 //Activity will be initiated by tapping card
             }
 
-        }else if (payment_method_id.equals("10")){
+        } else if (payment_method_id.equals("10")) {
             cardRedeemVoucher.setVisibility(View.VISIBLE);
             btnRedeemVoucher.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String voucher_number= etVoucherNumber.getText().toString();
-                    String security_pin= etSecurityPin.getText().toString();
+                    String voucher_number = etVoucherNumber.getText().toString();
+                    String security_pin = etSecurityPin.getText().toString();
 
-                    if (voucher_number.isEmpty()||voucher_number.equals("")){
+                    if (voucher_number.isEmpty() || voucher_number.equals("")) {
                         Toast.makeText(PaymentActivity.this, "Enter voucher number", Toast.LENGTH_SHORT).show();
-                    }else if (security_pin.isEmpty()||security_pin.equals("")){
+                    } else if (security_pin.isEmpty() || security_pin.equals("")) {
                         Toast.makeText(PaymentActivity.this, "Enter security pin", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         verifyRedeemVoucher(voucher_number, security_pin, reference_number);
                     }
                 }
@@ -314,33 +331,33 @@ ivBack.setOnClickListener(this);
 
     private void verifyRedeemVoucher(String voucher_number, String security_pin, final String reference_number) {
 
-        final Dialog dialog=new Dialog(PaymentActivity.this);
-        RedeemVoucherInterface api=AppController.getInstance().getRetrofit().create(RedeemVoucherInterface.class);
-        RedeemVoucherRequest request= new RedeemVoucherRequest();
-        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN,""));
+        final Dialog dialog = new Dialog(PaymentActivity.this);
+        RedeemVoucherInterface api = AppController.getInstance().getRetrofit().create(RedeemVoucherInterface.class);
+        RedeemVoucherRequest request = new RedeemVoucherRequest();
+        request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.AUTHORIZE_PAYMENT_ACTION);
         request.setReference_number(this.reference_number);
         request.setPayment_method(payment_method_id);
         request.setVoucher_number(voucher_number);
         request.setSecurity_pin(security_pin);
-        showProgressDialog(dialog, "Processing voucher payment"+getResources().getString(R.string.txt_please_wait));
-        Call<RedeemVoucherResponse> call=api.redeemVoucher(request);
+        showProgressDialog(dialog, "Processing voucher payment" + getResources().getString(R.string.txt_please_wait));
+        Call<RedeemVoucherResponse> call = api.redeemVoucher(request);
         call.enqueue(new Callback<RedeemVoucherResponse>() {
             @Override
             public void onResponse(Call<RedeemVoucherResponse> call, Response<RedeemVoucherResponse> response) {
-               dialog.dismiss();
-                if (response.body() !=null){
+                dialog.dismiss();
+                if (response.body() != null) {
                     cardRedeemVoucher.setVisibility(View.GONE);
                     Log.e("redeem voucher", gson.toJson(response.body()));
-                    if (response.body().getResponse_code().equals("0")){
-                    for ( String message: response.body().getCustomer_message()){
-                        customer_message+=message;
-                    }
+                    if (response.body().getResponse_code().equals("0")) {
+                        for (String message : response.body().getCustomer_message()) {
+                            customer_message += message;
+                        }
                         tvMessage.setVisibility(View.VISIBLE);
-                    tvMessage.setText(customer_message);
-                    callAsynchronousTask(reference_number);
+                        tvMessage.setText(customer_message);
+                        callAsynchronousTask(reference_number);
 
-                    }else {
+                    } else {
                         showPaymentErrorDialog("Reddem Voucher", response.body().getResponse_message());
                     }
                 }
@@ -348,13 +365,15 @@ ivBack.setOnClickListener(this);
 
             @Override
             public void onFailure(Call<RedeemVoucherResponse> call, Throwable t) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
     }
 
     private void verifyMpesaPaybillPayment(String payment_method_id, final String reference_number) {
-        final Dialog dialog=new Dialog(PaymentActivity.this);
+
+
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         MpesaPaybillInterface api = AppController.getInstance().getRetrofit().create(MpesaPaybillInterface.class);
         MpesaPaybillRequest request = new MpesaPaybillRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -367,7 +386,7 @@ ivBack.setOnClickListener(this);
 
         Call<MpesaPaybillResponse> call = api.mpesaPaybillPayment(request);
 
-       showProgressDialog(dialog,"Processing Mpesa Paybill payment"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Processing Mpesa Paybill payment" + getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<MpesaPaybillResponse>() {
             @Override
             public void onResponse(Call<MpesaPaybillResponse> call, Response<MpesaPaybillResponse> response) {
@@ -385,8 +404,13 @@ ivBack.setOnClickListener(this);
                             tvMpesaPaybillPrompt.setText(customer_message);
 
 
-                            runCheck(reference_number);
+         callAsynchronousTask(reference_number);
 
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean(Constants.PENDING_MPESA_PAYBILL_ACTIVITY, true);
+                            editor.putString(Constants.PENDING_MPESA_PAYBILL_MESSAGE, customer_message);
+                            editor.putString(Constants.PENDING_MPESA_PAYBILL_REF_NUMBER, reference_number);
+                            editor.apply();
 
                         } else {
                             showPaymentErrorDialog("Mpesa Express Payment", response.body().getResponse_message());
@@ -411,7 +435,7 @@ ivBack.setOnClickListener(this);
     }
 
     private void verifyPaymentByJambopayAgency(String jambopay_agency_username, String jambopay_agency_password) {
-        final Dialog dialog=new Dialog(PaymentActivity.this);
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         JambopayAgencyInterface api = AppController.getInstance().getRetrofit().create(JambopayAgencyInterface.class);
         JambopayAgencyRequest request = new JambopayAgencyRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -426,11 +450,11 @@ ivBack.setOnClickListener(this);
 
         Call<JambopayAgencyResponse> call = api.jambopayAgencyPayment(request);
 
-       showProgressDialog(dialog,"Processing Jambopay Agent payment"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Processing Jambopay Agent payment" + getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<JambopayAgencyResponse>() {
             @Override
             public void onResponse(Call<JambopayAgencyResponse> call, Response<JambopayAgencyResponse> response) {
-               dialog.dismiss();
+                dialog.dismiss();
                 if (response.body() != null) {
                     try {
                         if (response.body().getResponse_code().equals("0")) {
@@ -444,7 +468,7 @@ ivBack.setOnClickListener(this);
                             tvMessage.setText(customer_message);
                             Toast.makeText(PaymentActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
 
-                           callAsynchronousTask(reference_number);
+                            callAsynchronousTask(reference_number);
 
                         } else {
                             showPaymentErrorDialog("Jambopay Agency Payment", response.body().getResponse_message());
@@ -469,7 +493,7 @@ ivBack.setOnClickListener(this);
     }
 
     private void verifyPaymentByJambopayWallet(String jambopay_wallet_username, String jambopay_wallet_password) {
-        final Dialog dialog=new Dialog(PaymentActivity.this);
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         JambopayWalletInterface api = AppController.getInstance().getRetrofit().create(JambopayWalletInterface.class);
         JambopayWalletRequest request = new JambopayWalletRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -484,7 +508,7 @@ ivBack.setOnClickListener(this);
 
         Call<JambopayWalletResponse> call = api.jambopayWalletPayment(request);
 
-       showProgressDialog(dialog, "Processing payment"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Processing payment" + getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<JambopayWalletResponse>() {
             @Override
             public void onResponse(Call<JambopayWalletResponse> call, Response<JambopayWalletResponse> response) {
@@ -509,8 +533,8 @@ ivBack.setOnClickListener(this);
                         } else {
                             try {
                                 showPaymentErrorDialog("Jambopay Wallet Payment", response.body().getResponse_message());
-                            }catch (Exception e){
-                              Log.e("eegege", e.toString());
+                            } catch (Exception e) {
+                                Log.e("eegege", e.toString());
                             }
 
                         }
@@ -527,7 +551,8 @@ ivBack.setOnClickListener(this);
             @Override
             public void onFailure(Call<JambopayWalletResponse> call, Throwable t) {
                 dialog.dismiss();
-                Log.e("JP Wallet", t.getLocalizedMessage());
+                showCustomDialog(getString(R.string.text_jp_wallet_payment), getString(R.string.text_system_error));
+
             }
         });
 
@@ -565,7 +590,7 @@ ivBack.setOnClickListener(this);
         lblPurchasedTickets = findViewById(R.id.lblPurchasedTickets);
 
         etMpesaPhone = findViewById(R.id.etMpesaPhone);
-        etMpesaPhone.setText(prefs.getString(Constants.PHONE_NUMBER,""));
+        etMpesaPhone.setText(prefs.getString(Constants.PHONE_NUMBER, ""));
         etJambopayWalletUsername = findViewById(R.id.etJambopayWalletUsername);
         etJambopayWalletPassword = findViewById(R.id.etJambopayWalletPassword);
 
@@ -580,7 +605,7 @@ ivBack.setOnClickListener(this);
     }
 
     private void verifyPaymentByMpesaXPress(String payment_method_id, final String reference_number, String mpesa_phone_number) {
-        final Dialog dialog=new Dialog(PaymentActivity.this);
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         MpesaExpressInterface api = AppController.getInstance().getRetrofit().create(MpesaExpressInterface.class);
         MpesaExpressRequest request = new MpesaExpressRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -594,11 +619,11 @@ ivBack.setOnClickListener(this);
 
         Call<MpesaExpressResponse> call = api.mpesaExpressPayment(request);
 
-       showProgressDialog(dialog,"Proccessing Mpesa payment"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Proccessing Mpesa payment" + getResources().getString(R.string.txt_please_wait));
         call.enqueue(new Callback<MpesaExpressResponse>() {
             @Override
             public void onResponse(Call<MpesaExpressResponse> call, Response<MpesaExpressResponse> response) {
-               dialog.dismiss();
+                dialog.dismiss();
                 if (response.body() != null) {
                     try {
                         if (response.body().getResponse_code().equals("0")) {
@@ -611,7 +636,7 @@ ivBack.setOnClickListener(this);
                             tvMessage.setText(customer_message);
 
 
-callAsynchronousTask(reference_number);
+                            callAsynchronousTask(reference_number);
 
 
                         } else {
@@ -629,7 +654,7 @@ callAsynchronousTask(reference_number);
 
             @Override
             public void onFailure(Call<MpesaExpressResponse> call, Throwable t) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -650,25 +675,25 @@ callAsynchronousTask(reference_number);
 
 
     private void searchTicket(final String reference_number, final Timer timer, final String recentTicketsString) {
-        final Dialog dialog= new Dialog(PaymentActivity.this);
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         SearchTicketInterface api = AppController.getInstance().getRetrofit().create(SearchTicketInterface.class);
         SearchTicketRequest request = new SearchTicketRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.SEARCH_ACTION);
         request.setKeywords(reference_number);
-       showProgressDialog(dialog, "Checking payment status"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Checking payment status" + getResources().getString(R.string.txt_please_wait));
 
         Call<SearchTicketResponse> call = api.searchTicket(request);
         call.enqueue(new Callback<SearchTicketResponse>() {
             @Override
             public void onResponse(Call<SearchTicketResponse> call, Response<SearchTicketResponse> response) {
                 searchIsRunning = false;
-               dialog.dismiss();
+                dialog.dismiss();
                 if (response.body() != null) {
                     if (response.body().getResponse_code().equals("0")) {
                         try {
 
-                    resetTicketPreferences(prefs);
+                            resetTicketPreferences(prefs);
                         } catch (Exception e) {
                             Log.e("Write prefs", "Error editing prefs");
                         }
@@ -734,7 +759,7 @@ callAsynchronousTask(reference_number);
                         }
 
                     } else {
-                       showPaymentErrorDialog("Ticket Payment Status", response.body().getResponse_message());
+                        showPaymentErrorDialog("Ticket Payment Status", response.body().getResponse_message());
                     }
 
                 } else {
@@ -744,7 +769,7 @@ callAsynchronousTask(reference_number);
 
             @Override
             public void onFailure(Call<SearchTicketResponse> call, Throwable t) {
-               dialog.dismiss();
+                dialog.dismiss();
                 Log.e("search Failure", gson.toJson(t.getLocalizedMessage()));
                 searchIsRunning = false;
             }
@@ -763,7 +788,7 @@ callAsynchronousTask(reference_number);
         editor.apply();
     }
 
-    private void showTicketDialog(List<Ticket> ticket, String message) {
+    private void showTicketDialog(final List<Ticket> ticket, String message) {
         try {
 
 
@@ -794,20 +819,21 @@ callAsynchronousTask(reference_number);
                     Intent intent = new Intent(PaymentActivity.this, DashboardActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    finish();
                 }
             });
             ((Button) dialog.findViewById(R.id.bt_yes)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-
-                    dialog.dismiss();
+                   Intent intent =new Intent(PaymentActivity.this,TicketsActivity.class);
+                   intent.putExtra("ticket_data",new Gson().toJson(ticket));
+                   startActivity(intent);
                 }
             });
             ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
 
                     dialog.dismiss();
                 }
@@ -855,7 +881,7 @@ callAsynchronousTask(reference_number);
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
 
@@ -865,8 +891,8 @@ callAsynchronousTask(reference_number);
     @Override
     public void onBackPressed() {
 
-      startActivity(PaymentMethodsActivity.class);
-      finish();
+        startActivity(PaymentMethodsActivity.class);
+        finish();
     }
 
 
@@ -901,48 +927,48 @@ callAsynchronousTask(reference_number);
 
     private void buildTagViews(NdefMessage[] messages, Tag tag) {
         if (messages == null || messages.length == 0) return;
-try {
+        try {
 
 
-        for (int i = 0; i < messages.length; i++) {
-            for (int j = 0; j < messages[0].getRecords().length; j++) {
-                NdefRecord record = messages[i].getRecords()[j];
-                payload = new String(record.getPayload());
-                String delimiter = ":";
-                String[] temp = payload.split(delimiter);
-                Log.e("payload", payload);
-                encryptedText = temp[0];
-                Log.e("encryptedText", String.valueOf(encryptedText));
+            for (int i = 0; i < messages.length; i++) {
+                for (int j = 0; j < messages[0].getRecords().length; j++) {
+                    NdefRecord record = messages[i].getRecords()[j];
+                    payload = new String(record.getPayload());
+                    String delimiter = ":";
+                    String[] temp = payload.split(delimiter);
+                    Log.e("payload", payload);
+                    encryptedText = temp[0];
+                    Log.e("encryptedText", String.valueOf(encryptedText));
 
 
-                String decryptedText = null;
-                Cryptor cryptor = new Cryptor();
-                cryptor.initKeyStore();
-                String decrypted = cryptor.decryptText(prefs.getString("encryptedKey",""), prefs.getString("keyIv",""));
+                    String decryptedText = null;
+                    Cryptor cryptor = new Cryptor();
+                    cryptor.initKeyStore();
+                    String decrypted = cryptor.decryptText(prefs.getString("encryptedKey", ""), prefs.getString("keyIv", ""));
 
-                Log.e("decrypted",decrypted);
+                    Log.e("decrypted", decrypted);
 //                Log.e("decrypted", decryptedText);
 //                accountNames = temp[1];
 //                cardData = temp[2];  14283583939
 //                currentBalance = temp[3];
 //
-                if (payment_method_id.equals("5")) {
+                    if (payment_method_id.equals("5")) {
 
-                    Log.e("ref num", reference_number);
-                    Log.e("payment m", payment_method_id);
-                    verifyCommuterNFCCard(payment_method_id, decrypted, reference_number);
+                        Log.e("ref num", reference_number);
+                        Log.e("payment m", payment_method_id);
+                        verifyCommuterNFCCard(payment_method_id, decrypted, reference_number);
+                    }
+
                 }
-
-            }
             }
 
-        }catch (Exception e){
-    Log.e("tap card error", e.toString());
+        } catch (Exception e) {
+            Log.e("tap card error", e.toString());
         }
     }
 
     private void verifyCommuterNFCCard(String payment_method_id, String card_data, final String reference_number) {
-        final Dialog dialog=new Dialog(PaymentActivity.this);
+        final Dialog dialog = new Dialog(PaymentActivity.this);
         CommuterNFCInterface api = AppController.getInstance().getRetrofit().create(CommuterNFCInterface.class);
         CommuterNFCRequest request = new CommuterNFCRequest();
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
@@ -952,7 +978,7 @@ try {
         request.setPayment_method(payment_method_id);
 
         Log.e("card request", gson.toJson(request));
-      showProgressDialog(dialog, "Processing Commuter Card payment"+getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Processing Commuter Card payment" + getResources().getString(R.string.txt_please_wait));
         Call<CommuterNFCResponse> call = api.verifyCommuterCard(request);
         call.enqueue(new Callback<CommuterNFCResponse>() {
             @Override
@@ -989,16 +1015,27 @@ try {
     @Override
     public void onResume() {
         super.onResume();
-        if (mNfcAdapter != null)
-            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mFilters,
-                    mTechLists);
+        try {
+            if (mNfcAdapter != null)
+                mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mFilters,
+                        mTechLists);
+        }catch (Exception e){
+            Log.e("onResume",e.toString());
+        }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mNfcAdapter.disableForegroundDispatch(this);
+        try {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }catch (Exception e){
+            Log.e("onPause", e.toString());
+        }
+
     }
+
     public void showPaymentErrorDialog(String title, String message) {
         try {
 
@@ -1042,10 +1079,10 @@ try {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ivBack:
 
-                showGoHome(getResources().getString(R.string.text_ticket_purchase_in_progress),getResources().getString(R.string.text_exit));
+                showGoHome(getResources().getString(R.string.text_ticket_purchase_in_progress), getResources().getString(R.string.text_exit));
 
                 break;
         }
@@ -1137,8 +1174,8 @@ try {
                 @Override
                 public void onClick(View v) {
                     resetTicketPreferences(prefs);
-              startActivity(DashboardActivity.class);
-              finish();
+                    startActivity(DashboardActivity.class);
+                    finish();
 
                 }
             });

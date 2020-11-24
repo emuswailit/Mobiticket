@@ -82,7 +82,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_medium">
 
@@ -141,29 +140,6 @@
                             android:scrollbars="vertical"
                             android:scrollingCache="true" />
 
-                        <View
-
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_small"/>
-                        <TextView
-android:visibility="gone"
-                            android:id="@+id/tvRecentTickets"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/googlesansbold"
-                            android:gravity="center"
-                            android:text="Recent tickets" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:visibility="gone"
-                            android:id="@+id/rvRecentTickets"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollbars="vertical"
-                            android:scrollingCache="true" />
-
                     </LinearLayout>
 
 
@@ -180,7 +156,8 @@ android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"/>
+        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+        app:itemTextAppearanceInactive="@style/BottomNavigationView"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@android:color/white"/>
 </RelativeLayout>

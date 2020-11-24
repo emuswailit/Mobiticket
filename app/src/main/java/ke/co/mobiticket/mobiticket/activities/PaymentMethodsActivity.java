@@ -236,7 +236,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
         rvPaymentMethods = findViewById(R.id.rvPaymentMethods);
         rvPaymentMethods.setLayoutManager(new LinearLayoutManager(this));
-        rvPaymentMethods.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
+//        rvPaymentMethods.addItemDecoration(new LineItemDecoration(this, LinearLayout.VERTICAL));
         rvPaymentMethods.setHasFixedSize(true);
 
 //tvPaymentMethods =findViewById(R.id.tvPaymentMethods);
@@ -340,6 +340,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                         }else {
                             passenger.setPayment_method_id(prefs.getString(Constants.TICKET_PAYMENT_METHOD_ID, ""));
                             startActivity(PaymentActivity.class);
+
                         }
 
                     }else {
@@ -389,14 +390,8 @@ public class PaymentMethodsActivity extends BaseActivity {
                         editor.apply();
 
 
-                        startActivity(PaymentActivity.class);
-
                     } else {
-//                        SharedPreferences.Editor editor = prefs.edit();
-//
-//                        editor.putString(Constants.TICKET_PAYMENT_METHOD_ID, payment_method_id);
-//                        editor.apply();
-//                        startActivity(PaymentActivity.class);
+
                         showCustomDialog("Reserve tickets", response.body().getResponse_message());
                     }
 
@@ -436,7 +431,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                         editor.apply();
 
                         startActivity(PaymentActivity.class);
-                        finish();
+
                     } else {
                         showCustomDialog("Confirm reservation", response.body().getResponse_message());
                     }
@@ -478,7 +473,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
                         editor.putString(Constants.TICKET_REFERENCE_NUMBER, new_reference_number);
                         editor.apply();
-                        startActivity(PaymentActivity.class);
+
                     } else {
                         showCustomDialog("Generating reference number", referenceNumberResponse.getResponse_message());
                     }
