@@ -117,7 +117,7 @@ dialog.dismiss();
                     if (chargeList.size()>0){
                         displayCharges(chargeList);
                     }else {
-
+tvChargesCount.setText(R.string.text_no_charges);
                     }
 
 

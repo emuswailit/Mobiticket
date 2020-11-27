@@ -69,22 +69,24 @@
             android:src="@drawable/ic_gr_wallet"
             android:contentDescription="@string/contentdescription"/>
 
-
-        <TextView
-            android:background="@color/green_50"
-            android:clickable="true"
-            android:id="@+id/tvBalance"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:drawablePadding="@dimen/spacing_medium"
-            android:fontFamily="@font/googlesansbold"
+            android:layout_margin="@dimen/spacing_medium"
+            android:visibility="visible"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+        <TextView
+            android:layout_height="50dp"
+            style="@style/App_TextViewLarge"
+            android:clickable="true"
+            android:id="@+id/tvBalance"
             android:gravity="center"
-            android:paddingTop="@dimen/spacing_medium"
-            android:paddingBottom="@dimen/spacing_medium"
+
             android:text="Show balance"
             android:textSize="16sp" />
-
+        </androidx.cardview.widget.CardView>
 
         <RelativeLayout
             android:layout_width="match_parent"

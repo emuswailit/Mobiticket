@@ -38,12 +38,12 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView ivBack;
-    private TextView tvTitle,tvForgottenPassword;
+    private TextView tvTitle, tvForgottenPassword;
     private Button btnLogin;
     private EditText etUsername, etPassword;
     private ProgressBar progressBar;
     private String phone_number = "";
-Gson gson=new Gson();
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +91,9 @@ Gson gson=new Gson();
         }
 
         if (v == tvForgottenPassword) {
-            if (phone_number.isEmpty()||phone_number.equals("")){
+            if (phone_number.isEmpty() || phone_number.equals("")) {
                 finish();
-            }else {
+            } else {
                 initiatePasswordReset1(phone_number);
             }
 
@@ -118,76 +118,35 @@ Gson gson=new Gson();
     }
 
     private void initiatePasswordReset1(final String phone_number) {
-        final Dialog dialog=new Dialog(LoginActivity.this);
+        final Dialog dialog = new Dialog(LoginActivity.this);
         //Check if user has a jambopay suffixed default created email
-        InitiatePasswordResetInterface api=AppController.getInstance().getRetrofit().create(InitiatePasswordResetInterface.class);
-        InitiatePasswordResetRequest request=new InitiatePasswordResetRequest();
+        InitiatePasswordResetInterface api = AppController.getInstance().getRetrofit().create(InitiatePasswordResetInterface.class);
+        InitiatePasswordResetRequest request = new InitiatePasswordResetRequest();
         request.setAction(Constants.ACTION_PASSWORD_RESET);
-        request.setEmail_address(phone_number+Constants.EMAIL_SUFFIX_JAMBOPAY);
+        request.setPhone_number(phone_number);
 
-showProgressDialog(dialog, "Retrieving details"+getResources().getString(R.string.txt_please_wait));
-        Call<InitiatePasswordResetResponse> call=api.initiatePasswordReset(request);
+        showProgressDialog(dialog, "Retrieving details" + getResources().getString(R.string.txt_please_wait));
+        Call<InitiatePasswordResetResponse> call = api.initiatePasswordReset(request);
         call.enqueue(new Callback<InitiatePasswordResetResponse>() {
             @Override
             public void onResponse(Call<InitiatePasswordResetResponse> call, Response<InitiatePasswordResetResponse> response) {
                 dialog.dismiss();
-                if (response.body()!=null){
-                    if (response.body().getResponse_code().equals("0")){
+                if (response.body() != null) {
+                    if (response.body().getResponse_code().equals("0")) {
 
-                        String email = response.body().getEmail_address();
+
                         String phone = response.body().getPhone_number();
 
-                           showDialogResetPassword("Password Reset", "Enter token sent to your phone and a new pin", email, phone);
+                        showDialogResetPassword("Password Reset", "Enter token sent to your phone and a new pin", phone);
 
-                    }else {
-                        initiatePasswordReset2(phone_number);
+                    } else {
+//                        showCustomDialog("Pin Reset", response.body().getResponse_message());
+
                         Toast.makeText(LoginActivity.this, "Jambopay email does not exist", Toast.LENGTH_SHORT).show();
                     }
 
-                }else {
-                    showCustomDialog("Password Reset","A system error occurred. Please Try again");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InitiatePasswordResetResponse> call, Throwable t) {
-dialog.dismiss();
-showCustomDialog("Password Reset", "System error occurred. Please try again");
-
-            }
-        });
-
-    }
-
-    private void initiatePasswordReset2(final String phone_number) {
-        final Dialog dialog=new Dialog(LoginActivity.this);
-        //Check if user has a jambopay suffixed default created email
-        InitiatePasswordResetInterface api=AppController.getInstance().getRetrofit().create(InitiatePasswordResetInterface.class);
-        InitiatePasswordResetRequest request=new InitiatePasswordResetRequest();
-        request.setAction(Constants.ACTION_PASSWORD_RESET);
-        request.setEmail_address(phone_number+Constants.EMAIL_SUFFIX_MOBITICKET);
-
-        showProgressDialog(dialog, "Retrieving details"+getResources().getString(R.string.txt_please_wait));
-        Call<InitiatePasswordResetResponse> call=api.initiatePasswordReset(request);
-        call.enqueue(new Callback<InitiatePasswordResetResponse>() {
-            @Override
-            public void onResponse(Call<InitiatePasswordResetResponse> call, Response<InitiatePasswordResetResponse> response) {
-                dialog.dismiss();
-                if (response.body()!=null){
-                    if (response.body().getResponse_code().equals("0")){
-
-                        String email = response.body().getEmail_address();
-                        String phone = response.body().getPhone_number();
-
-
-                        showDialogResetPassword("Password Reset", "Enter token sent to your phone and a new pin", email, phone);
-
-                    }else {
-                       showDialogEnterYourEmail("Password Reset","Enter your email address",phone_number);
-                    }
-
-                }else {
-                    showCustomDialog("Password Reset","A system error occurred. Please Try again");
+                } else {
+                    showCustomDialog("Password Reset", "A system error occurred. Please Try again");
                 }
             }
 
@@ -201,47 +160,6 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
 
     }
 
-    private void showDialogEnterYourEmail(String title, String message, String phone_number) {
-        Toast.makeText(this, "Enter your email..", Toast.LENGTH_SHORT).show();
-
-        try {
-
-
-            final Dialog dialog = new Dialog(LoginActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-            dialog.setContentView(R.layout.dialog_enter_email_reset_password);
-            dialog.setCancelable(false);
-
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
-            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-            TextView tvTitle = dialog.findViewById(R.id.title);
-            final EditText etEmail = dialog.findViewById(R.id.etEmail);
-            TextView tvContent = dialog.findViewById(R.id.content);
-            tvContent.setText(message);
-            tvTitle.setText(title);
-            ((Button) dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String email=etEmail.getText().toString();
-                    if (email.isEmpty()||email.equals("")){
-                        Toast.makeText(LoginActivity.this, "Enter email address", Toast.LENGTH_SHORT).show();
-                    }else {
-                        initiatePasswordReset3(email);
-                    }
-                    dialog.dismiss();
-                }
-            });
-
-            dialog.show();
-            dialog.getWindow().setAttributes(lp);
-        } catch (Exception e) {
-            Log.e("Dialog", e.toString());
-        }
-    }
 
     private void processLogin(String username, String password) {
         final Dialog dialog = new Dialog(LoginActivity.this);
@@ -378,7 +296,7 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
         }
     }
 
-    public void showDialogResetPassword(String title, String message, final String email, final String phone) {
+    public void showDialogResetPassword(String title, String message, final String phone) {
         try {
 
 
@@ -394,7 +312,9 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
 
             TextView tvTitle = dialog.findViewById(R.id.title);
             TextView tvContent = dialog.findViewById(R.id.content);
-            final EditText etToken = dialog.findViewById(R.id.etToken);
+            final EditText etCurrentPin = dialog.findViewById(R.id.etCurrentPin);
+            final EditText etNewPin = dialog.findViewById(R.id.etNewPin);
+            final EditText etConfirmNewPin = dialog.findViewById(R.id.etConfirmNewPin);
             final EditText etPassword = dialog.findViewById(R.id.etPassword);
             tvContent.setText(message);
             tvTitle.setText(title);
@@ -408,20 +328,33 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
             ((AppCompatButton) dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String token =etToken.getText().toString();
-                    String password =etPassword.getText().toString();
+                    String current_pin = etCurrentPin.getText().toString();
+                    String new_pin = etNewPin.getText().toString();
+                    String confirm_new_pin = etConfirmNewPin.getText().toString();
 
-                    if (token.isEmpty()|| token.equals("")){
-                        Toast.makeText(LoginActivity.this, "Please enter token received in sms", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (password.isEmpty()|| password.equals("")){
-                        Toast.makeText(LoginActivity.this, "Please enter new password", Toast.LENGTH_SHORT).show();
-                        return;
+                    if (current_pin.isEmpty() || current_pin.equals("")) {
+
+                        etCurrentPin.setError("Enter pin sent to your phone");
+
+                    } else if (new_pin.isEmpty() || new_pin.equals("")) {
+                        etNewPin.setError("Enter your new pin");
+
+                    } else if (confirm_new_pin.isEmpty() || confirm_new_pin.equals("")) {
+                        etConfirmNewPin.setError("Re-enter new pin to confirm");
+
+                    } else if (!new_pin.equals(confirm_new_pin)) {
+                        etNewPin.setError("Password confrimation not matching");
+                        etConfirmNewPin.setError("Password confrimation not matching");
+                        etNewPin.setText("");
+                        etConfirmNewPin.setText("");
+
+                    } else {
+                        finalizePasswordReset(current_pin, new_pin, confirm_new_pin, phone);
+                        dialog.dismiss();
+
                     }
 
-                    finalizePasswordReset(token,password, email,phone);
-                    dialog.dismiss();
+
                 }
             });
             dialog.show();
@@ -431,28 +364,32 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
         }
     }
 
-    private void finalizePasswordReset(String token, String password, String email, String phone) {
-        final Dialog dialog=new Dialog(LoginActivity.this);
+    private void finalizePasswordReset(String current_pin, String new_pin, String confirm_new_pin, String phone) {
+        final Dialog dialog = new Dialog(LoginActivity.this);
 
-        FinalizePasswordResetInterface api= AppController.getInstance().getRetrofit().create(FinalizePasswordResetInterface.class);
-        FinalizePasswordResetRequest request= new FinalizePasswordResetRequest();
+        FinalizePasswordResetInterface api = AppController.getInstance().getRetrofit().create(FinalizePasswordResetInterface.class);
+        FinalizePasswordResetRequest request = new FinalizePasswordResetRequest();
         request.setAction(Constants.ACTION_FINALIZE_PASSWORD_RESET);
-        request.setEmail_address(email);
-        request.setToken(token);
-        request.setNew_pin(password);
-        Log.e("new_pin ", password);
-        Log.e("token ", token);
-        Log.e("email ", email);
-        showProgressDialog(dialog, "Updating your password"+ getResources().getString(R.string.txt_please_wait));
-        Call<FinalizePasswordResetResponse> call= api.finalizePasswordReset(request);
+        request.setPhone_number(phone_number);
+        request.setCurrent_pin(current_pin);
+        request.setNew_pin(new_pin);
+        request.setConfirm_new_pin(confirm_new_pin);
+
+        showProgressDialog(dialog, "Updating your password" + getResources().getString(R.string.txt_please_wait));
+        Call<FinalizePasswordResetResponse> call = api.finalizePasswordReset(request);
         call.enqueue(new Callback<FinalizePasswordResetResponse>() {
             @Override
             public void onResponse(Call<FinalizePasswordResetResponse> call, Response<FinalizePasswordResetResponse> response) {
                 dialog.dismiss();
-                if (response.body() !=null){
-                    Log.e("success", gson.toJson(response.body()));
-                    showCustomDialog("Password Reset", response.body().getResponse_message());
-                }else {
+                if (response.body() != null) {
+                    if (response.body().getResponse_code().equals("0")) {
+                        showCustomDialog("Password Reset", response.body().getResponse_message());
+                    } else {
+                        Toast.makeText(LoginActivity.this, response.body().getResponse_message(), Toast.LENGTH_SHORT).show();
+                    }
+//                    Log.e("success", gson.toJson(response.body()));
+//
+                } else {
                     showCustomDialog("Reset Password", "System error occurred. Please try again");
                 }
             }
@@ -460,51 +397,9 @@ showCustomDialog("Password Reset", "System error occurred. Please try again");
             @Override
             public void onFailure(Call<FinalizePasswordResetResponse> call, Throwable t) {
                 showCustomDialog("Reset Password", "System error occurred. Please try again");
-dialog.dismiss();
+                dialog.dismiss();
             }
         });
-    }
-
-    private void initiatePasswordReset3(final String email) {
-        final Dialog dialog=new Dialog(LoginActivity.this);
-        //Check if user has a jambopay suffixed default created email
-        InitiatePasswordResetInterface api=AppController.getInstance().getRetrofit().create(InitiatePasswordResetInterface.class);
-        InitiatePasswordResetRequest request=new InitiatePasswordResetRequest();
-        request.setAction(Constants.ACTION_PASSWORD_RESET);
-        request.setEmail_address(email);
-
-        showProgressDialog(dialog, "Retrieving details"+getResources().getString(R.string.txt_please_wait));
-        Call<InitiatePasswordResetResponse> call=api.initiatePasswordReset(request);
-        call.enqueue(new Callback<InitiatePasswordResetResponse>() {
-            @Override
-            public void onResponse(Call<InitiatePasswordResetResponse> call, Response<InitiatePasswordResetResponse> response) {
-                dialog.dismiss();
-                if (response.body()!=null){
-                    if (response.body().getResponse_code().equals("0")){
-
-                        String email = response.body().getEmail_address();
-                        String phone = response.body().getPhone_number();
-
-
-                        showDialogResetPassword("Password Reset", "Enter token sent to your phone and a new pin", email, phone);
-
-                    }else {
-                        showDialogEnterYourEmail("Password Reset","Enter your email address",phone_number);
-                    }
-
-                }else {
-                    showCustomDialog("Password Reset","A system error occurred. Please Try again");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InitiatePasswordResetResponse> call, Throwable t) {
-                dialog.dismiss();
-                showCustomDialog("Password Reset", "System error occurred. Please try again");
-
-            }
-        });
-
     }
 
 

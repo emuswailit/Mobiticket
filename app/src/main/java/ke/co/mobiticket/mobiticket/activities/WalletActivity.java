@@ -95,8 +95,7 @@ Gson gson=new Gson();
 
             TextView tvTitle = dialog.findViewById(R.id.title);
             final EditText etPassword = dialog.findViewById(R.id.etPassword);
-            TextView tvContent = dialog.findViewById(R.id.content);
-            tvContent.setText(message);
+
             tvTitle.setText(title);
             ((Button) dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
                 @Override

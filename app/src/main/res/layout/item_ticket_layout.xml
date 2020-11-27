@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@color/white"
         android:elevation="@dimen/spacing_small"
@@ -42,20 +42,22 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:scaleType="center"
 
                         android:id="@+id/ivQRCode"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp" />
+                        android:layout_width="200dp"
+                        android:layout_height="200dp" />
 
                     <TextView
                         android:id="@+id/tvReferenceNumber"
                         style="@style/App_TextViewLarge"
-                        android:layout_margin="@dimen/spacing_medium"
+
                         android:layout_marginBottom="@dimen/spacing_small"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="18sp"
                         android:text=""
-                        android:textColor="@color/textchild" />
+                        android:textColor="@color/textheader" />
 
                     <TextView
                         android:id="@+id/tvJourney"
@@ -107,7 +109,7 @@
                 <TextView
 android:gravity="center"
                     style="@style/App_TextViewMedium"
-                    android:text="Travel Date and Time: "
+                    android:text="Travel Date and Time "
                      />
 
                 <LinearLayout

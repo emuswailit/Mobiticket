@@ -279,12 +279,7 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
         labelSearchRoutes = view.findViewById(R.id.labelSearchRoutes);
 
 
-//
-//        SharedPreferences.Editor editor = prefs.edit();
-//
-//        editor.putString(Constants.RECENT_ROUTES, "");
-//        editor.apply();
-//
+
 
 
     }
@@ -331,7 +326,13 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "Enter vehicle registration number", Toast.LENGTH_SHORT).show();
         } else {
             //Hide all other views
-            readOne(vehicle_registration);
+            if (AppController.getInstance().isNetworkConnected()){
+                readOne(vehicle_registration);
+            }else {
+               Intent intent=new Intent(getActivity(),NoInternetActivity.class);
+               startActivity(intent);
+            }
+
         }
     }
 
@@ -631,6 +632,7 @@ public class Home1Fragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<ServerReadOneResponse> call, Throwable t) {
                 Log.e("Error occured", t.toString());
+                showCustomDialog("Search Bus",t.getLocalizedMessage());
                 dialog.dismiss();
             }
         });

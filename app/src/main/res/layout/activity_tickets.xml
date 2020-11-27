@@ -25,14 +25,13 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/ivBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/contentdescription"
                 android:padding="@dimen/spacing_medium"
-                android:src="@drawable/ic_left_arrow_white" />
+                android:src="@drawable/baseline_home_white_24" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -68,8 +67,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_marginTop="@dimen/spacing_large"
         android:background="@drawable/bg_card">
 
@@ -77,71 +77,70 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_medium">
-
-                        <LinearLayout
-                            android:gravity="center"
-                            android:weightSum="7"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:orientation="horizontal">
-
-
-
-                            <EditText
-                                style="@style/App_EditTextStyle"
-                                android:layout_weight="6"
-                                android:id="@+id/etKeywords"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/spacing_medium"
-
-                                android:fontFamily="@font/googlesansbold"
-                                android:gravity="center"
-
-                                android:hint="Search by reference number"
-                                android:inputType="text"
-                                android:textColor="@color/textchild"
-                                android:textSize="@dimen/font_large" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:background="@color/white"
+        app:cardCornerRadius="@dimen/spacing_small"
+        android:elevation="@dimen/card_shadow"
+        app:cardElevation="@dimen/card_shadow">
+    <LinearLayout
+        android:gravity="center"
+        android:weightSum="7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
 
 
-                            <ImageButton
-                                style="@style/App_ButtonStyle"
-                                android:id="@+id/btnSearchTicket"
-                                android:layout_margin="@dimen/spacing_small"
-                                android:src="@drawable/baseline_search_white_24"
+        <EditText
+            style="@style/App_EditTextStyle"
+            android:layout_weight="6"
+            android:id="@+id/etKeywords"
+            android:layout_width="0dp"
 
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"/>
+            android:layout_gravity="center"
 
+            android:fontFamily="@font/googlesansbold"
+            android:gravity="center"
 
-                        </LinearLayout>
-
-
-
-
-
+            android:hint="Search by reference number"
+            android:inputType="text"
+            android:textColor="@color/textchild"
+            android:textSize="@dimen/font_large" />
 
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvSearchedTickets"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollbars="vertical"
-                            android:scrollingCache="true" />
 
-                    </LinearLayout>
+        <ImageButton
+            style="@style/App_ButtonStyle"
+            android:id="@+id/btnSearchTicket"
 
+            android:src="@drawable/baseline_search_white_24"
+
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTickets"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollingCache="true" />
+</LinearLayout>
 
 
         </androidx.core.widget.NestedScrollView>

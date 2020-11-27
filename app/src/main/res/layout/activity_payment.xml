@@ -215,6 +215,7 @@
                             android:text="Use your Jambopay wallet number below or change to another"
                             android:textSize="@dimen/font_large" />
                         <EditText
+                            android:focusable="false"
                             android:gravity="center"
                             android:id="@+id/etJambopayWalletUsername"
                             style="@style/App_EditTextStyle"
@@ -225,12 +226,13 @@
                             android:textSize="@dimen/font_large" />
 
                         <EditText
+
                             android:gravity="center"
                             android:id="@+id/etJambopayWalletPassword"
                             style="@style/App_EditTextStyle"
                             android:hint="Enter wallet password"
                             android:inputType="textPassword"
-                            />
+                            > <requestFocus /></EditText>
 
                         <Button
                             style="@style/App_ButtonStyle"
@@ -277,6 +279,7 @@
                             android:text="Use your Jambopay agency number below or change to another"
                             android:textSize="@dimen/font_large" />
                         <EditText
+                            android:focusable="false"
                             android:gravity="center"
                             android:id="@+id/etJambopayAgencyUsername"
                             style="@style/App_EditTextStyle"
@@ -293,7 +296,7 @@
                             android:inputType="textPassword"
 
                             android:textColor="@color/textchild"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large" ><requestFocus/></EditText>
 
                         <Button
                             android:id="@+id/btnJambopayAgency"
@@ -323,13 +326,13 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/spacing_small"
                             android:fontFamily="@font/googlesansextrabold"
                             android:text="Redeem Voucher"
-
                             android:textSize="@dimen/font_xlarge" />
 
                         <EditText
@@ -337,14 +340,13 @@
                             android:id="@+id/etVoucherNumber"
                             style="@style/App_EditTextStyle"
                             android:hint="Enter voucher number"
-                            />
+                            ><requestFocus/></EditText>
 
                         <Button
                             android:id="@+id/btnRedeemVoucher"
                             style="@style/App_ButtonStyle"
                             android:text="@string/text_submit"
                             />
-
 
 
                     </LinearLayout>
@@ -381,11 +383,12 @@
                             android:text="Use your Mpesa  number below or change to another"
                             />
                         <EditText
+                            android:gravity="center"
                             style="@style/App_EditTextStyle"
                             android:id="@+id/etMpesaPhone"
                             android:hint="Enter Mpesa phone number"
                             android:inputType="text"
-                            />
+                            ><requestFocus/></EditText>
 
 
                         <Button

@@ -42,7 +42,7 @@ import retrofit2.Response;
 
 public class TicketsActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView rvTickets;
-    private ImageView ivLogout;
+    private ImageView ivLogout,ivBack;
     private TextView tvTitle;
     SharedPreferences prefs;
     private EditText etKeywords;
@@ -62,31 +62,19 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         setSupportActionBar(toolbar);
 
         // toolbar fancy stuff
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.toolbar_title);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle(R.string.toolbar_title);
 
         try {
 
             //Retrieve Shared Preferences
             prefs=AppController.getInstance().getMobiPrefs();
+
             initLayouts();
             initListeners();
-            Intent intent= getIntent();
+            initData();
 
 
-            //Check if ticket was foorwarded from intent
-            if (intent.getStringExtra("ticket_data").isEmpty()||intent.getStringExtra("ticket_data").equals("")){
-                Toast.makeText(this, "No tickets forwarded", Toast.LENGTH_SHORT).show();
-            }else {
-                ticket_data=intent.getStringExtra("ticket_data");
-                Gson gson = new Gson();
-                ticketArrayList = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(ticket_data, Ticket[].class)));
-                if (ticketArrayList.size()>0){
-                    Toast.makeText(this, "Tickets forwarded", Toast.LENGTH_SHORT).show();
-                    displayTickets(ticketArrayList);
-                }
-
-            }
         } catch (Exception e) {
             Log.e("fdgh", e.toString());
         }
@@ -119,28 +107,53 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    private void initData() {
+        try {
+            Intent intent= getIntent();
+            //Check if ticket was foorwarded from intent
+            if (intent.getStringExtra("ticket_data").isEmpty()||intent.getStringExtra("ticket_data").equals("")){
+                Toast.makeText(this, "No tickets forwarded", Toast.LENGTH_SHORT).show();
+            }else {
+                ticket_data=intent.getStringExtra("ticket_data");
+                Log.e("ticket_data",ticket_data);
+                Gson gson = new Gson();
+                ticketArrayList = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(ticket_data, Ticket[].class)));
+                if (ticketArrayList.size()>0){
+                    Toast.makeText(this, "Tickets forwarded", Toast.LENGTH_SHORT).show();
+                    displayTickets(ticketArrayList);
+                }
+
+            }
+        }catch (Exception e){
+            Log.e("initData",e.toString());
+        }
+
+    }
+
     private void initListeners() {
 
         btnSearchTicket.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
         ivLogout.setOnClickListener(this);
-        rvTickets.setLayoutManager(new LinearLayoutManager(this));
-        rvTickets.setHasFixedSize(true);
+
 
     }
 
     private void initLayouts() {
         //Tickets
 
+        ivBack = findViewById(R.id.ivBack);
         ivLogout = findViewById(R.id.ivLogout);
 
         etKeywords = findViewById(R.id.etKeywords);
         ivLogout = findViewById(R.id.ivLogout);
         btnSearchTicket = findViewById(R.id.btnSearchTicket);
-        rvTickets = findViewById(R.id.rvSearchedTickets);
-
+        rvTickets = findViewById(R.id.rvTickets);
+        rvTickets.setLayoutManager(new LinearLayoutManager(this));
+        rvTickets.setHasFixedSize(true);
 
         tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.setText("Tickets");
+        tvTitle.setText("My Tickets");
 
     }
 
@@ -203,11 +216,20 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
                 if (!keyword.equals("")) {
                     Log.e("keyword", keyword);
-                    searchTicket(keyword);
+                    if (AppController.getInstance().isNetworkConnected()){
+                        searchTicket(keyword);
+                    }else {
+                        startActivity(NoInternetActivity.class);
+                    }
+
                 }
                 break;
             case R.id.ivLogout:
                 showLogoutYesNoDialog("Log out", "Do you really want to log out?",TicketsActivity.this);
+                break;
+            case R.id.ivBack:
+                startActivity(DashboardActivity.class);
+                finish();
                 break;
         }
     }
@@ -234,7 +256,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
                         showCustomDialog("Search Tickets",response.body().getResponse_message());
                     }
                 }else {
-                    Log.e("error","no response");
+                    showCustomDialog("Search Ticket", "A system error occurred. Please try again!");
                 }
             }
 
@@ -242,6 +264,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
             public void onFailure(Call<SearchTicketResponse> call, Throwable t) {
 Log.e("error", t.getLocalizedMessage());
 dialog.dismiss();
+                showCustomDialog("Search Ticket", "A system error occurred. Please try again!");
             }
         });
     }

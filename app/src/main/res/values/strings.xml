@@ -222,5 +222,6 @@
     <string name="text_exit">Your ticket data will be lost. \n\n Do you want to exit anyway?</string>
     <string name="text_system_error">A system error occurred. Please try again</string>
     <string name="text_jp_wallet_payment">Jambopay Wallet Payment</string>
+    <string name="text_no_charges">No charges to display</string>
 
 </resources>

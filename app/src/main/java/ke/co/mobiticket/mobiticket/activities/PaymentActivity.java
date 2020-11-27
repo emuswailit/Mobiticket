@@ -99,7 +99,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private TextView tvMessage, tvPaymentMethodName, tvStatus, tvDate, tvTime, tvTotalAmount, tvMpesaPaybillPrompt, lblPurchasedTickets;
     private MaterialCardView cardMpesaXpress, cardMpesaPaybill, cardJambopayWallet, cardJambopayAgency, cardCommuterNFC, cardSuccess, cardRedeemVoucher;
     private Button btnMpesaXpress, btnMpesaPaybill, btnJambopayWallet, btnJambopayAgency, btnCommuterNFC, btnRedeemVoucher;
-    private EditText etMpesaPhone, etJambopayWalletUsername, etJambopayWalletPassword, etJambopayAgencyUsername, etJambopayAgencyPassword, etVoucherNumber, etSecurityPin;
+    private EditText etMpesaPhone, etJambopayWalletUsername, etJambopayWalletPassword, etJambopayAgencyUsername, etJambopayAgencyPassword, etVoucherNumber;
     private boolean searchIsRunning = false;
     List<Ticket> recentTicketsList = new ArrayList<Ticket>();
     List<Passenger> passengerList = null;
@@ -315,21 +315,18 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     String voucher_number = etVoucherNumber.getText().toString();
-                    String security_pin = etSecurityPin.getText().toString();
 
                     if (voucher_number.isEmpty() || voucher_number.equals("")) {
                         Toast.makeText(PaymentActivity.this, "Enter voucher number", Toast.LENGTH_SHORT).show();
-                    } else if (security_pin.isEmpty() || security_pin.equals("")) {
-                        Toast.makeText(PaymentActivity.this, "Enter security pin", Toast.LENGTH_SHORT).show();
                     } else {
-                        verifyRedeemVoucher(voucher_number, security_pin, reference_number);
+                        verifyRedeemVoucher(voucher_number, reference_number);
                     }
                 }
             });
         }
     }
 
-    private void verifyRedeemVoucher(String voucher_number, String security_pin, final String reference_number) {
+    private void verifyRedeemVoucher(String voucher_number,  final String reference_number) {
 
         final Dialog dialog = new Dialog(PaymentActivity.this);
         RedeemVoucherInterface api = AppController.getInstance().getRetrofit().create(RedeemVoucherInterface.class);
@@ -339,7 +336,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         request.setReference_number(this.reference_number);
         request.setPayment_method(payment_method_id);
         request.setVoucher_number(voucher_number);
-        request.setSecurity_pin(security_pin);
+
         showProgressDialog(dialog, "Processing voucher payment" + getResources().getString(R.string.txt_please_wait));
         Call<RedeemVoucherResponse> call = api.redeemVoucher(request);
         call.enqueue(new Callback<RedeemVoucherResponse>() {
@@ -347,9 +344,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call<RedeemVoucherResponse> call, Response<RedeemVoucherResponse> response) {
                 dialog.dismiss();
                 if (response.body() != null) {
-                    cardRedeemVoucher.setVisibility(View.GONE);
-                    Log.e("redeem voucher", gson.toJson(response.body()));
+
                     if (response.body().getResponse_code().equals("0")) {
+                        cardRedeemVoucher.setVisibility(View.GONE);
+                        Log.e("redeem voucher", gson.toJson(response.body()));
                         for (String message : response.body().getCustomer_message()) {
                             customer_message += message;
                         }
@@ -358,7 +356,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         callAsynchronousTask(reference_number);
 
                     } else {
-                        showPaymentErrorDialog("Reddem Voucher", response.body().getResponse_message());
+                        showPaymentErrorDialog("Redeem Voucher", response.body().getResponse_message());
                     }
                 }
             }
@@ -825,10 +823,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             ((Button) dialog.findViewById(R.id.bt_yes)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+//View ticket details
                    Intent intent =new Intent(PaymentActivity.this,TicketsActivity.class);
                    intent.putExtra("ticket_data",new Gson().toJson(ticket));
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                    startActivity(intent);
+                   finish();
+
                 }
             });
             ((ImageButton) dialog.findViewById(R.id.bt_exit)).setOnClickListener(new View.OnClickListener() {
@@ -836,6 +837,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 public void onClick(View v) {
 
                     dialog.dismiss();
+
                 }
             });
             dialog.show();

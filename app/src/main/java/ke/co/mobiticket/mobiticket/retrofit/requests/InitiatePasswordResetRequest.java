@@ -2,13 +2,13 @@ package ke.co.mobiticket.mobiticket.retrofit.requests;
 
 public class InitiatePasswordResetRequest {
     private String action;
-    private String email_address;
+    private String phone_number;
 
     public void setAction(String action) {
         this.action = action;
     }
 
-    public void setEmail_address(String email_address) {
-        this.email_address = email_address;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }

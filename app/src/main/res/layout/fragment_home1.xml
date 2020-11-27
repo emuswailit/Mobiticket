@@ -63,6 +63,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:textSize="@dimen/font_large"
                             android:gravity="center"
                             style="@style/App_EditTextStyle"
                             android:hint="e.g. KAN100X"
@@ -94,7 +95,7 @@
                         <ImageButton
                             style="@style/App_ButtonStyle"
                             android:id="@+id/btnSearchVehicle"
-                            android:layout_margin="@dimen/spacing_small"
+
                             android:src="@drawable/baseline_arrow_forward_ios_white_24"
 
                             android:layout_weight="1"
@@ -155,27 +156,21 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/spacing_medium"
-
                             android:fontFamily="@font/googlesansbold"
                             android:gravity="center"
-
-                            android:hint="e.g. Muthaiga"
+                            android:hint="e.g. MUTHAIGA"
                             android:inputType="text"
                             android:textColor="@color/textchild"
                             android:textSize="@dimen/font_large" />
 
 
-
                         <ImageButton
-                            style="@style/App_ButtonStyle"
                             android:id="@+id/btnSearchWhereTo"
-                            android:layout_margin="@dimen/spacing_small"
-                            android:src="@drawable/baseline_search_white_24"
-
-                            android:layout_weight="1"
+                            style="@style/App_ButtonStyle"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@drawable/baseline_search_white_24" />
 
 
                     </LinearLayout>
