@@ -94,7 +94,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (phone_number.isEmpty() || phone_number.equals("")) {
                 finish();
             } else {
-                initiatePasswordReset1(phone_number);
+//                initiatePasswordReset1(phone_number);
+//                Intent intent=new Intent(LoginActivity.this, )
             }
 
         }
@@ -343,8 +344,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         etConfirmNewPin.setError("Re-enter new pin to confirm");
 
                     } else if (!new_pin.equals(confirm_new_pin)) {
-                        etNewPin.setError("Password confrimation not matching");
-                        etConfirmNewPin.setError("Password confrimation not matching");
+                        etNewPin.setError("Password confirmation not matching");
+                        etConfirmNewPin.setError("Password confirmation not matching");
                         etNewPin.setText("");
                         etConfirmNewPin.setText("");
 

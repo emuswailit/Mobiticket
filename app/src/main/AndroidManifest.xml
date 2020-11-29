@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/mticket_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activities.PasswordResetActivity"></activity>
         <activity
             android:name=".activities.PendingPaybillActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -49,10 +49,10 @@
             android:name=".activities.VehicleActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".activities.TicketsActivity"
             android:label="@string/title_activity_tickets"
             android:parentActivityName=".activities.DashboardActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BookingActivity"

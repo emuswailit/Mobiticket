@@ -41,14 +41,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TicketsActivity extends BaseActivity implements View.OnClickListener {
-    private RecyclerView rvTickets;
+    private RecyclerView rvTickets,rvTicketsHistory;
     private ImageView ivLogout,ivBack;
     private TextView tvTitle;
     SharedPreferences prefs;
     private EditText etKeywords;
     private ImageButton btnSearchTicket;
     List<Ticket> ticketArrayList = new ArrayList<>();
-    MaterialCardView cardSearchedTickets;
+    MaterialCardView cardTicketsHistory, cardCurrentTicket;
     TicketsAdapter adapter = null;
     private TextView tvSearchResult;
     Gson gson =new Gson();
@@ -73,6 +73,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
             initLayouts();
             initListeners();
             initData();
+            searchTicket(prefs.getString(Constants.PHONE_NUMBER,""));
 
 
         } catch (Exception e) {
@@ -107,6 +108,10 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    private void loadHistory() {
+
+    }
+
     private void initData() {
         try {
             Intent intent= getIntent();
@@ -114,13 +119,14 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
             if (intent.getStringExtra("ticket_data").isEmpty()||intent.getStringExtra("ticket_data").equals("")){
                 Toast.makeText(this, "No tickets forwarded", Toast.LENGTH_SHORT).show();
             }else {
+                cardCurrentTicket.setVisibility(View.VISIBLE);
                 ticket_data=intent.getStringExtra("ticket_data");
                 Log.e("ticket_data",ticket_data);
                 Gson gson = new Gson();
                 ticketArrayList = new ArrayList<>(Arrays.asList(new GsonBuilder().create().fromJson(ticket_data, Ticket[].class)));
                 if (ticketArrayList.size()>0){
                     Toast.makeText(this, "Tickets forwarded", Toast.LENGTH_SHORT).show();
-                    displayTickets(ticketArrayList);
+                    displayCurrentTicket(ticketArrayList);
                 }
 
             }
@@ -128,6 +134,12 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
             Log.e("initData",e.toString());
         }
 
+    }
+
+    private void displayCurrentTicket(List<Ticket> ticketArrayList) {
+        adapter = new TicketsAdapter(TicketsActivity.this, ticketArrayList);
+        rvTickets.setAdapter(adapter);
+        RunLayoutAnimation(rvTickets);
     }
 
     private void initListeners() {
@@ -151,6 +163,15 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         rvTickets = findViewById(R.id.rvTickets);
         rvTickets.setLayoutManager(new LinearLayoutManager(this));
         rvTickets.setHasFixedSize(true);
+
+        cardCurrentTicket = findViewById(R.id.cardCurrentTicket);
+        cardTicketsHistory = findViewById(R.id.cardTicketsHistory);
+
+
+
+        rvTicketsHistory = findViewById(R.id.rvTicketsHistory);
+        rvTicketsHistory.setLayoutManager(new LinearLayoutManager(this));
+        rvTicketsHistory.setHasFixedSize(true);
 
         tvTitle = findViewById(R.id.tvTitle);
         tvTitle.setText("My Tickets");
@@ -241,7 +262,7 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
         request.setAccess_token(prefs.getString(Constants.ACCESS_TOKEN, ""));
         request.setAction(Constants.SEARCH_ACTION);
         request.setKeywords(keyword);
-        showProgressDialog(dialog, "Searching for ticket" + getResources().getString(R.string.txt_please_wait));
+        showProgressDialog(dialog, "Loading" + getResources().getString(R.string.txt_please_wait));
         Call<SearchTicketResponse> call = api.searchTicket(request);
         call.enqueue(new Callback<SearchTicketResponse>() {
             @Override
@@ -251,7 +272,11 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
                 if (response.body()!=null){
                     if (response.body().getResponse_code().equals("0")){
 
-                      displayTickets( response.body().getTicket());
+                        if (response.body().getTicket().size()>0){
+                            cardTicketsHistory.setVisibility(View.VISIBLE);
+                            displayTickets( response.body().getTicket());
+                        }
+
                     }else {
                         showCustomDialog("Search Tickets",response.body().getResponse_message());
                     }
@@ -271,8 +296,8 @@ dialog.dismiss();
 
     private void displayTickets(List<Ticket> tickets) {
         adapter = new TicketsAdapter(TicketsActivity.this, tickets);
-        rvTickets.setAdapter(adapter);
-        RunLayoutAnimation(rvTickets);
+        rvTicketsHistory.setAdapter(adapter);
+        RunLayoutAnimation(rvTicketsHistory);
 
     }
 }
